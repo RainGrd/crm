@@ -1,6 +1,7 @@
 package com.crm.poi;
 
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class CreateExcelTest {
         cell.setCellValue("年龄");
         /*创建hssfCellStyle对象*/
         HSSFCellStyle cellStyle = hssfWorkbook.createCellStyle();
+        /**/
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
         /*使用sheet创建十个HSSFROW对象，对应sheet中的10行*/
         for (int i = 1; i <= 10; i++) {
             row = sheet.createRow(i);
@@ -38,6 +41,7 @@ public class CreateExcelTest {
             cell = row.createCell(1);
             cell.setCellValue("NAME" + i);
             cell = row.createCell(2);
+            cell.setCellStyle(cellStyle);
             cell.setCellValue(20 + i);
         }
 
