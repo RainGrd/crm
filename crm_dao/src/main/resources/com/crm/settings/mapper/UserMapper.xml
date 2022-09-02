@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.settings.mapper.UserMapper">
+    <!--配置别名!-->
+    <resultMap id="UserResultMap" type="user">
+        <id property="id" column="id" jdbcType="CHAR"/>
+        <result property="loginAct" column="login_act" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="loginPwd" column="login_pwd" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="expireTime" column="expire_time" jdbcType="CHAR"/>
+        <result property="lockState" column="lock_state" jdbcType="CHAR"/>
+        <result property="deptNo" column="deptno" jdbcType="CHAR"/>
+        <result property="allowIps" column="allow_ips" jdbcType="VARCHAR"/>
+        <result property="createTime" column="createTime" jdbcType="CHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="editTime" column="edit_time" jdbcType="CHAR"/>
+        <result property="editBy" column="edit_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--可以省略的sql语句-->
+    <sql id="all_list">
+        id
+        ,login_act,name,
+        login_pwd,email,expire_time,
+        lock_state,deptno,allow_ips,
+        createTime,create_by,edit_time,
+        edit_by
+    </sql>
+    <!--查询的用户表格-->
+    <sql id="tableName">
+        tbl_user
+    </sql>
+    <select id="selectUserByLoginActAndPwd" resultMap="UserResultMap" parameterType="map">
+        select
+        <include refid="all_list"/>
+        from tbl_user where login_act=#{loginAct} and login_pwd=#{loginPwd};
+    </select>
+
+    <select id="selectAllUsers" resultMap="UserResultMap">
+        select
+        <include refid="all_list">
+        </include>
+        from <include refid="tableName">
+    </include>;
+    </select>
+</mapper>
