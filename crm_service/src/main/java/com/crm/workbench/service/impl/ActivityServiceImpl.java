@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Copyright (C), 2017-2022, RainGrd
  * Author: lenovo
@@ -48,5 +50,16 @@ public class ActivityServiceImpl implements ActivityService {
     public int updateActivityById(Activity activity) {
         return activityMapper.updateActivityById(activity);
     }
+
+    @Override
+    public List<Activity> queryActivityList() {
+        return activityMapper.selectActivityList();
+    }
+
+    @Override
+    public List<String> queryActivityFieldByTableName(String tableName) {
+        return activityMapper.findFieldByTableName(tableName);
+    }
+
 
 }

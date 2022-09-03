@@ -13,12 +13,13 @@
              * 下载按钮添加单击事件
              */
             $('#fileDownloadBtn').on('click',function () {
-
+                /*发送文件下载的请求*/
+                window.location.href="workbench/activity/fileDownload.do";
             })
         });
     </script>
 </head>
 <body>
-<button type="button" value="文件下载" id="fileDownloadBtn"></button>
+<button type="button" value="文件下载" id="fileDownloadBtn">文件下载</button>
 </body>
 </html>

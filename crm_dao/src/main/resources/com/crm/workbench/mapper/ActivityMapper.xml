@@ -202,8 +202,9 @@
 
     <select id="selectActivityByConditionForPage" resultMap="ActivityResultMap" parameterType="activity">
         select
-        act.id,user1.name owner,act.name,act.start_date,act.end_date,act.cost,act.description,act.create_time,user1.name
-        create_by,act.edit_time,user2.name edit_by
+        act.id,user1.name AS
+        owner,act.name,act.start_date,act.end_date,act.cost,act.description,act.create_time,user1.name
+        AS create_by,act.edit_time,user2.name AS edit_by
         from tbl_activity act
         join tbl_user user1 on user1.id=act.owner
         left join tbl_user user2 on act.edit_by=user2.id
@@ -256,4 +257,28 @@
             #{id}
         </foreach>;
     </update>
+
+    <select id="selectActivityList" resultType="activity" resultMap="ActivityResultMap">
+        select act.id,
+               user1.name AS owner,
+               act.name,
+               act.start_date,
+               act.end_date,
+               act.cost,
+               act.description,
+               act.create_time,
+               user1.name AS create_by,
+               act.edit_time,
+               user2.name AS edit_by
+        from tbl_activity act
+                 join tbl_user user1 on user1.id = act.owner
+                 left join tbl_user user2 on act.edit_by = user2.id
+        order by act.create_time desc
+    </select>
+
+    <select id="findFieldByTableName" resultType="java.lang.String">
+        select column_name
+        from information_schema.COLUMNS
+        where TABLE_NAME = #{tableName};
+    </select>
 </mapper>

@@ -36,4 +36,12 @@ public class ActivityServiceTest {
         activity.setCreateBy("40f6cdea0bd34aceb77492a1656d9fb3");
         activityService.saveCreateActivity(activity);
     }
+    @Test
+    public void queryActivityList(){
+        System.out.println(activityService.queryActivityList());
+    }
+    @Test
+    public void queryActivityFieldByTableName(){
+        System.out.println(activityService.queryActivityFieldByTableName("tbl_activity"));
+    }
 }

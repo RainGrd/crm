@@ -66,4 +66,13 @@ public interface ActivityMapper {
      * 根据id数组批量删除数据
      */
     int deleteActivityByIds(@Param("ids") String ids[]);
+    /**
+     * 查询所有市场活动
+     */
+    List<Activity> selectActivityList();
+    /**
+     * 根据表名查询列名
+     */
+    List<String> findFieldByTableName(@Param("tableName") String tableName);
+
 }

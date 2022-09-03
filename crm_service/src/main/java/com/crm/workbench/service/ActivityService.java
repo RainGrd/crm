@@ -36,4 +36,12 @@ public interface ActivityService {
      * 根据id修改市场活动
      */
     int updateActivityById(Activity activity);
+    /**
+     * 查询所有
+     */
+    List<Activity> queryActivityList();
+    /**
+     * 根据表名查询列名
+     */
+    List<String> queryActivityFieldByTableName(String tableName);
 }

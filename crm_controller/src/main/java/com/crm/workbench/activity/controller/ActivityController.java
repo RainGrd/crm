@@ -12,13 +12,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -148,5 +158,99 @@ public class ActivityController {
         }
         return pageBean;
     }
+    /**
+     * 文件下载
+     */
+    @RequestMapping("workbench/activity/fileDownload.do")
+    public void fileDownload(HttpServletResponse response){
+        /*1.设置响应信息*/
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        /*2.获取输出流*/
+        try {
+            OutputStream outputStream = response.getOutputStream();
+            /*激活文件下载窗口*/
+            response.addHeader("Content-Disposition","attachment;filename=mystudentList.xls");
+            /*读取Excel文件，输出到浏览器*/
+            FileInputStream fileInputStream = new FileInputStream("D:\\lenovo\\studentList.xls");
+            byte[] buff=new byte[256];
+            int len=0;
+            /*循环遍历*/
+            while ((len=fileInputStream.read(buff))!=-1){
+                outputStream.write(buff,0,len);
+            }
+            /*关闭流*/
+            fileInputStream.close();
+            /*冲洗流*/
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 批量导出市场活动
+     */
+    @RequestMapping("workbench/activity/exportAllActivitys.do")
+    public void exportAllActivitys(HttpServletResponse response){
+        List<Activity> activities = activityService.queryActivityList();
+        System.out.println(activities);
+        /*创建WorkBook对象*/
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet();
+        HSSFRow row = sheet.createRow(0);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("ID");
+        cell= row.createCell(1);
+        cell.setCellValue("所有者");
+        cell= row.createCell(2);
+        cell.setCellValue("名称");
+        cell= row.createCell(3);
+        cell.setCellValue("开始日期");
+        cell= row.createCell(4);
+        cell.setCellValue("结束日期");
+        cell= row.createCell(5);
+        cell.setCellValue("成本");
+        cell= row.createCell(6);
+        cell.setCellValue("描述");
+        cell= row.createCell(7);
+        cell.setCellValue("创建时间");
+        cell= row.createCell(8);
+        cell.setCellValue("创建者");
+        cell= row.createCell(9);
+        cell.setCellValue("修改时间");
+        cell= row.createCell(10);
+        cell.setCellValue("修改者");
 
+        if(activities.size()!=0){
+            Activity activity=null;
+            for (int i = 0; i < activities.size(); i++) {
+                activity = activities.get(i);
+                /*创建行数*/
+                row=sheet.createRow(i+1);
+                /*每一行都有十一列*/
+                cell=row.createCell(0);
+                cell.setCellValue(activity.getId());
+                cell= row.createCell(1);
+                cell.setCellValue(activity.getOwner());
+                cell= row.createCell(2);
+                cell.setCellValue(activity.getName());
+                cell= row.createCell(3);
+                cell.setCellValue(activity.getStartDate());
+                cell= row.createCell(4);
+                cell.setCellValue(activity.getEndDate());
+                cell= row.createCell(5);
+                cell.setCellValue(activity.getCost());
+                cell= row.createCell(6);
+                cell.setCellValue(activity.getDescription());
+                cell= row.createCell(7);
+                cell.setCellValue(activity.getCreateTime());
+                cell= row.createCell(8);
+                cell.setCellValue(activity.getCreateBy());
+                cell= row.createCell(9);
+                cell.setCellValue(activity.getEditTime());
+                cell= row.createCell(10);
+                cell.setCellValue(activity.getEditBy());
+            }
+        }
+        response.setContentType("application/out");
+    }
 }
