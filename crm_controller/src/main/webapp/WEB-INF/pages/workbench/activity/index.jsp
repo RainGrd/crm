@@ -266,6 +266,12 @@
             if (!regExp.test(cost)) {
                 return "成本只能为非负整数";
             }
+            $('#exportActivityAllBtn').on('click',function (){
+                /*发送请求*/
+                window.location.href='workbench/activity/exportAllActivitys.do';
+
+            });
+
         }
 
         /**

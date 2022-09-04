@@ -190,7 +190,7 @@ public class ActivityController {
      * 批量导出市场活动
      */
     @RequestMapping("workbench/activity/exportAllActivitys.do")
-    public void exportAllActivitys(HttpServletResponse response){
+    public void exportAllActivitys(HttpServletResponse response) throws IOException {
         List<Activity> activities = activityService.queryActivityList();
         System.out.println(activities);
         /*创建WorkBook对象*/
@@ -220,7 +220,7 @@ public class ActivityController {
         cell= row.createCell(10);
         cell.setCellValue("修改者");
 
-        if(activities.size()!=0){
+        if(activities!=null && activities.size()!=0){
             Activity activity=null;
             for (int i = 0; i < activities.size(); i++) {
                 activity = activities.get(i);
@@ -251,6 +251,9 @@ public class ActivityController {
                 cell.setCellValue(activity.getEditBy());
             }
         }
-        response.setContentType("application/out");
+        /*吧生成的Excel文件下载到客户端中*/
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        ServletOutputStream outputStream = response.getOutputStream();
+
     }
 }
