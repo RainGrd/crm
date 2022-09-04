@@ -195,7 +195,7 @@ public class ActivityController {
         System.out.println(activities);
         /*创建WorkBook对象*/
         HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet();
+        HSSFSheet sheet = workbook.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);
         HSSFCell cell = row.createCell(0);
         cell.setCellValue("ID");
@@ -219,8 +219,8 @@ public class ActivityController {
         cell.setCellValue("修改时间");
         cell= row.createCell(10);
         cell.setCellValue("修改者");
-
-        if(activities!=null && activities.size()!=0){
+        /*按断条件是否符合*/
+        if(activities!=null && activities.size()>0){
             Activity activity=null;
             for (int i = 0; i < activities.size(); i++) {
                 activity = activities.get(i);
@@ -253,7 +253,11 @@ public class ActivityController {
         }
         /*吧生成的Excel文件下载到客户端中*/
         response.setContentType("application/octet-stream;charset=UTF-8");
+        response.addHeader("Content-Disposition","attachment;filename=activityList.xls");
         ServletOutputStream outputStream = response.getOutputStream();
-
+        workbook.write(outputStream);
+        workbook.close();
+        /*冲洗流 注意事项，response对象属于Tomcat服务器，不需要手动关闭流，Tomcat运行完毕后会自动关闭*/
+        outputStream.flush();
     }
 }

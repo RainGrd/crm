@@ -197,6 +197,9 @@
                     }
                 })
             })
+            /**
+             * 模态修改窗口保存按钮点击事件
+             */
             $('#updateActivityBtn').on('click', function () {
                 let name = $('#edit-marketActivityName').val().trim();
                 let owner = $('#edit-marketActivityOwner').val().trim();
@@ -241,6 +244,11 @@
                     }
                 })
             })
+            $('#exportActivityAllBtn').on('click',function (){
+                console.log('')
+                /*发送请求*/
+                window.location.href='workbench/activity/exportAllActivitys.do';
+            });
         });
 
         /**
@@ -260,17 +268,14 @@
                 if (endDate < startDate) {
                     return "结束日期不能比开始日期小";
                 }
+
             }
             /*判断成本的格式*/
             var regExp = /^(([1-9]\d*)|0)$/;
             if (!regExp.test(cost)) {
                 return "成本只能为非负整数";
             }
-            $('#exportActivityAllBtn').on('click',function (){
-                /*发送请求*/
-                window.location.href='workbench/activity/exportAllActivitys.do';
 
-            });
 
         }
 
