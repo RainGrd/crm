@@ -54,7 +54,7 @@ public interface ActivityMapper {
     int insertActivity(Activity activity);
 
     /**
-     * 根据条件查询Activity
+     * 根据条件查询市场活动
      */
     List<Activity> selectActivityByConditionForPage(@Param("activity") Activity activity);
 
@@ -65,7 +65,7 @@ public interface ActivityMapper {
     /**
      * 根据id数组批量删除数据
      */
-    int deleteActivityByIds(@Param("ids") String ids[]);
+    int deleteActivityByIds(@Param("ids") String[] ids);
     /**
      * 查询所有市场活动
      */
@@ -74,5 +74,8 @@ public interface ActivityMapper {
      * 根据表名查询列名
      */
     List<String> findFieldByTableName(@Param("tableName") String tableName);
-
+    /**
+     * 根据id数组选择查询市场活动
+     */
+    List<Activity> selectActivityByIds(@Param("ids") String[] ids);
 }

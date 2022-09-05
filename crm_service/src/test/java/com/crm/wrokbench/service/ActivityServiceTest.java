@@ -44,4 +44,9 @@ public class ActivityServiceTest {
     public void queryActivityFieldByTableName(){
         System.out.println(activityService.queryActivityFieldByTableName("tbl_activity"));
     }
+    @Test
+    public void queryActivityListByIds(){
+        String[] ids={"39981e5f2dff482b91f3bf5818e3ceab","4a83f3b17d954bbd9be5bc4d85937c48","802b0c47de3c4bf1b466d38dd82fe0b4"};
+        System.out.println(activityService.queryActivityByIds(ids));
+    }
 }

@@ -281,4 +281,25 @@
         from information_schema.COLUMNS
         where TABLE_NAME = #{tableName};
     </select>
+    <select id="selectActivityByIds" resultMap="ActivityResultMap" resultType="activity" parameterType="string">
+        select act.id,
+        user1.name AS owner,
+        act.name,
+        act.start_date,
+        act.end_date,
+        act.cost,
+        act.description,
+        act.create_time,
+        user1.name AS create_by,
+        act.edit_time,
+        user2.name AS edit_by
+        from tbl_activity act
+        join tbl_user user1 on user1.id = act.owner
+        left join tbl_user user2 on act.edit_by = user2.id
+        where act.id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by act.create_time desc
+    </select>
 </mapper>

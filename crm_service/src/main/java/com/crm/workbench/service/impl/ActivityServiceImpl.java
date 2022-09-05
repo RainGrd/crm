@@ -61,5 +61,10 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.findFieldByTableName(tableName);
     }
 
+    @Override
+    public List<Activity> queryActivityByIds(String[] ids) {
+        return activityMapper.selectActivityByIds(ids);
+    }
+
 
 }

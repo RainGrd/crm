@@ -197,13 +197,13 @@ public class ActivityController {
     public void exportAllActivitys(HttpServletResponse response) throws IOException {
         List<Activity> activities = activityService.queryActivityList();
         System.out.println(activities);
-        /*创建WorkBook对象*/
+/*        *//*创建WorkBook对象*//*
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);
-        HSSFCell cell = row.createCell(0);
-        String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者","修改状态"};
-        String fileName="activityList";
+        HSSFCell cell = row.createCell(0);*/
+        String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者", "修改状态"};
+        String fileName = "activityList";
        /* cell.setCellValue("ID");
         cell = row.createCell(1);
         cell.setCellValue("所有者");
@@ -265,7 +265,19 @@ public class ActivityController {
         workbook.close();
         *//*冲洗流 注意事项，response对象属于Tomcat服务器，不需要手动关闭流，Tomcat运行完毕后会自动关闭*//*
         outputStream.flush();*/
-        ExportExcelUtils<Activity> excelUtils=new ExportExcelUtils<>();
-        excelUtils.exportExcel(headers,activities,fileName,response);
+        ExportExcelUtils<Activity> excelUtils = new ExportExcelUtils<>();
+        excelUtils.exportExcel(headers, activities, fileName, response);
+    }
+
+    /**
+     * 选择导出市场活动
+     */
+    @RequestMapping("/workbench/activity/exportMarketingActivities.do")
+    public void exportMarketingActivities(@RequestParam("ids") String[] ids,HttpServletResponse response) {
+        List<Activity> activities = activityService.queryActivityByIds(ids);
+        String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者", "修改状态"};
+        String fileName = "activityList";
+        ExportExcelUtils<Activity> excelUtils = new ExportExcelUtils<>();
+        excelUtils.exportExcel(headers, activities, fileName, response);
     }
 }

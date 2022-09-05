@@ -67,6 +67,7 @@ public class ExportExcelUtils<T> {
                 Field field = declaredFields[i];
                 /*获取字段名*/
                 String fieldName = field.getName();
+                System.out.println(fieldName);
                 /*获取方法名*/
                 String getMethodName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                 Method method = next.getClass().getMethod(getMethodName, new Class[]{});

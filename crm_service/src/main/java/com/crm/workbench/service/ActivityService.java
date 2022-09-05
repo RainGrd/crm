@@ -44,4 +44,8 @@ public interface ActivityService {
      * 根据表名查询列名
      */
     List<String> queryActivityFieldByTableName(String tableName);
+    /**
+     * 根据id数组查询市场活动
+     */
+    List<Activity> queryActivityByIds(String[] ids);
 }

@@ -244,11 +244,39 @@
                     }
                 })
             })
+            /**
+             * 批量导出市场活动按钮点击事件
+             */
             $('#exportActivityAllBtn').on('click',function (){
-                console.log('')
                 /*发送请求*/
                 window.location.href='workbench/activity/exportAllActivitys.do';
             });
+            /**
+             * 选择导出市场活动按钮点击事件
+             */
+            $('#exportActivityXzBtn').on('click',function (){
+                /*判断是否选择以及选择的函数*/
+                /*获取选中的checkbox*/
+                let $tableData = $('#tableData input[type=checkbox]:checked');
+                if ($tableData.size()<=0) {
+                    alert("请选择要导出的市场活动！")
+                    return false;
+                }
+                /*获取选择checkbox参数中value值*/
+                let ids=[];
+                $.each($tableData,function (index, obj) {
+                    ids.push(this.value);
+                })
+                /*发送参数*/
+                window.location.href='workbench/activity/exportMarketingActivities.do?ids='+ids;
+/*                $.ajax({
+                    url:"workbench/activity/exportMarketingActivities.do",
+                    type:'get',
+                    data:{
+                        ids:ids
+                    }
+                })*/
+            })
         });
 
         /**
