@@ -2,6 +2,7 @@ package com.crm.workbench.activity.controller;
 
 import com.crm.common.Vo.PageBean;
 import com.crm.common.constants.Constants;
+import com.crm.common.utils.ExportExcelUtils;
 import com.crm.common.utils.LocalDateTimeUtils;
 import com.crm.common.utils.UUIDUtils;
 import com.crm.settings.entity.User;
@@ -45,7 +46,7 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    private final ObjectMapper objectMapper=new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * 查询所有用户
@@ -136,18 +137,19 @@ public class ActivityController {
         System.out.println(activityService.queryActivityById(id));
         return objectMapper.writeValueAsString(activityService.queryActivityById(id));
     }
+
     /**
      * 根据id修改市场活动
      */
     @RequestMapping("workbench/activity/updateActivityById.do")
     @ResponseBody
-    public Object updateActivityById(@RequestBody Activity activity){
-        PageBean pageBean=new PageBean();
+    public Object updateActivityById(@RequestBody Activity activity) {
+        PageBean pageBean = new PageBean();
         try {
             int updateActivityById = activityService.updateActivityById(activity);
-            if(updateActivityById>0){
+            if (updateActivityById > 0) {
                 pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
-            }else {
+            } else {
                 pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
                 pageBean.setMessage("系统忙，请稍后重试...");
             }
@@ -158,25 +160,26 @@ public class ActivityController {
         }
         return pageBean;
     }
+
     /**
      * 文件下载
      */
     @RequestMapping("workbench/activity/fileDownload.do")
-    public void fileDownload(HttpServletResponse response){
+    public void fileDownload(HttpServletResponse response) {
         /*1.设置响应信息*/
         response.setContentType("application/octet-stream;charset=UTF-8");
         /*2.获取输出流*/
         try {
             OutputStream outputStream = response.getOutputStream();
             /*激活文件下载窗口*/
-            response.addHeader("Content-Disposition","attachment;filename=mystudentList.xls");
+            response.addHeader("Content-Disposition", "attachment;filename=mystudentList.xls");
             /*读取Excel文件，输出到浏览器*/
             FileInputStream fileInputStream = new FileInputStream("D:\\lenovo\\studentList.xls");
-            byte[] buff=new byte[256];
-            int len=0;
+            byte[] buff = new byte[256];
+            int len = 0;
             /*循环遍历*/
-            while ((len=fileInputStream.read(buff))!=-1){
-                outputStream.write(buff,0,len);
+            while ((len = fileInputStream.read(buff)) != -1) {
+                outputStream.write(buff, 0, len);
             }
             /*关闭流*/
             fileInputStream.close();
@@ -186,6 +189,7 @@ public class ActivityController {
             e.printStackTrace();
         }
     }
+
     /**
      * 批量导出市场活动
      */
@@ -198,66 +202,70 @@ public class ActivityController {
         HSSFSheet sheet = workbook.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);
         HSSFCell cell = row.createCell(0);
-        cell.setCellValue("ID");
-        cell= row.createCell(1);
+        String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者","修改状态"};
+        String fileName="activityList";
+       /* cell.setCellValue("ID");
+        cell = row.createCell(1);
         cell.setCellValue("所有者");
-        cell= row.createCell(2);
+        cell = row.createCell(2);
         cell.setCellValue("名称");
-        cell= row.createCell(3);
+        cell = row.createCell(3);
         cell.setCellValue("开始日期");
-        cell= row.createCell(4);
+        cell = row.createCell(4);
         cell.setCellValue("结束日期");
-        cell= row.createCell(5);
+        cell = row.createCell(5);
         cell.setCellValue("成本");
-        cell= row.createCell(6);
+        cell = row.createCell(6);
         cell.setCellValue("描述");
-        cell= row.createCell(7);
+        cell = row.createCell(7);
         cell.setCellValue("创建时间");
-        cell= row.createCell(8);
+        cell = row.createCell(8);
         cell.setCellValue("创建者");
-        cell= row.createCell(9);
+        cell = row.createCell(9);
         cell.setCellValue("修改时间");
-        cell= row.createCell(10);
+        cell = row.createCell(10);
         cell.setCellValue("修改者");
-        /*按断条件是否符合*/
-        if(activities!=null && activities.size()>0){
-            Activity activity=null;
+        *//*按断条件是否符合*//*
+        if (activities != null && activities.size() > 0) {
+            Activity activity = null;
             for (int i = 0; i < activities.size(); i++) {
                 activity = activities.get(i);
-                /*创建行数*/
-                row=sheet.createRow(i+1);
-                /*每一行都有十一列*/
-                cell=row.createCell(0);
+                *//*创建行数*//*
+                row = sheet.createRow(i + 1);
+                *//*每一行都有十一列*//*
+                cell = row.createCell(0);
                 cell.setCellValue(activity.getId());
-                cell= row.createCell(1);
+                cell = row.createCell(1);
                 cell.setCellValue(activity.getOwner());
-                cell= row.createCell(2);
+                cell = row.createCell(2);
                 cell.setCellValue(activity.getName());
-                cell= row.createCell(3);
+                cell = row.createCell(3);
                 cell.setCellValue(activity.getStartDate());
-                cell= row.createCell(4);
+                cell = row.createCell(4);
                 cell.setCellValue(activity.getEndDate());
-                cell= row.createCell(5);
+                cell = row.createCell(5);
                 cell.setCellValue(activity.getCost());
-                cell= row.createCell(6);
+                cell = row.createCell(6);
                 cell.setCellValue(activity.getDescription());
-                cell= row.createCell(7);
+                cell = row.createCell(7);
                 cell.setCellValue(activity.getCreateTime());
-                cell= row.createCell(8);
+                cell = row.createCell(8);
                 cell.setCellValue(activity.getCreateBy());
-                cell= row.createCell(9);
+                cell = row.createCell(9);
                 cell.setCellValue(activity.getEditTime());
-                cell= row.createCell(10);
+                cell = row.createCell(10);
                 cell.setCellValue(activity.getEditBy());
             }
         }
-        /*吧生成的Excel文件下载到客户端中*/
+        *//*吧生成的Excel文件下载到客户端中*//*
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.addHeader("Content-Disposition","attachment;filename=activityList.xls");
+        response.addHeader("Content-Disposition", "attachment;filename=activityList.xls");
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
         workbook.close();
-        /*冲洗流 注意事项，response对象属于Tomcat服务器，不需要手动关闭流，Tomcat运行完毕后会自动关闭*/
-        outputStream.flush();
+        *//*冲洗流 注意事项，response对象属于Tomcat服务器，不需要手动关闭流，Tomcat运行完毕后会自动关闭*//*
+        outputStream.flush();*/
+        ExportExcelUtils<Activity> excelUtils=new ExportExcelUtils<>();
+        excelUtils.exportExcel(headers,activities,fileName,response);
     }
 }
