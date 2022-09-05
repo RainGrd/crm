@@ -20,16 +20,15 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -197,7 +196,7 @@ public class ActivityController {
     public void exportAllActivitys(HttpServletResponse response) throws IOException {
         List<Activity> activities = activityService.queryActivityList();
         System.out.println(activities);
-/*        *//*创建WorkBook对象*//*
+        /*        *//*创建WorkBook对象*//*
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);
@@ -273,11 +272,40 @@ public class ActivityController {
      * 选择导出市场活动
      */
     @RequestMapping("/workbench/activity/exportMarketingActivities.do")
-    public void exportMarketingActivities(@RequestParam("ids") String[] ids,HttpServletResponse response) {
+    public void exportMarketingActivities(@RequestParam("ids") String[] ids, HttpServletResponse response) {
         List<Activity> activities = activityService.queryActivityByIds(ids);
         String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者", "修改状态"};
         String fileName = "activityList";
         ExportExcelUtils<Activity> excelUtils = new ExportExcelUtils<>();
         excelUtils.exportExcel(headers, activities, fileName, response);
+    }
+
+    /**
+     * @param userName
+     * @param myFile
+     * @return
+     */
+    @RequestMapping("/workbench/activity/fileUpLoad.do")
+    @ResponseBody
+    public Object fileUpLoad(String userName, MultipartFile myFile, HttpServletRequest request) throws IOException {
+        String originalFilename = myFile.getOriginalFilename();
+        /*把文件在服务指定的目录中生成一个同样的文件*/
+        String realPath = request.getServletContext().getRealPath("/crm_controller/src/main/webapp/file/");
+        System.out.println(realPath);
+        File file = null;
+        if (originalFilename != null) {
+            file = new File(request.getServletContext().getRealPath("/file/"), originalFilename);
+            /*如果没有文件夹得
+            * */
+            if(!file.exists()){
+                file.mkdir();
+            }
+            myFile.transferTo(file);
+        }
+        PageBean pageBean = new PageBean();
+        pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+        pageBean.setMessage("成功！");
+        /*返回响应信息*/
+        return pageBean;
     }
 }
