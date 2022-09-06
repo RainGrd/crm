@@ -1,5 +1,6 @@
 package com.crm.workbench.service;
 
+import com.crm.settings.entity.User;
 import com.crm.workbench.entity.Activity;
 import com.github.pagehelper.PageInfo;
 
@@ -48,4 +49,8 @@ public interface ActivityService {
      * 根据id数组查询市场活动
      */
     List<Activity> queryActivityByIds(String[] ids);
+    /**
+     * 批量插入市场活动
+     */
+    int saveCreateActivityByList(List<String[]> activityList, User user);
 }

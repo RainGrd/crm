@@ -4,7 +4,7 @@ import com.crm.common.Vo.PageBean;
 import com.crm.common.constants.Constants;
 import com.crm.settings.service.UserService;
 import com.crm.settings.entity.User;
-import com.crm.common.utils.LocalDateTimeUtils;
+import com.crm.common.utils.DateTimeUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,7 @@ public class UserController {
             pageBean.setMessage("用户名或密码错误！");
         } else {
             /*判断账号是否过期*/
-            if (LocalDateTimeUtils.ConvertDateStringYMD(new Date()).compareTo(user.getCreateTime()) > 0) {
+            if (DateTimeUtil.ConvertDateStringYMD(new Date()).compareTo(user.getCreateTime()) > 0) {
                 /*账号过期，登录失败*/
                 pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
                 pageBean.setMessage("账号过期！");
@@ -119,7 +119,6 @@ public class UserController {
      */
     @RequestMapping("/settings/qx/user/loginOut.do")
     public String loginOut(HttpSession session){
-        System.out.println("123456");
         /*清空cookie*/
         Cookie c1 = new Cookie("loginAct", "0");
         Cookie c2 = new Cookie("loginPwd", "0");

@@ -16,19 +16,19 @@ import java.io.*;
  */
 public class ParseExcelTest {
     public static void main(String[] args) throws IOException {
-        /**/
+        /**//*
         FileInputStream fileInputStream = new FileInputStream("D:\\lenovo\\Desktop\\activityList.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
-        /*根据workbook对象获取HSSFSheet对象 页的下标，下标从零开始，一次增加*/
+        *//*根据workbook对象获取HSSFSheet对象 页的下标，下标从零开始，一次增加*//*
         HSSFSheet sheet = workbook.getSheetAt(0);
         HSSFRow row = null;
         HSSFCell cell = null;
         for (int i = 0; i <=sheet.getLastRowNum(); i++) {
-            /*行的下标，下标从零开始，依次增加*/
+            *//*行的下标，下标从零开始，依次增加*//*
             row = sheet.getRow(i);
             for (int j = 0; j < row.getLastCellNum(); j++) {
                 cell = row.getCell(j);
-                /*获取列中的数据*/
+                *//*获取列中的数据*//*
                 if (cell.getCellType()== HSSFCell.CELL_TYPE_STRING) {
                     System.out.print(cell.getStringCellValue()+" ");
                 }else if (cell.getCellType()== HSSFCell.CELL_TYPE_NUMERIC) {
@@ -42,6 +42,7 @@ public class ParseExcelTest {
                 }
             }
             System.out.println();
-        }
+        }*/
+
     }
 }

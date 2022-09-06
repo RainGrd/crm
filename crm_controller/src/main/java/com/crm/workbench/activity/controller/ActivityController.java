@@ -2,8 +2,9 @@ package com.crm.workbench.activity.controller;
 
 import com.crm.common.Vo.PageBean;
 import com.crm.common.constants.Constants;
-import com.crm.common.utils.ExportExcelUtils;
-import com.crm.common.utils.LocalDateTimeUtils;
+import com.crm.common.utils.ExportExcelUtil;
+import com.crm.common.utils.DateTimeUtil;
+import com.crm.common.utils.ImportExcelUtil;
 import com.crm.common.utils.UUIDUtils;
 import com.crm.settings.entity.User;
 import com.crm.settings.service.UserService;
@@ -11,12 +12,7 @@ import com.crm.workbench.entity.Activity;
 import com.crm.workbench.service.ActivityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +39,8 @@ public class ActivityController {
     private UserService userService;
     @Autowired
     private ActivityService activityService;
-
+    @Autowired
+    private HttpSession session;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -63,11 +59,11 @@ public class ActivityController {
      */
     @RequestMapping("/workbench/activity/saveCreateActivity.do")
     @ResponseBody
-    public String saveCreateActivity(Activity activity, HttpSession session) throws JsonProcessingException {
+    public String saveCreateActivity(Activity activity) throws JsonProcessingException {
         User user = (User) session.getAttribute(Constants.SESSION_USER);
         /*封装参数*/
         activity.setId(UUIDUtils.getUUID());
-        activity.setCreateTime(LocalDateTimeUtils.convertDateCustomStringFormat(new Date()));
+        activity.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
         /*将当前登录用户的ID值封装，这样可以防止重复*/
         activity.setCreateBy(user.getId());
         PageBean pageBean = new PageBean();
@@ -193,7 +189,7 @@ public class ActivityController {
      * 批量导出市场活动
      */
     @RequestMapping("workbench/activity/exportAllActivitys.do")
-    public void exportAllActivitys(HttpServletResponse response) throws IOException {
+    public void exportAllActivitys(HttpServletResponse response) throws Exception {
         List<Activity> activities = activityService.queryActivityList();
         System.out.println(activities);
         /*        *//*创建WorkBook对象*//*
@@ -264,7 +260,7 @@ public class ActivityController {
         workbook.close();
         *//*冲洗流 注意事项，response对象属于Tomcat服务器，不需要手动关闭流，Tomcat运行完毕后会自动关闭*//*
         outputStream.flush();*/
-        ExportExcelUtils<Activity> excelUtils = new ExportExcelUtils<>();
+        ExportExcelUtil<Activity> excelUtils = new ExportExcelUtil<>();
         excelUtils.exportExcel(headers, activities, fileName, response);
     }
 
@@ -272,11 +268,11 @@ public class ActivityController {
      * 选择导出市场活动
      */
     @RequestMapping("/workbench/activity/exportMarketingActivities.do")
-    public void exportMarketingActivities(@RequestParam("ids") String[] ids, HttpServletResponse response) {
+    public void exportMarketingActivities(@RequestParam("ids") String[] ids, HttpServletResponse response) throws Exception {
         List<Activity> activities = activityService.queryActivityByIds(ids);
         String[] headers = {"ID", "所有者", "名称", "开始日期", "结束日期", "成本", "描述", "创建时间", "创建者", "修改时间", "修改者", "修改状态"};
         String fileName = "activityList";
-        ExportExcelUtils<Activity> excelUtils = new ExportExcelUtils<>();
+        ExportExcelUtil<Activity> excelUtils = new ExportExcelUtil<>();
         excelUtils.exportExcel(headers, activities, fileName, response);
     }
 
@@ -290,14 +286,14 @@ public class ActivityController {
     public Object fileUpLoad(String userName, MultipartFile myFile, HttpServletRequest request) throws IOException {
         String originalFilename = myFile.getOriginalFilename();
         /*把文件在服务指定的目录中生成一个同样的文件*/
-        String realPath = request.getServletContext().getRealPath("/crm_controller/src/main/webapp/file/");
+        String realPath = request.getServletContext().getRealPath("/crm_controller/src/main/webapp/multipartFile/");
         System.out.println(realPath);
         File file = null;
         if (originalFilename != null) {
-            file = new File(request.getServletContext().getRealPath("/file/"), originalFilename);
+            file = new File(request.getServletContext().getRealPath("/multipartFile/"), originalFilename);
             /*如果没有文件夹得
-            * */
-            if(!file.exists()){
+             * */
+            if (!file.exists()) {
                 file.mkdir();
             }
             myFile.transferTo(file);
@@ -306,6 +302,40 @@ public class ActivityController {
         pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
         pageBean.setMessage("成功！");
         /*返回响应信息*/
+        return pageBean;
+    }
+
+    /**
+     * 导入市场活动
+     */
+    @RequestMapping("/workbench/activity/importExcelActivity.do")
+    @ResponseBody
+    public Object importExcelActivity(MultipartFile multipartFile, HttpServletRequest request) throws Exception {
+        PageBean pageBean = new PageBean();
+        User user = (User) session.getAttribute(Constants.SESSION_USER);
+
+        /*File file=new File(request.getServletContext().getRealPath("/file/"),multipartFile.getOriginalFilename());
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        *//*复制到当前项目的目录下*//*
+        multipartFile.transferTo(file);*/
+        List<String[]> list = ImportExcelUtil.readExcel(multipartFile);
+        System.out.println(list);
+        try {
+            int saveCreateActivityByList = activityService.saveCreateActivityByList(list,user);
+            if (saveCreateActivityByList > 0) {
+                pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                pageBean.setData(saveCreateActivityByList);
+            } else {
+                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setData(saveCreateActivityByList);
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setMessage("系统忙，稍后重试...");
+        }
         return pageBean;
     }
 }

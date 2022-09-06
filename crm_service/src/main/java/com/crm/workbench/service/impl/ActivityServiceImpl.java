@@ -1,5 +1,8 @@
 package com.crm.workbench.service.impl;
 
+import com.crm.common.utils.DateTimeUtil;
+import com.crm.common.utils.UUIDUtils;
+import com.crm.settings.entity.User;
 import com.crm.workbench.service.ActivityService;
 import com.crm.workbench.entity.Activity;
 import com.crm.workbench.mapper.ActivityMapper;
@@ -8,6 +11,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +34,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     public PageInfo<Activity> queryActivityAndCountByConditionForPage(Activity activity, int beginNo, int pageSize) {
-        PageHelper.startPage(beginNo,pageSize);
+        PageHelper.startPage(beginNo, pageSize);
         PageInfo<Activity> pageInfo = new PageInfo<>();
         pageInfo.setList(activityMapper.selectActivityByConditionForPage(activity));
         pageInfo.setTotal(activityMapper.selectCountOfActivityByCondition(activity));
@@ -66,5 +71,43 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.selectActivityByIds(ids);
     }
 
-
+    @Override
+    public int saveCreateActivityByList(List<String[]> list,User user) {
+        List<Activity> activityList =new ArrayList<>();
+        Activity activity =null;
+        for (String[] str : list) {
+            activity =new Activity();
+            for (int i = 0; i <str.length; i++){
+                System.out.println(str[i]);
+                if (i == 0 && !str[i].equals("")) {
+                    activity.setId(UUIDUtils.getUUID());
+                } else if (i == 1 && !str[i].equals("")) {
+                    activity.setOwner(user.getId());
+                } else if (i == 2 && !str[i].equals("")) {
+                    activity.setName(str[i]);
+                } else if (i == 3 && !str[i].equals("")) {
+                    activity.setStartDate(str[i]);
+                } else if (i == 4 && !str[i].equals("")) {
+                    activity.setEndDate(str[i]);
+                } else if (i == 5 && !str[i].equals("")) {
+                    activity.setCost(str[i]);
+                } else if (i == 6 && !str[i].equals("")) {
+                    activity.setDescription(str[i]);
+                } else if (i == 7 && !str[i].equals("")) {
+                    activity.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
+                } else if (i == 8 && !str[i].equals("")) {
+                    activity.setCreateBy(user.getId());
+                } else if (i == 9 && !str[i].equals("")) {
+                    activity.setEditTime(str[i]);
+                } else if (i == 10 && !str[i].equals("")) {
+                    activity.setEditBy(str[i]);
+                } else if (i == 11 && !str[i].equals("")) {
+                    activity.setActivityStatus(Integer.parseInt(str[i]));
+                    System.out.println(activity);
+                    activityList.add(activity);
+                }
+            }
+        }
+        return activityMapper.insertActivityByList(activityList);
+    }
 }

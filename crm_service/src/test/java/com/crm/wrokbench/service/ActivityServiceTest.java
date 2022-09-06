@@ -1,13 +1,21 @@
 package com.crm.wrokbench.service;
 
+import com.crm.settings.entity.User;
 import com.crm.workbench.entity.Activity;
 import com.crm.workbench.service.ActivityService;
+import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -48,5 +56,19 @@ public class ActivityServiceTest {
     public void queryActivityListByIds(){
         String[] ids={"39981e5f2dff482b91f3bf5818e3ceab","4a83f3b17d954bbd9be5bc4d85937c48","802b0c47de3c4bf1b466d38dd82fe0b4"};
         System.out.println(activityService.queryActivityByIds(ids));
+    }
+    @Test
+    public void saveCreateActivityByList() throws Exception {
+        File file = new File("D:\\lenovo\\Desktop\\activityList.xls");
+        MultipartFile mulFile = new MockMultipartFile(
+                file.getName(), //文件名
+                file.getName(), //originalName 相当于上传文件在客户机上的文件名
+                ContentType.APPLICATION_OCTET_STREAM.toString(), //文件类型
+                new FileInputStream(file) //文件流
+        );
+        List<String[]> list = ImportExcelUtil.readExcel(mulFile);
+        User user = new User();
+        user.setId("40f6cdea0bd34aceb77492a1656d9fb3");
+        activityService.saveCreateActivityByList(list,user);
     }
 }

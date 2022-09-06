@@ -18,7 +18,7 @@ import java.util.Date;
  * @Description: 时间格式化工具类
  * @Version: 1.0
  */
-public class LocalDateTimeUtils {
+public class DateTimeUtil {
 
 
     /**
@@ -37,7 +37,7 @@ public class LocalDateTimeUtils {
     /**
      * 将Long类型的时间戳转换成String 类型的时间格式，时间格式为：yyyy-MM-dd
      */
-    public static String convertTimeToStringYMD(Long time) {
+    public static String convertLongToStringYMD(Long time) {
         if (StringUtils.isEmpty(time)) {
             return null;
         }

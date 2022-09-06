@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--开启组件扫描(全包扫描的方式)-->
+
+    <context:component-scan base-package="com.crm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--引入外部属性文件-->
+    <context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/>
+
+    <!--声明数据源，配置连接池-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <!-- driverClassName可以不要（官方明确说明）-->
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--        <property name="maxActive" value="${jdbc.maxActive}"></property>  &lt;!&ndash;最大连接数&ndash;&gt;-->
+    </bean>
+    <!--声明的是mybatis中提供的SqlSessionFactoryBean类，这个类内部创建SqlSessionFactory的-->
+    <bean id="sessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--set注入，把数据库连接池赋给dataSource属性-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--配置别名-->
+        <property name="typeAliasesPackage" value="com.crm.settings.entity,com.crm.workbench.entity"/>
+        <!--mybatis主配置文件的位置
+            configLocation属性是Resource类型，读取配置文件
+            它的赋值，使用value，指定文件的路径,使用classpath:表示文件的位置-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+<!--        <property name="mapperLocations" >
+            <list>
+                <value>classpath*:com/crm/settings/mapper/*Mapper.xml</value>
+            </list>
+        </property>-->
+        <!--配置分页插件-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperDialect">mysql</prop>
+                            <prop key="reasonable">true</prop>
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--创建dao对象,使用sqlSession的getMapper (StudentDao.class )
+        MapperScannerConfigurer:在内部调用getMapper()生成每个dao接口的代理对象-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定SqlSess ionFactory对象的-->
+        <property name="sqlSessionFactoryBeanName" value="sessionFactoryBean"/>
+        <!--指定包名，包名是dao/mapper接口所在的包名。
+         MapperScannerConfigurer会扫描这个包中的所有接口， 把每个接口都执行
+        一次getMapper()方法，得到每个接口的dao对象。
+        创建好的dao/mapper对象放入到spring的容器中的。-->
+        <property name="basePackage" value="com.crm.settings.mapper,com.crm.workbench.mapper"/>
+    </bean>
+</beans>
+

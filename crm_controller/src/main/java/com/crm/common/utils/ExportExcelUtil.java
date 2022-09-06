@@ -1,14 +1,10 @@
 package com.crm.common.utils;
 
-import lombok.SneakyThrows;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
@@ -17,7 +13,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
 /**
  * Copyright (C), 2017-2022, RainGrd
@@ -26,7 +21,7 @@ import java.util.Locale;
  * FileName: ExportExcelUtils
  * Description: 使用poi导出Excel文件
  */
-public class ExportExcelUtils<T> {
+public class ExportExcelUtil<E> {
     /**
      * 创建Excel文件并将数据写入ExCel文件，并返回到浏览器中
      *
@@ -35,8 +30,7 @@ public class ExportExcelUtils<T> {
      * @param fileName 文件名称
      * @param response 返回数据对象
      */
-    @SneakyThrows
-    public void exportExcel(String[] headers, Collection<T> dataset, String fileName, HttpServletResponse response) {
+    public void exportExcel(String[] headers, Collection<E> dataset, String fileName, HttpServletResponse response) throws Exception {
         /*创建Excel文件*/
         HSSFWorkbook workbook = new HSSFWorkbook();
         /*生成表格(页)*/
@@ -54,12 +48,13 @@ public class ExportExcelUtils<T> {
             cell.setCellValue(hssfRichTextString);
         }
         /*遍历数据行*/
-        Iterator<T> iterator = dataset.iterator();
+        Iterator<E> iterator = dataset.iterator();
         int index = 0;
+        /*遍历查询出来的数据*/
         while (iterator.hasNext()) {
             index++;
             row = sheet.createRow(index);
-            T next = iterator.next();
+            E next = iterator.next();
             /*使用反射，根据javabean对象的先后顺序，动态调用getXXX()方法获得属性值*/
             Field[] declaredFields = next.getClass().getDeclaredFields();
             for (int i = 0; i < declaredFields.length; i++) {
@@ -87,10 +82,18 @@ public class ExportExcelUtils<T> {
 
         }
         /*调用返回对象方法，将数据输出到浏览器*/
-        getExportedFile(workbook,fileName,response);
+        getExportedFile(workbook, fileName, response);
     }
 
-    public void getExportedFile(HSSFWorkbook workbook, String name, HttpServletResponse response) throws Exception {
+    /**
+     * 将数据返回Excel文件
+     *
+     * @param workbook
+     * @param name
+     * @param response
+     * @throws Exception
+     */
+    public void getExportedFile(HSSFWorkbook workbook, String name, HttpServletResponse response) throws IOException {
         BufferedOutputStream bufferedOutputStream = null;
         try {
             /*处理文件名，拼接文件后缀名*/
@@ -107,7 +110,5 @@ public class ExportExcelUtils<T> {
                 bufferedOutputStream.close();
             }
         }
-
-
     }
 }
