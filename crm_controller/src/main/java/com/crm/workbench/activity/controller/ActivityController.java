@@ -9,6 +9,7 @@ import com.crm.common.utils.UUIDUtils;
 import com.crm.settings.entity.User;
 import com.crm.settings.service.UserService;
 import com.crm.workbench.entity.Activity;
+import com.crm.workbench.service.ActivityRemarkService;
 import com.crm.workbench.service.ActivityService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +42,8 @@ public class ActivityController {
     private ActivityService activityService;
     @Autowired
     private HttpSession session;
+    @Autowired
+    private ActivityRemarkService activityRemarkService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
@@ -323,7 +326,7 @@ public class ActivityController {
         List<String[]> list = ImportExcelUtil.readExcel(multipartFile);
         System.out.println(list);
         try {
-            int saveCreateActivityByList = activityService.saveCreateActivityByList(list,user);
+            int saveCreateActivityByList = activityService.saveCreateActivityByList(list, user);
             if (saveCreateActivityByList > 0) {
                 pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
                 pageBean.setData(saveCreateActivityByList);
@@ -337,5 +340,17 @@ public class ActivityController {
             pageBean.setMessage("系统忙，稍后重试...");
         }
         return pageBean;
+    }
+
+    /**
+     *
+     */
+    @RequestMapping("/workbench/activity/detailActivity.do")
+    public ModelAndView detailActivity(String id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("activity", activityService.queryActivityForDetail(id));
+        modelAndView.addObject("remarkList", activityRemarkService.queryActivityRemarkForDetailByActivityId(id));
+        modelAndView.setViewName("/workbench/activity/detail");
+        return modelAndView;
     }
 }

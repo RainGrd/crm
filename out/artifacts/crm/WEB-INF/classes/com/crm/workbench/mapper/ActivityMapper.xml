@@ -140,7 +140,8 @@
         </trim>
     </insert>
     <insert id="insertActivityByList" parameterType="activity">
-        insert into tbl_activity(id,owner,name,start_date,end_date,cost, description, create_time, create_by,activity_status)
+        insert into tbl_activity(id,owner,name,start_date,end_date,cost, description, create_time,
+        create_by,activity_status)
         values
         <foreach collection="list" item="obj" separator=",">
             (#{obj.id},#{obj.owner},#{obj.name},#{obj.startDate},#{obj.endDate},#{obj.cost},#{obj.description},#{obj.createTime},#{obj.createBy},#{obj.activityStatus})
@@ -308,5 +309,24 @@
             #{id}
         </foreach>
         order by act.create_time desc
+    </select>
+    <select id="selectActivityForDetailById"
+            resultMap="ActivityResultMap" parameterType="string">
+        select act.id,
+               user1.name as owner,
+               act.name,
+               act.start_date,
+               act.end_date,
+               act.cost,
+               act.description,
+               act.create_time,
+               user2.name as create_by,
+               act.edit_time,
+               user3.name as edit_by
+        from tbl_activity act
+                 join tbl_user user1 on act.owner = user1.id
+                 join tbl_user user2 on act.create_by = user2.id
+                 left join tbl_user user3 on act.edit_by = user3.id
+        where act.id = #{id,jdbcType=VARCHAR}
     </select>
 </mapper>
