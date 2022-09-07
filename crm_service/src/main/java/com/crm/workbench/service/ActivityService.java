@@ -53,4 +53,8 @@ public interface ActivityService {
      * 批量插入市场活动
      */
     int saveCreateActivityByList(List<String[]> activityList, User user);
+    /**
+     * 根基id查询单个市场活动
+     */
+    Activity queryActivityForDetail(String id);
 }

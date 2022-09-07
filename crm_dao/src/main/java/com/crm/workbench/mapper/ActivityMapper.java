@@ -83,4 +83,9 @@ public interface ActivityMapper {
      * 批量保存创建的市场活动
      */
     int insertActivityByList(List<Activity> activityList);
+    /**
+     * 根据市场活动id查询市场活动明细
+     * @param id 市场活动id
+     */
+    Activity selectActivityForDetailById(String id);
 }

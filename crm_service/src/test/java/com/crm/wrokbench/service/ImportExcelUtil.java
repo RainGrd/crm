@@ -109,7 +109,7 @@ public class ImportExcelUtil {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
             cell = row.getCell(i);
-            stringBuilder.append(getStringCellValue(cell) + ",");
+            stringBuilder.append(getStringCellValue(cell)).append(",");
         }
         str = stringBuilder.toString().split(",");
         return str;
@@ -121,7 +121,7 @@ public class ImportExcelUtil {
     public static String getStringCellValue(Cell cell) {
         StringBuilder sb = new StringBuilder();
         if (cell == null) {
-            return "";
+            return sb.append("").toString();
         }
         /*如果当前单元格内容为日期类型，需要特殊处理*/
         String dataFormatString = cell.getCellStyle().getDataFormatString();

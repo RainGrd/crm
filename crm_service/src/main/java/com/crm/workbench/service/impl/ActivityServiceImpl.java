@@ -103,11 +103,18 @@ public class ActivityServiceImpl implements ActivityService {
                     activity.setEditBy(str[i]);
                 } else if (i == 11 && !str[i].equals("")) {
                     activity.setActivityStatus(Integer.parseInt(str[i]));
-                    System.out.println(activity);
-                    activityList.add(activity);
+
                 }
             }
+            System.out.println(activity);
+            activityList.add(activity);
+            System.out.println(activityList);
         }
         return activityMapper.insertActivityByList(activityList);
+    }
+
+    @Override
+    public Activity queryActivityForDetail(String id) {
+        return activityMapper.selectActivityForDetailById(id);
     }
 }
