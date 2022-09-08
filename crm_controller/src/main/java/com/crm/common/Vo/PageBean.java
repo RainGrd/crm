@@ -16,7 +16,7 @@ public class PageBean implements Serializable {
     /**
      * 响应码 0---失败，1---成功
      */
-    private Integer code;
+    private String code;
     /**
      * 响应信息
      */

@@ -1,5 +1,6 @@
 package com.crm.test;
 
+import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.ImportExcelUtil;
 import com.crm.workbench.entity.Activity;
 import org.junit.Test;
@@ -69,4 +70,9 @@ public class ParseExcelTest {
         }
         System.out.println(activities);
     }
+    @Test
+    public void enumTest(){
+        System.out.println(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+    }
+
 }

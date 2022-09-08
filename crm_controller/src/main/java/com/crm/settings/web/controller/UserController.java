@@ -132,5 +132,16 @@ public class UserController {
         /*跳转至首页*/
         return "redirect:/";
     }
+    /**
+     * 获取session的用户对象
+     */
+    @RequestMapping("/settings/qx/user/getSessionUser.do")
+    @ResponseBody
+    public String getSessionUser(HttpSession session) throws JsonProcessingException {
+        User user= (User) session.getAttribute(Constants.SESSION_USER);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(user);
+    }
+
 }
 

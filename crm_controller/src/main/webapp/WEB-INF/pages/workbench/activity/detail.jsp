@@ -10,48 +10,6 @@
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript">
-
-        //默认情况下取消和保存按钮是隐藏的
-        var cancelAndSaveBtnDefault = true;
-
-        $(function () {
-            $("#remark").focus(function () {
-                if (cancelAndSaveBtnDefault) {
-                    //设置remarkDiv的高度为130px
-                    $("#remarkDiv").css("height", "130px");
-                    //显示
-                    $("#cancelAndSaveBtn").show("2000");
-                    cancelAndSaveBtnDefault = false;
-                }
-            });
-
-            $("#cancelBtn").click(function () {
-                //显示
-                $("#cancelAndSaveBtn").hide();
-                //设置remarkDiv的高度为130px
-                $("#remarkDiv").css("height", "90px");
-                cancelAndSaveBtnDefault = true;
-            });
-
-            $(".remarkDiv").mouseover(function () {
-                $(this).children("div").children("div").show();
-            });
-
-            $(".remarkDiv").mouseout(function () {
-                $(this).children("div").children("div").hide();
-            });
-
-            $(".myHref").mouseover(function () {
-                $(this).children("span").css("color", "red");
-            });
-
-            $(".myHref").mouseout(function () {
-                $(this).children("span").css("color", "#E6E6E6");
-            });
-        });
-    </script>
-
     <title>市场活动备注明细</title>
 </head>
 <body>
@@ -108,9 +66,10 @@
 <!-- 详细信息 -->
 <div style="position: relative; top: -70px;">
     <div style="position: relative; left: 40px; height: 30px;">
+        <div class="hidden" id="activityId">${activity.id}</div>
         <div style="width: 300px; color: gray;">所有者</div>
         <div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>${activity.owner}</b></div>
-        <div style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">名称</div>
+        <div id="activityName" style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">名称</div>
         <div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>${activity.name}</b></div>
         <div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px;"></div>
         <div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px; left: 450px;"></div>
@@ -155,27 +114,10 @@
 </div>
 
 <!-- 备注 -->
-<div style="position: relative; top: 30px; left: 40px;">
+<div id="remarkDivList" style="position: relative; top: 30px; left: 40px;">
     <div class="page-header">
         <h4>备注</h4>
     </div>
-
-    <!-- 备注1 -->
-<%--    <div class="remarkDiv" style="height: 60px;">
-        <img title="zhangsan" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
-        <div style="position: relative; top: -40px; left: 40px;">
-            <h5>哎呦！</h5>
-            <font color="gray">市场活动</font> <font color="gray">-</font> <b>发传单</b> <small style="color: gray;">
-            2017-01-22 10:10:10 由zhangsan</small>
-            <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                   style="font-size: 20px; color: #E6E6E6;"></span></a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                   style="font-size: 20px; color: #E6E6E6;"></span></a>
-            </div>
-        </div>
-    </div>--%>
     <c:forEach items="${remarkList}" var="remark">
         <div class="remarkDiv" style="height: 60px;">
             <img title="${remark.createBy}" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
@@ -192,32 +134,18 @@
                     ${remark.editFlag=='1'?remark.editTime:remark.createTime}
                 由${remark.editFlag=='1'?remark.editBy:remark.createBy}${remark.editFlag=='1'?"修改":'创建'}</small>
                 <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span
+                            class="glyphicon glyphicon-edit"
+                            style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span
+                            class="glyphicon glyphicon-remove"
+                            style="font-size: 20px; color: #E6E6E6;"></span></a>
                 </div>
             </div>
         </div>
     </c:forEach>
 
-    <!-- 备注2 -->
-    <%--    <div class="remarkDiv" style="height: 60px;">
-            <img title="zhangsan" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
-            <div style="position: relative; top: -40px; left: 40px;">
-                <h5>呵呵！</h5>
-                <font color="gray">市场活动</font> <font color="gray">-</font> <b>发传单</b> <small style="color: gray;">
-                2017-01-22 10:20:10 由zhangsan</small>
-                <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                </div>
-            </div>
-        </div>--%>
 
     <div id="remarkDiv" style="background-color: #E6E6E6; width: 870px; height: 90px;">
         <form role="form" style="position: relative;top: 10px; left: 10px;">
@@ -225,11 +153,12 @@
                       placeholder="添加备注..."></textarea>
             <p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
                 <button id="cancelBtn" type="button" class="btn btn-default">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" id="saveActivityRemarkBtn" class="btn btn-primary">保存</button>
             </p>
         </form>
     </div>
 </div>
 <div style="height: 200px;"></div>
+<script type="text/javascript" src="js/workbench/activity/detail.js"></script>
 </body>
 </html>

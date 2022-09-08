@@ -16,4 +16,10 @@ public interface ActivityRemarkService {
      * 根据市场活动id查询市场活动备注
      */
     List<ActivityRemark> queryActivityRemarkForDetailByActivityId(String activityId);
+
+    /**
+     * 插入市场活动
+     * @return int
+     */
+    int saveActivityRemark(ActivityRemark activityRemark);
 }
