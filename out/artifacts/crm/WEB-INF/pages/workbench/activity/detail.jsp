@@ -28,17 +28,18 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
+                    <input type="hidden" id="edit-id">
                     <div class="form-group">
-                        <label for="noteContent" class="col-sm-2 control-label">内容</label>
+                        <label for="edit-noteContent" class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <textarea class="form-control" rows="3" id="noteContent"></textarea>
+                            <textarea class="form-control" rows="3" id="edit-noteContent"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" id="updateRemarkBtn">更新</button>
+                    <button type="button" class="btn btn-primary" id="updateRemarkBtn">更新</button>
             </div>
         </div>
     </div>
@@ -119,7 +120,7 @@
         <h4>备注</h4>
     </div>
     <c:forEach items="${remarkList}" var="remark">
-        <div class="remarkDiv" style="height: 60px;">
+        <div id="div_${remark.id}" class="remarkDiv" style="height: 60px;">
             <img title="${remark.createBy}" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
             <div style="position: relative; top: -40px; left: 40px;">
                 <h5>${remark.noteContent}</h5>
@@ -134,7 +135,7 @@
                     ${remark.editFlag=='1'?remark.editTime:remark.createTime}
                 由${remark.editFlag=='1'?remark.editBy:remark.createBy}${remark.editFlag=='1'?"修改":'创建'}</small>
                 <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span
+                    <a class="myHref" name="editA" remarkId="${remark.id}" href="javascript:void(0);"><span
                             class="glyphicon glyphicon-edit"
                             style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;

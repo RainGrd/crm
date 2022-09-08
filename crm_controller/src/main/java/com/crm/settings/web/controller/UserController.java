@@ -2,6 +2,7 @@ package com.crm.settings.web.controller;
 
 import com.crm.common.Vo.PageBean;
 import com.crm.common.constants.Constants;
+import com.crm.common.constants.ConstantsEnum;
 import com.crm.settings.service.UserService;
 import com.crm.settings.entity.User;
 import com.crm.common.utils.DateTimeUtil;
@@ -59,38 +60,37 @@ public class UserController {
         map.put("loginAct", loginAct);
         map.put("loginPwd", loginPwd);
         map.put("idRemPwd", idRemPwd);
-        System.out.println(map);
         ObjectMapper objectMapper = new ObjectMapper();
         User user = userService.queryUserLoginActAndPwd(map);
         /*根据查询结果，生成响应信息*/
         PageBean pageBean = new PageBean();
         if (user == null) {
             /*查询为空,登录失败*/
-            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("用户名或密码错误！");
         } else {
             /*判断账号是否过期*/
             if (DateTimeUtil.ConvertDateStringYMD(new Date()).compareTo(user.getCreateTime()) > 0) {
                 /*账号过期，登录失败*/
-                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("账号过期！");
             } else
                 /*判断账号是否被锁定*/
                 if ("0".equals(user.getLockState())) {
                     /*账号锁定，登录失败*/
-                    pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                    pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
                     pageBean.setMessage("账号锁定！");
                 } else
                     /*判断IP是否受限*/
                     if (!user.getAllowIps().contains(request.getRemoteAddr())) {
                         /*ip受限，登录失败*/
-                        pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                        pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
                         pageBean.setMessage("ip受限！");
                     } else {
                         /*登录成功！*/
-                        pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                        pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
                         /*把User对象保存到session对象中*/
-                        session.setAttribute(Constants.SESSION_USER, user);
+                        session.setAttribute(ConstantsEnum.SESSION_USER.getStr(), user);
                         /*判断用户是否需要记住密码*/
                         Cookie c1 = new Cookie("loginAct", loginAct);
                         Cookie c2 = new Cookie("loginPwd", loginPwd);

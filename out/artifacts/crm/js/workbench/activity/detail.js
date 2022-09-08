@@ -47,30 +47,31 @@ $(function () {
         });*/
     /*查询session对象的用户*/
     let sessionUser = querySessionUser();
-    console.log(sessionUser);
+    let activityRemark = {
+        noteContent: '',
+        activityId: '',
+    }
     $('#saveActivityRemarkBtn').on('click', function () {
         /*判断内容是否为空*/
-        let noteContent = $('#remark').val();
+        activityRemark.noteContent = $('#remark').val();
         if (notEmpty(noteContent)) {
             alert("添加备注不能为空！");
             return false;
         }
-        let activityId = $('#activityId').text();
+        activityRemark.activityId = $('#activityId').text();
         /*收集参数*/
         $.ajax({
             url: "workbench/activity/saveCreateActivityRemark.do",
-            data: {
-                noteContent: noteContent,
-                activityId: activityId,
-            },
+            data: activityRemark,
             dataType: 'json',
             type: 'post',
             success: function (result) {
                 if (result.code === "1") {
                     /*清空输入框*/
                     $('#remark').val('');
+                    /*重新遍历查询市场活动备注*/
                     let htmlStr = '';
-                    htmlStr += '<div class="remarkDiv" style="height: 60px;">' +
+                    htmlStr += '<div id="div_' + result.data.id + '" class="remarkDiv" style="height: 60px;">' +
                         '<img title="' + sessionUser.name + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">' +
                         '<div style="position: relative; top: -40px; left: 40px;">' +
                         '<h5>' + result.data.noteContent + '</h5>' +
@@ -97,10 +98,82 @@ $(function () {
     /**
      * 给所有的"删除"图标添加单击事件
      */
-    $('#remarkDivList').on('click',"a[name='deleteA']",function (){
+    $('#remarkDivList').on('click', "a[name='deleteA']", function () {
         /*收集参数*/
-        console.log($(this));
-    })
+        let id = $(this).attr('remarkId');
+        $.ajax({
+            url: 'workbench/activity/deleteActivityRemarkById.do',
+            data: {
+                id: id,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                if (result.code === "1") {
+                    console.log()
+                    /*删除页面中指定id的div*/
+                    $("#div_" + id).remove();
+                } else {
+                    alert(result.message);
+                }
+            }, error: function (error) {
+                console.log('出错了');
+            }
+        });
+    });
+    /**
+     * 给所有市场活动备注后边的修改图标添加单击事件
+     */
+    $("#remarkDivList").on('click', "a[name='editA']", function () {
+        /*获取备注的id和noteTenet*/
+        let id = $(this).attr("remarkId");
+        let noteContent = $("#div_" + id + " h5").text();
+        /*将参数放到input里面*/
+        $('#edit-id').val(id);
+        $('#edit-noteContent').val(noteContent);
+        /*弹出修改市场活动备注的模态窗口*/
+        $('#editRemarkModal').modal('show');
+    });
+    /**
+     * 给updateRemarkBtn按钮添加单机事件
+     */
+    $('#updateRemarkBtn').on('click', function () {
+        /*收集参数*/
+        let id = $("#edit-id").val();
+        let noteContent = $("#edit-noteContent").val().trim();
+        console.log(id);
+        /*表单验证*/
+        if (notEmpty(noteContent)) {
+            alert("备注内容不能为空");
+            return false;
+        }
+        /*发送请求*/
+        $.ajax({
+            url: "workbench/activity/updateActivityRemarkByActivityRemark.do",
+            data: {
+                id: id,
+                noteContent: noteContent
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (result) {
+                if (result.code === "1") {
+                    /*关闭模态窗口*/
+                    $("#editRemarkModal").modal('hide');
+                    /*更新备注*/
+                    $('#div_' + result.data.id + " h5").text(result.data.noteContent);
+                    $('#div_' + result.data.id + " small").text(' ' + result.data.editTime + " 由" + sessionUser.name + "创建");
+                } else {
+                    alert(result.message);
+                    $("#editRemarkModal").modal('show');
+                }
+            }, error: function (error) {
+                console.log('出错了');
+            }
+        })
+    });
+
     /**
      * 查询存放在session的用户的对象
      */
@@ -123,6 +196,10 @@ $(function () {
         return user;
     }
 });
+
+/**
+ * 查询市场活动备注
+ */
 
 /**
  * 非空函数

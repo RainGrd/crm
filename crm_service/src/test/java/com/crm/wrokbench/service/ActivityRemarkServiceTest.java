@@ -40,7 +40,18 @@ public class ActivityRemarkServiceTest {
     }
 
     @Test
-    public void deleteActivityRemarkByIdTest(){
+    public void deleteActivityRemarkByIdTest() {
         activityRemarkService.deleteActivityRemarkById("2d3415e8f1b644b5ad270ccbcb44e813");
+    }
+
+    @Test
+    public void updateActivityRemarkByActivityRemarkTest() {
+        ActivityRemark activityRemark = new ActivityRemark();
+        activityRemark.setId("2d3415e8f1b644b5ad270ccbcb44e813");
+        activityRemark.setNoteContent("备注测试08updates");
+        activityRemark.setEditFlag(String.valueOf(1));
+        activityRemark.setEditBy("40f6cdea0bd34aceb77492a1656d9fb3");
+        activityRemark.setEditTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
+        activityRemarkService.updateActivityRemarkByActivityRemark(activityRemark);
     }
 }

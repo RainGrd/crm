@@ -197,4 +197,12 @@
         set activity_remark_status = 1
         where id = #{id,jdbcType=VARCHAR};
     </update>
+    <update id="updateActivityRemarkByActivity" parameterType="activityRemark">
+        update tbl_activity_remark
+        set note_content = #{activityRemark.noteContent,jdbcType=VARCHAR},
+            edit_time=#{activityRemark.editTime,jdbcType=VARCHAR},
+            edit_by=#{activityRemark.editFlag},
+            edit_flag=#{activityRemark.editFlag,jdbcType=VARCHAR}
+        where id = #{activityRemark.id,jdbcType=VARCHAR};
+    </update>
 </mapper>

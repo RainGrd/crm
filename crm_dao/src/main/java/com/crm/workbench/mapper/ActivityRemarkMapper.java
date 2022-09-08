@@ -1,6 +1,5 @@
 package com.crm.workbench.mapper;
 
-import com.crm.workbench.entity.Activity;
 import com.crm.workbench.entity.ActivityRemark;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -72,5 +71,9 @@ public interface ActivityRemarkMapper {
      * 根据id删除市场活动备注
      */
     int deleteActivityRemarkById(String id);
+    /**
+     * 根据id修改市场活动备注
+     */
+    int updateActivityRemarkByActivity(@Param("activityRemark") ActivityRemark activityRemark);
 
 }

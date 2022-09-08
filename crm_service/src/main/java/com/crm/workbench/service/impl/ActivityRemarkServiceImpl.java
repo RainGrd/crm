@@ -3,7 +3,6 @@ package com.crm.workbench.service.impl;
 import com.crm.workbench.entity.ActivityRemark;
 import com.crm.workbench.mapper.ActivityRemarkMapper;
 import com.crm.workbench.service.ActivityRemarkService;
-import com.crm.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,11 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
     @Override
     public int deleteActivityRemarkById(String id) {
         return activityRemarkMapper.deleteActivityRemarkById(id);
+    }
+
+    @Override
+    public int updateActivityRemarkByActivityRemark(ActivityRemark activityRemark) {
+        return activityRemarkMapper.updateActivityRemarkByActivity(activityRemark);
     }
 
 }
