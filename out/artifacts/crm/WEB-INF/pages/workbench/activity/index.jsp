@@ -62,7 +62,7 @@
                     type: 'post',
                     dataType: 'json',
                     success: function (result) {
-                        if (result.code === 1) {
+                        if (result.code === "1") {
                             /*关闭模态窗口*/
                             $('#createActivityModal').modal("hide");
                             /*刷新市场活动列，(保留)*/
@@ -142,7 +142,7 @@
                         dataType: 'json',
                         success: function (data) {
                             console.log(data);
-                            if (data.code === 1) {
+                            if (data.code === "1") {
                                 /*重新刷新页面*/
                                 queryActivityByConditionForPage(1, $('#page').bs_pagination('getOption', 'rowsPerPage'));
                             } else {
@@ -230,10 +230,10 @@
                     contentType: 'application/json',
                     dataType: 'json',
                     success: function (data) {
-                        if (data.code === 1) {
+                        if (data.code === "1") {
                             /*重新查询*/
                             queryActivityByConditionForPage(1, $('#page').bs_pagination('getOption', 'rowsPerPage'))
-                        } else if (data.code === 0) {
+                        } else {
                             /*弹出错误信息*/
                             alert(data.message);
                         }
@@ -302,18 +302,18 @@
                     type: 'post',
                     data: formData,
                     processData: false,
-                    contentType:false,
+                    contentType: false,
                     dataType: 'json',
                     success: function (data) {
                         console.log(data);
-                        if (data.code === 1) {
+                        if (data.code === "1") {
                             /*提示成功导入记录条数*/
                             alert("成功导入" + data.data + "条记录");
                             /*关闭模态窗口*/
                             $("#importActivityModal").modal('hide');
                             /*刷新列表*/
-                            queryActivityByConditionForPage(1,$('#page').bs_pagination('getOption', 'rowsPerPage'));
-                        }else{
+                            queryActivityByConditionForPage(1, $('#page').bs_pagination('getOption', 'rowsPerPage'));
+                        } else {
                             alert(data.message);
                             /*显示模态窗口*/
                             $('#editActivityModal').modal('show');
@@ -394,7 +394,7 @@
                     $.each(dataList, function (index, obj) {
                         htmlStr += '<tr class=\"active\">'
                         htmlStr += '<td><input type=\"checkbox\" value="' + obj.id + '"/></td>'
-                        htmlStr += "<td><a style=\"text-decoration: none; cursor: pointer;\"onclick=\"window.location.href='workbench/activity/detailActivity.do?id="+obj.id+"'\">" + obj.name + "</a></td>"
+                        htmlStr += "<td><a style=\"text-decoration: none; cursor: pointer;\"onclick=\"window.location.href='workbench/activity/detailActivity.do?id=" + obj.id + "'\">" + obj.name + "</a></td>"
                         htmlStr += '<td>' + obj.owner + '</td>'
                         htmlStr += '<td>' + obj.startDate + '</td>'
                         htmlStr += '<td>' + obj.endDate + '</td>'
@@ -586,7 +586,7 @@
 </div>
 
 <!-- 导入市场活动的模态窗口 -->
-<div class="modal fade" id="importActivityModal" role="dialog" >
+<div class="modal fade" id="importActivityModal" role="dialog">
     <div class="modal-dialog" role="document" style="width: 85%;">
         <div class="modal-content">
             <div class="modal-header">

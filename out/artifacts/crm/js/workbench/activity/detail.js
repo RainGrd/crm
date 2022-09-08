@@ -66,7 +66,7 @@ $(function () {
             dataType: 'json',
             type: 'post',
             success: function (result) {
-                if (result.code === 1) {
+                if (result.code === "1") {
                     /*清空输入框*/
                     $('#remark').val('');
                     let htmlStr = '';
@@ -94,6 +94,13 @@ $(function () {
         })
     });
 
+    /**
+     * 给所有的"删除"图标添加单击事件
+     */
+    $('#remarkDivList').on('click',"a[name='deleteA']",function (){
+        /*收集参数*/
+        console.log($(this));
+    })
     /**
      * 查询存放在session的用户的对象
      */

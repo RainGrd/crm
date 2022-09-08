@@ -138,7 +138,7 @@
                             class="glyphicon glyphicon-edit"
                             style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" remarkId="${remark.id}" href="javascript:void(0);"><span
+                    <a class="myHref" name="deleteA" remarkId="${remark.id}" href="javascript:void(0);"><span
                             class="glyphicon glyphicon-remove"
                             style="font-size: 20px; color: #E6E6E6;"></span></a>
                 </div>

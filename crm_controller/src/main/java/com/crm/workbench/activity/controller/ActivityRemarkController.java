@@ -40,11 +40,11 @@ public class ActivityRemarkController {
         activityRemark.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
         activityRemark.setCreateBy(user.getId());
         activityRemark.setEditFlag(String.valueOf(ConstantsEnum.ACTIVITY_REMARK_EDIT_FLAG_NO_EDITED.getStr()));
+        activityRemark.setActivityRemarkStatus(Integer.valueOf(ConstantsEnum.ACTIVITY_REMARK_STATUS_YES_EDITED.getStr()));
         System.out.println(activityRemark);
         try {
             int remark = activityRemarkService.saveActivityRemark(activityRemark);
             if (remark > 0) {
-
                 pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
                 pageBean.setData(activityRemark);
             } else {

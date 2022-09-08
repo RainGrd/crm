@@ -43,7 +43,12 @@ public enum ConstantsEnum {
     /**
      * 未修改市场活动备注的状态
      */
-    ACTIVITY_REMARK_EDIT_FLAG_YES_EDITED("1");
+    ACTIVITY_REMARK_EDIT_FLAG_YES_EDITED("1"),
+    /**
+     * 定义市场备注状态
+     */
+    ACTIVITY_REMARK_STATUS_YES_EDITED("0"),    //未除
+    ACTIVITY_REMARK_STATUS_NO_EDITED("1");     //删除
     /**
      * 值
      */

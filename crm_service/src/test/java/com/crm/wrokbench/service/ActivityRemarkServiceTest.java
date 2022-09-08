@@ -38,4 +38,9 @@ public class ActivityRemarkServiceTest {
         activityRemark.setEditFlag(String.valueOf(0));
         activityRemarkService.saveActivityRemark(activityRemark);
     }
+
+    @Test
+    public void deleteActivityRemarkByIdTest(){
+        activityRemarkService.deleteActivityRemarkById("2d3415e8f1b644b5ad270ccbcb44e813");
+    }
 }

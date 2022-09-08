@@ -37,8 +37,9 @@ $(function () {
             type: 'post',
             dataType: "json",
             success: function (result) {
-                console.log(result)
-                if (result.code === 1) {
+                console.log(result);
+                console.log(result.code);
+                if (result.code === '1') {
                     /*跳转主页面*/
                     window.location.href = 'workbench/index.do';
                 } else {

@@ -18,8 +18,12 @@ public interface ActivityRemarkService {
     List<ActivityRemark> queryActivityRemarkForDetailByActivityId(String activityId);
 
     /**
-     * 插入市场活动
+     * 插入市场活动备注
      * @return int
      */
     int saveActivityRemark(ActivityRemark activityRemark);
+    /**
+     * 根据id删除市场活动备注
+     */
+    int deleteActivityRemarkById(String id);
 }

@@ -18,6 +18,7 @@ public class WorkbenchIndexController {
      */
     @RequestMapping("/workbench/index.do")
     public String index() {
+        System.out.println("index.do");
         /*直接跳转到业务主页面*/
         return "workbench/index";
     }

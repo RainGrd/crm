@@ -179,6 +179,7 @@
                  join tbl_user user1 on act.create_by = user1.id
                  left join tbl_user user2 on act.edit_by = user2.id
         where act.activity_id = #{activityId,jdbcType=VARCHAR}
+          and act.activity_remark_status = 0
         order by act.create_time;
     </select>
     <insert id="insertActivityRemark" parameterType="activityRemark">
@@ -187,6 +188,13 @@
         values (#{activityRemark.id,jdbcType=VARCHAR}, #{activityRemark.noteContent,jdbcType=VARCHAR},
                 #{activityRemark.createTime,jdbcType=VARCHAR}, #{activityRemark.createBy,jdbcType=VARCHAR},
                 #{activityRemark.editTime,jdbcType=VARCHAR}, #{activityRemark.editBy,jdbcType=VARCHAR},
-                #{activityRemark.editFlag,jdbcType=VARCHAR}, #{activityRemark.activityId,jdbcType=VARCHAR},0);
+                #{activityRemark.editFlag,jdbcType=VARCHAR}, #{activityRemark.activityId,jdbcType=VARCHAR},
+                #{activityRemark.activityRemarkStatus,jdbcType=INTEGER});
     </insert>
+
+    <update id="deleteActivityRemarkById" parameterType="string">
+        update tbl_activity_remark
+        set activity_remark_status = 1
+        where id = #{id,jdbcType=VARCHAR};
+    </update>
 </mapper>
