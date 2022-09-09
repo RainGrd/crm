@@ -22,9 +22,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         /*判断session是否存在用户对象*/
         HttpSession session = request.getSession();
-        User user= (User) session.getAttribute(Constants.SESSION_USER);
-        System.out.println(user);
-        if(user==null){
+        User user = (User) session.getAttribute(Constants.SESSION_USER);
+        if (user == null) {
             /*跳转登录页面 使用response重定向时，url需要添加项目的根路径*/
             response.sendRedirect(request.getContextPath());
             return false;

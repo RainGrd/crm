@@ -1,4 +1,4 @@
-package com.crm.settings.entity;
+package com.crm.workbench.entity;
 
 import org.apache.ibatis.type.Alias;
 

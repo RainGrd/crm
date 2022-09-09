@@ -1,7 +1,8 @@
-package com.crm.settings.mapper;
+package com.crm.workbench.mapper;
 
-import com.crm.settings.entity.Clue;
+import com.crm.workbench.entity.Clue;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ClueMapper {
@@ -52,4 +53,8 @@ public interface ClueMapper {
      * @mbggenerated Thu Aug 25 13:05:31 CST 2022
      */
     int updateByPrimaryKey(Clue record);
+    /**
+     * 插入线索
+     */
+    int insertCreateClue(@Param("clue") Clue clue);
 }
