@@ -10,6 +10,9 @@ import com.crm.settings.service.DicValueService;
 import com.crm.settings.service.UserService;
 import com.crm.workbench.entity.Clue;
 import com.crm.workbench.service.ClueService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2017-2022, RainGrd
@@ -29,7 +33,7 @@ import java.util.List;
  * FileName: ClueController
  * Description: 线索控制层
  */
-@Controller
+@Controller("clueController")
 public class ClueController {
     @Resource
     private UserService userService;
@@ -61,13 +65,14 @@ public class ClueController {
      */
     @RequestMapping("/workbench/clue/saveCreateClue.do")
     @ResponseBody
-    public Object saveCreateClue(@RequestBody Clue clue, HttpSession session){
+    public Object saveCreateClue(Clue clue, HttpSession session){
         User user= (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
         PageBean pageBean = new PageBean();
         /*封装参数*/
         clue.setId(UUIDUtils.getUUID());
         clue.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
         clue.setCreateBy(user.getId());
+        System.out.println(clue);
         try {
             int saveClue = clueService.saveClue(clue);
             if (saveClue>0) {
@@ -82,5 +87,16 @@ public class ClueController {
             pageBean.setMessage("系统忙，正在维护中...");
         }
         return pageBean;
+    }
+    /**
+     * 根据条件分页查询
+     */
+    @RequestMapping("/workbench/clue/queryClueByConditionForPage.do")
+    @ResponseBody
+    public String queryClueByConditionForPage(@RequestBody Map<String,String> map) throws JsonProcessingException {
+        System.out.println(map);
+        ObjectMapper objectMapper = new ObjectMapper();
+        PageInfo<Clue> cluePageInfo = clueService.queryClueByConditionForPage(map);
+        return objectMapper.writeValueAsString(cluePageInfo);
     }
 }

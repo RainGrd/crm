@@ -4,6 +4,9 @@ import com.crm.workbench.entity.Clue;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface ClueMapper {
     /**
@@ -57,4 +60,15 @@ public interface ClueMapper {
      * 插入线索
      */
     int insertCreateClue(@Param("clue") Clue clue);
+
+    /**
+     * 根据条件分页查询数据
+     * @param map
+     * @return
+     */
+    List<Clue> selectClueListByConditionForPage(@Param("map") Map<String,String> map);
+    /**
+     * 根据条件查询条数
+     */
+    int selectCountOfClueByCondition(@Param("map") Map<String,String> map);
 }
