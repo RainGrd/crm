@@ -71,4 +71,9 @@ public interface ClueMapper {
      * 根据条件查询条数
      */
     int selectCountOfClueByCondition(@Param("map") Map<String,String> map);
+
+    /**
+     * 根据id查询线索的明细信息
+     */
+    Clue selectClueForDetailById(@Param("id") String id);
 }

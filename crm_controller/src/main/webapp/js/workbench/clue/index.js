@@ -67,7 +67,6 @@ $(function () {
                 }*/
         //手机正则验证
         /*发送请求*/
-        console.log($clue);
         $.ajax({
             url: 'workbench/clue/saveCreateClue.do',
             type: 'post',
@@ -78,6 +77,8 @@ $(function () {
                 if (result.code === '1') {
                     /*关闭模态窗口*/
                     $('#createClueModal').modal('hide');
+                    /*刷新列表*/
+                    queryClueByConditionForPage(1,$('#page').bs_pagination("getOption","rowsPerPage"))
                 } else {
                     alert(result.message);
                     $('#createClueModal').modal('show');

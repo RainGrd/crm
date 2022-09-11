@@ -30,12 +30,12 @@ public class ClueServiceImpl implements ClueService {
     }
 
     @Override
-    public PageInfo<Clue> queryClueByConditionForPage( Map<String, String> map) {
+    public PageInfo<Clue> queryClueByConditionForPage(Map<String, String> map) {
         int beginNo = Integer.parseInt(map.get("beginNo"));
         System.out.println(beginNo);
         int pageSize = Integer.parseInt(map.get("pageSize"));
         System.out.println(pageSize);
-        PageHelper.startPage(beginNo,pageSize);
+        PageHelper.startPage(beginNo, pageSize);
         PageInfo<Clue> PageInfo = new PageInfo<>();
         PageInfo.setList(clueMapper.selectClueListByConditionForPage(map));
         PageInfo.setTotal(clueMapper.selectCountOfClueByCondition(map));
@@ -50,5 +50,10 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public int queryCountOfByCondition(Map<String, String> map) {
         return clueMapper.selectCountOfClueByCondition(map);
+    }
+
+    @Override
+    public Clue queryClueForDetailById(String id) {
+        return clueMapper.selectClueForDetailById(id);
     }
 }

@@ -27,4 +27,11 @@ public interface ClueService {
     List<Clue> queryClueListByConditionForPage(Map<String,String> map);
 
     int queryCountOfByCondition(Map<String,String> map);
+
+    /**
+     * 根据id查询线索基本信息
+     * @param id id
+     * @return com.crm.workbench.entity.Clue
+     */
+    Clue queryClueForDetailById(String id);
 }
