@@ -23,13 +23,13 @@ import java.util.Map;
  * Description: 线索业务测试类
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext-service.xml","classpath:applicationContext-dao.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext-service.xml", "classpath:applicationContext-dao.xml"})
 public class ClueServiceTest {
     @Autowired
     private ClueService clueService;
 
     @Test
-    public void saveClue(){
+    public void saveClue() {
         Clue clue = new Clue();
         clue.setId(UUIDUtils.getUUID());
         clue.setCompany("北大青鸟");
@@ -51,16 +51,21 @@ public class ClueServiceTest {
         int i = clueService.saveClue(clue);
         System.out.println(i);
     }
+
     @Test
-    public void queryClueByConditionForPageTest(){
-        Map<String,String> map=new HashMap<>();
-        map.put("beginNo","1");
-        map.put("fullName","谭志扬");
-        map.put("pageSize","5");
+    public void queryClueByConditionForPageTest() {
+        Map<String, String> map = new HashMap<>();
+        map.put("beginNo", "1");
+        map.put("fullName", "谭志扬");
+        map.put("pageSize", "5");
         //System.out.println(clueService.queryClueListByConditionForPage(map));
         //System.out.println(clueService.queryCountOfByCondition(map));
         PageInfo<Clue> cluePageInfo = clueService.queryClueByConditionForPage(map);
         System.out.println(cluePageInfo.getList());
     }
 
+    @Test
+    public void queryClueForDetailByIdTest() {
+        System.out.println(clueService.queryClueForDetailById("099491cfb8a74a89b9188bec3fbb4ad2"));
+    }
 }

@@ -57,4 +57,11 @@ public interface ActivityService {
      * 根基id查询单个市场活动
      */
     Activity queryActivityForDetail(String id);
+
+    /**
+     * 根据线索id查询市场活动备注
+     * @param clueId 线索id
+     * @return java.util.List
+     */
+    List<Activity> queryActivityForDetailByClueId(String clueId);
 }

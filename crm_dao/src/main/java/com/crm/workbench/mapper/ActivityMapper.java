@@ -88,4 +88,11 @@ public interface ActivityMapper {
      * @param id 市场活动id
      */
     Activity selectActivityForDetailById(String id);
+
+    /**
+     * 根据clueID查询市场活动
+     * @param clueId
+     * @return
+     */
+    List<Activity> selectActivityForDetailByClueId(String clueId);
 }

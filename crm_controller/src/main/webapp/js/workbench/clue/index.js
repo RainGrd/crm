@@ -139,7 +139,7 @@ $(function () {
                     tableData += ' <tr>\n' +
                         '<td><input type="checkbox" value="' + obj.id + '"/></td>\n' +
                         '<td><a style="text-decoration: none; cursor: pointer;"\n' +
-                        '       onclick="window.location.href=\'detail.html\';">' + obj.fullName + '</a></td>\n' +
+                        '       onclick="window.location.href='+"'workbench/clue/detailClue.do?id="+obj.id+';">' + obj.fullName + '</a></td>\n' +
                         '<td>' + obj.company + '</td>\n' +
                         '<td>' + obj.mPhone + '</td>\n' +
                         '<td>' + obj.phone + '</td>\n' +

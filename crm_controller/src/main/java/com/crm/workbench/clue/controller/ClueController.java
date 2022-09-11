@@ -8,7 +8,11 @@ import com.crm.settings.entity.DicValue;
 import com.crm.settings.entity.User;
 import com.crm.settings.service.DicValueService;
 import com.crm.settings.service.UserService;
+import com.crm.workbench.entity.Activity;
 import com.crm.workbench.entity.Clue;
+import com.crm.workbench.entity.ClueRemark;
+import com.crm.workbench.service.ActivityService;
+import com.crm.workbench.service.ClueRemarkService;
 import com.crm.workbench.service.ClueService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +45,10 @@ public class ClueController {
     private DicValueService dicValueService;
     @Autowired
     private ClueService clueService;
+    @Autowired
+    private ClueRemarkService clueRemarkService;
+    @Autowired
+    private ActivityService activityService;
 
     /**
      * 跳转主页面
@@ -60,13 +68,14 @@ public class ClueController {
         modelAndView.setViewName("workbench/clue/index");
         return modelAndView;
     }
+
     /**
      * 插入线索
      */
     @RequestMapping("/workbench/clue/saveCreateClue.do")
     @ResponseBody
-    public Object saveCreateClue(Clue clue, HttpSession session){
-        User user= (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
+    public Object saveCreateClue(Clue clue, HttpSession session) {
+        User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
         PageBean pageBean = new PageBean();
         /*封装参数*/
         clue.setId(UUIDUtils.getUUID());
@@ -75,9 +84,9 @@ public class ClueController {
         System.out.println(clue);
         try {
             int saveClue = clueService.saveClue(clue);
-            if (saveClue>0) {
+            if (saveClue > 0) {
                 pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
-            }else{
+            } else {
                 pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在维护中...");
             }
@@ -88,15 +97,32 @@ public class ClueController {
         }
         return pageBean;
     }
+
     /**
      * 根据条件分页查询
      */
     @RequestMapping("/workbench/clue/queryClueByConditionForPage.do")
     @ResponseBody
-    public String queryClueByConditionForPage(@RequestBody Map<String,String> map) throws JsonProcessingException {
+    public String queryClueByConditionForPage(@RequestBody Map<String, String> map) throws JsonProcessingException {
         System.out.println(map);
         ObjectMapper objectMapper = new ObjectMapper();
         PageInfo<Clue> cluePageInfo = clueService.queryClueByConditionForPage(map);
         return objectMapper.writeValueAsString(cluePageInfo);
+    }
+
+    @RequestMapping("/workbench/clue/detailClue.do")
+    public ModelAndView detailClue(String id) {
+        ModelAndView modelAndView = new ModelAndView();
+        /*调用service查询数据*/
+        Clue clue = clueService.queryClueForDetailById(id);
+        List<ClueRemark> clueRemarkList = clueRemarkService.queryClueRemarkForDetailByClueId(id);
+        List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
+        /*存放数据*/
+        modelAndView.addObject("clue", clue);
+        modelAndView.addObject("clueRemarkList", clueRemarkList);
+        modelAndView.addObject("activityList", activityList);
+        /*跳转视图*/
+        modelAndView.setViewName("workbench/clue/detail");
+        return modelAndView;
     }
 }

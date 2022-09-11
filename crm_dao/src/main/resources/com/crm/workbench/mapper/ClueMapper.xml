@@ -393,7 +393,7 @@
     <select id="selectClueForDetailById" resultMap="ClueResultMap" parameterType="string">
         select clue.id,
                clue.fullname,
-               dic1.value as applelallation,
+               dic1.value as appellation,
                user1.name as owner,
                clue.company,
                clue.job,
