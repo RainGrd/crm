@@ -329,4 +329,11 @@
                  left join tbl_user user3 on act.edit_by = user3.id
         where act.id = #{id,jdbcType=VARCHAR}
     </select>
+    <select id="selectActivityForDetailByClueId" resultMap="ActivityResultMap" parameterType="string">
+        select ac.id, ac.name, ac.create_time, ac.end_date, u.name as owner
+        from tbl_activity ac
+                 join tbl_user u on u.id = ac.owner
+                 join tbl_clue_activity_relation car on ac.id = car.activity_id
+        where car.clue_id = #{clueId,jdbcType=VARCHAR}
+    </select>
 </mapper>

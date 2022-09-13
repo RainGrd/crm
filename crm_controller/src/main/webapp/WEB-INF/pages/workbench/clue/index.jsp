@@ -107,13 +107,6 @@
                                 <c:forEach items="${clueStateList}" var="cs">
                                     <option value="${cs.id}">${cs.value}</option>
                                 </c:forEach>
-                                <%-- <option>试图联系</option>
-                                 <option>将来联系</option>
-                                 <option>已联系</option>
-                                 <option>虚假线索</option>
-                                 <option>丢失线索</option>
-                                 <option>未联系</option>
-                                 <option>需要条件</option>--%>
                             </select>
                         </div>
                     </div>

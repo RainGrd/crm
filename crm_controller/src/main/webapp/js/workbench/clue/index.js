@@ -78,7 +78,7 @@ $(function () {
                     /*关闭模态窗口*/
                     $('#createClueModal').modal('hide');
                     /*刷新列表*/
-                    queryClueByConditionForPage(1,$('#page').bs_pagination("getOption","rowsPerPage"))
+                    queryClueByConditionForPage(1, $('#page').bs_pagination("getOption", "rowsPerPage"))
                 } else {
                     alert(result.message);
                     $('#createClueModal').modal('show');
@@ -138,8 +138,7 @@ $(function () {
                 $.each(data, function (index, obj) {
                     tableData += ' <tr>\n' +
                         '<td><input type="checkbox" value="' + obj.id + '"/></td>\n' +
-                        '<td><a style="text-decoration: none; cursor: pointer;"\n' +
-                        '       onclick="window.location.href='+"'workbench/clue/detailClue.do?id="+obj.id+';">' + obj.fullName + '</a></td>\n' +
+                        '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='+''+' "> + obj.fullName + </a></td>\n' +
                         '<td>' + obj.company + '</td>\n' +
                         '<td>' + obj.mPhone + '</td>\n' +
                         '<td>' + obj.phone + '</td>\n' +
