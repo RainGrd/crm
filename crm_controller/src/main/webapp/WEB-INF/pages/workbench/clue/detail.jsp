@@ -81,7 +81,7 @@
                 <table id="activityTable" class="table table-hover" style="width: 900px; position: relative;top: 10px;">
                     <thead>
                     <tr style="color: #B3B3B3;">
-                        <td><input type="checkbox"/></td>
+                        <td><input id="checkboxAll" type="checkbox"/></td>
                         <td>名称</td>
                         <td>开始日期</td>
                         <td>结束日期</td>
@@ -109,7 +109,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+                <button type="button" id="saveClueActivityBtn" class="btn btn-primary" data-dismiss="modal">关联</button>
             </div>
         </div>
     </div>
@@ -318,11 +318,11 @@
                     <td></td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="activityList">
                 <c:forEach items="${activityList}" var="activity">
                     <tr>
                         <td>${activity.name}</td>
-                        <td>${activity.createTime}</td>
+                        <td>${activity.startDate}</td>
                         <td>${activity.endDate}</td>
                         <td>${activity.owner}</td>
                         <td><a href="javascript:void(0);" activityId="${activity.id}"

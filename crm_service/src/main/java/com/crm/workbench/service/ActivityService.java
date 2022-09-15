@@ -83,4 +83,9 @@ public interface ActivityService {
      * @return java.util.List
      */
     List<Activity> queryActivityByActivityNameAndClueId(Map<String, String> map);
+
+    /**
+     *
+     */
+    List<Activity> queryActivityForDetailByIds(String[] activityIds);
 }

@@ -26,14 +26,15 @@ import java.util.UUID;
  * Description: 市场活动业务层测试类
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:applicationContext-service.xml","classpath:applicationContext-dao.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext-service.xml", "classpath:applicationContext-dao.xml"})
 public class ActivityServiceTest {
     @Autowired
     private ActivityService activityService;
+
     @Test
-    public void insertActivity(){
+    public void insertActivity() {
         Activity activity = new Activity();
-        activity.setId(UUID.randomUUID().toString().replace("-",""));
+        activity.setId(UUID.randomUUID().toString().replace("-", ""));
         activity.setOwner("张三");
         activity.setName("测试01");
         activity.setStartDate("2020-10-20");
@@ -44,19 +45,23 @@ public class ActivityServiceTest {
         activity.setCreateBy("40f6cdea0bd34aceb77492a1656d9fb3");
         activityService.saveCreateActivity(activity);
     }
+
     @Test
-    public void queryActivityList(){
+    public void queryActivityList() {
         System.out.println(activityService.queryActivityList());
     }
+
     @Test
-    public void queryActivityFieldByTableName(){
+    public void queryActivityFieldByTableName() {
         System.out.println(activityService.queryActivityFieldByTableName("tbl_activity"));
     }
+
     @Test
-    public void queryActivityListByIds(){
-        String[] ids={"39981e5f2dff482b91f3bf5818e3ceab","4a83f3b17d954bbd9be5bc4d85937c48","802b0c47de3c4bf1b466d38dd82fe0b4"};
+    public void queryActivityListByIds() {
+        String[] ids = {"39981e5f2dff482b91f3bf5818e3ceab", "4a83f3b17d954bbd9be5bc4d85937c48", "802b0c47de3c4bf1b466d38dd82fe0b4"};
         System.out.println(activityService.queryActivityByIds(ids));
     }
+
     @Test
     public void saveCreateActivityByList() throws Exception {
         File file = new File("D:\\lenovo\\Desktop\\activityList.xls");
@@ -69,6 +74,14 @@ public class ActivityServiceTest {
         List<String[]> list = ImportExcelUtil.readExcel(mulFile);
         User user = new User();
         user.setId("40f6cdea0bd34aceb77492a1656d9fb3");
-        activityService.saveCreateActivityByList(list,user);
+        activityService.saveCreateActivityByList(list, user);
+    }
+
+    @Test
+    public void queryActivityForDetailByIdsTest() {
+        String[] ids = new String[10];
+        ids[0] = "48391170784c46c9b0b2f86943586709";
+        ids[1] = "4a83f3b17d954bbd9be5bc4d85937c48";
+        System.out.println(activityService.queryActivityForDetailByIds(ids));
     }
 }

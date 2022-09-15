@@ -10,8 +10,10 @@ import com.crm.settings.service.DicValueService;
 import com.crm.settings.service.UserService;
 import com.crm.workbench.entity.Activity;
 import com.crm.workbench.entity.Clue;
+import com.crm.workbench.entity.ClueActivityRelation;
 import com.crm.workbench.entity.ClueRemark;
 import com.crm.workbench.service.ActivityService;
+import com.crm.workbench.service.ClueActivityRelationService;
 import com.crm.workbench.service.ClueRemarkService;
 import com.crm.workbench.service.ClueService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,11 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +54,8 @@ public class ClueController {
     private ClueRemarkService clueRemarkService;
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private ClueActivityRelationService clueActivityRelationService;
 
     /**
      * 跳转主页面
@@ -135,8 +141,46 @@ public class ClueController {
     public String queryActivityByActivityNameAndClueId(@RequestBody Map<String, String> map) throws JsonProcessingException {
         System.out.println(map);
         List<Activity> activities = activityService.queryActivityByActivityNameAndClueId(map);
+        System.out.println(activities);
         ObjectMapper objectMapper = new ObjectMapper();
         /*返回数据*/
         return objectMapper.writeValueAsString(activities);
+    }
+
+    /**
+     * 插入跟线索有关的市场活动
+     */
+    @RequestMapping("/workbench/clue/saveBund.do")
+    @ResponseBody
+    public Object saveBund(@RequestParam("activityIds[]") String[] activityIds, @RequestParam("clueId") String clueId) {
+        PageBean pageBean = new PageBean();
+        System.out.println(activityIds);
+        ClueActivityRelation clueActivityRelation = null;
+        System.out.println(clueId);
+        List<ClueActivityRelation> list = new ArrayList<>();
+        for (String activityId : activityIds) {
+            System.out.println(activityId);
+            clueActivityRelation = new ClueActivityRelation();
+            clueActivityRelation.setId(UUIDUtils.getUUID());
+            clueActivityRelation.setActivityId(activityId);
+            clueActivityRelation.setClueId(clueId);
+            list.add(clueActivityRelation);
+        }
+        try {
+            int i = clueActivityRelationService.saveClueActivityRelationByList(list);
+            if (i > 0) {
+                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                List<Activity> activities = activityService.queryActivityForDetailByIds(activityIds);
+                pageBean.setData(activities);
+            } else {
+                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setMessage("系统忙，正在维护中！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setMessage("系统忙，正在维护中！");
+        }
+        return pageBean;
     }
 }

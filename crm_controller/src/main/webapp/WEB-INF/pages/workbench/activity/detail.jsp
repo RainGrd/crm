@@ -57,9 +57,7 @@
     <div class="page-header">
         <h3>市场活动-${activity.name} <small>${activity.startDate} ~ ${activity.endDate}</small></h3>
     </div>
-
 </div>
-
 <br/>
 <br/>
 <br/>

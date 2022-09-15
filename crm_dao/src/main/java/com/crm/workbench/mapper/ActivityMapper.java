@@ -102,5 +102,10 @@ public interface ActivityMapper {
      * @param map 
      * @return java.util.List
      */
-    List<Activity> selectActivityByActivityNameAndClueId(@Param("map") Map<String,String> map);
+    List<Activity> selectActivityByActivityNameAndClueId(Map<String,String> map);
+
+    /**
+     * 根据没关联过的市场活动id数组来查询
+     */
+    List<Activity> selectActivityForDetailByIds(String[] activityIds);
 }
