@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ActivityMapper {
@@ -95,4 +96,11 @@ public interface ActivityMapper {
      * @return
      */
     List<Activity> selectActivityForDetailByClueId(String clueId);
+
+    /**
+     * 根据市场活动name查询市场活动，并且把已经clueID关联过的市场活动排除
+     * @param map 
+     * @return java.util.List
+     */
+    List<Activity> selectActivityByActivityNameAndClueId(@Param("map") Map<String,String> map);
 }

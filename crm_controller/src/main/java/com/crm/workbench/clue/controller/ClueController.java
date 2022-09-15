@@ -16,6 +16,7 @@ import com.crm.workbench.service.ClueRemarkService;
 import com.crm.workbench.service.ClueService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,7 +105,6 @@ public class ClueController {
     @RequestMapping("/workbench/clue/queryClueByConditionForPage.do")
     @ResponseBody
     public String queryClueByConditionForPage(@RequestBody Map<String, String> map) throws JsonProcessingException {
-        System.out.println(map);
         ObjectMapper objectMapper = new ObjectMapper();
         PageInfo<Clue> cluePageInfo = clueService.queryClueByConditionForPage(map);
         return objectMapper.writeValueAsString(cluePageInfo);
@@ -115,6 +115,7 @@ public class ClueController {
         ModelAndView modelAndView = new ModelAndView();
         /*调用service查询数据*/
         Clue clue = clueService.queryClueForDetailById(id);
+        System.out.println(clue);
         List<ClueRemark> clueRemarkList = clueRemarkService.queryClueRemarkForDetailByClueId(id);
         List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
         /*存放数据*/
@@ -124,5 +125,18 @@ public class ClueController {
         /*跳转视图*/
         modelAndView.setViewName("workbench/clue/detail");
         return modelAndView;
+    }
+
+    /**
+     * 根据市场活动名称和线索id查询市场活动
+     */
+    @RequestMapping("/workbench/clue/queryActivityByActivityNameAndClueId.do")
+    @ResponseBody
+    public String queryActivityByActivityNameAndClueId(@RequestBody Map<String, String> map) throws JsonProcessingException {
+        System.out.println(map);
+        List<Activity> activities = activityService.queryActivityByActivityNameAndClueId(map);
+        ObjectMapper objectMapper = new ObjectMapper();
+        /*返回数据*/
+        return objectMapper.writeValueAsString(activities);
     }
 }

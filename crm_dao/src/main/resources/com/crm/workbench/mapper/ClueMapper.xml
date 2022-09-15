@@ -322,7 +322,7 @@
                 #{clue.contactSummary,jdbcType=VARCHAR}, #{clue.nextContactTime,jdbcType=VARCHAR},
                 #{clue.address,jdbcType=VARCHAR});
     </insert>
-    <select id="selectClueListByConditionForPage" resultType="clue" resultMap="ClueResultMap" parameterType="map">
+    <select id="selectClueListByConditionForPage" resultMap="ClueResultMap" parameterType="map">
         select clue.id,clue.fullname,
         clue.company,
         clue.phone,
@@ -408,6 +408,7 @@
                user3.name as edit_by,
                clue.edit_time,
                clue.description,
+               clue.contact_summary,
                clue.next_contact_time,
                clue.address
         from tbl_clue clue

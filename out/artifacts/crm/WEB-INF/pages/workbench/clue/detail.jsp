@@ -72,7 +72,7 @@
                 <div class="btn-group" style="position: relative; top: 18%; left: 8px;">
                     <form class="form-inline" role="form">
                         <div class="form-group has-feedback">
-                            <input type="text" class="form-control" style="width: 300px;"
+                            <input type="text" id="searchActivityTxt" class="form-control" style="width: 300px;"
                                    placeholder="请输入市场活动名称，支持模糊查询">
                             <span class="glyphicon glyphicon-search form-control-feedback"></span>
                         </div>
@@ -89,8 +89,8 @@
                         <td></td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
+                    <tbody id="tBody">
+                    <%--<tr>
                         <td><input type="checkbox"/></td>
                         <td>发传单</td>
                         <td>2020-10-10</td>
@@ -103,7 +103,7 @@
                         <td>2020-10-10</td>
                         <td>2020-10-20</td>
                         <td>zhangsan</td>
-                    </tr>
+                    </tr>--%>
                     </tbody>
                 </table>
             </div>
@@ -142,6 +142,7 @@
 <!-- 详细信息 -->
 <div style="position: relative; top: -70px;">
     <div style="position: relative; left: 40px; height: 30px;">
+        <div class="hidden" id="clueId">${clue.id}</div>
         <div style="width: 300px; color: gray;">名称</div>
         <div style="width: 300px;position: relative; left: 200px; top: -20px;">
             <b>${clue.fullName}${clue.appellation}</b></div>
@@ -195,19 +196,19 @@
         <div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
     </div>
     <div style="position: relative; left: 40px; height: 30px; top: 70px;">
-        <div style="width: 300px; color: gray;">${clue.description}</div>
+        <div style="width: 300px; color: gray;">描述</div>
         <div style="width: 630px;position: relative; left: 200px; top: -20px;">
             <b>
-                这是一条线索的描述信息
+                ${clue.description}
             </b>
         </div>
         <div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: -20px;"></div>
     </div>
     <div style="position: relative; left: 40px; height: 30px; top: 80px;">
-        <div style="width: 300px; color: gray;">${clue.contactSummary}</div>
+        <div style="width: 300px; color: gray;">联系纪要</div>
         <div style="width: 630px;position: relative; left: 200px; top: -20px;">
             <b>
-                这条线索即将被转换
+                ${clue.contactSummary}
             </b>
         </div>
         <div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: -20px;"></div>
@@ -350,7 +351,7 @@
         </div>
 
         <div>
-            <a href="javascript:void(0);" data-toggle="modal" data-target="#bundModal"
+            <a href="javascript:void(0);" id="bundActivityBtn"
                style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
         </div>
     </div>
@@ -358,5 +359,6 @@
 
 
 <div style="height: 200px;"></div>
+<script src="js/workbench/clue/detail.js"></script>
 </body>
 </html>

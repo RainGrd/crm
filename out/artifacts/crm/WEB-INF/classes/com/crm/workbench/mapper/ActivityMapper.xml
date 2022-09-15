@@ -336,4 +336,15 @@
                  join tbl_clue_activity_relation car on ac.id = car.activity_id
         where car.clue_id = #{clueId,jdbcType=VARCHAR}
     </select>
+
+    <select id="selectActivityByActivityNameAndClueId" resultMap="ActivityResultMap" parameterType="map">
+        select act.id, act.name, act.start_date, act.end_date, user.name as owner
+        from tbl_activity act
+                 join tbl_user user on user.id = act.owner
+        where act.name like '%'#{map.activityName}'%'
+          and act.id not in (
+            select activity_id
+            from tbl_clue_activity_relation
+            where clue_id = #{map.clueId})
+    </select>
 </mapper>

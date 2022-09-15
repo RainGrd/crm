@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2017-2022, RainGrd
@@ -72,12 +73,12 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public int saveCreateActivityByList(List<String[]> list,User user) {
-        List<Activity> activityList =new ArrayList<>();
-        Activity activity =null;
+    public int saveCreateActivityByList(List<String[]> list, User user) {
+        List<Activity> activityList = new ArrayList<>();
+        Activity activity = null;
         for (String[] str : list) {
-            activity =new Activity();
-            for (int i = 0; i <str.length; i++){
+            activity = new Activity();
+            for (int i = 0; i < str.length; i++) {
                 System.out.println(str[i]);
                 if (i == 0 && !str[i].equals("")) {
                     activity.setId(UUIDUtils.getUUID());
@@ -121,5 +122,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> queryActivityForDetailByClueId(String clueId) {
         return activityMapper.selectActivityForDetailByClueId(clueId);
+    }
+
+    @Override
+    public List<Activity> queryActivityByActivityNameAndClueId(Map<String, String> map) {
+        return activityMapper.selectActivityByActivityNameAndClueId(map);
     }
 }
