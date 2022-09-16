@@ -132,7 +132,7 @@ public class DateTimeUtil {
      * @return
      */
     public static String convertDateCustomStringFormat(Date date) {
-        return convertDateCustomStringFormat(date, "MM月dd日 hh:mm");
+        return convertDateCustomStringFormat(date, Constants.YMD_HMS);
     }
 
     /**

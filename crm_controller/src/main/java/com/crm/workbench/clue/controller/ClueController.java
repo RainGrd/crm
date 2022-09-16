@@ -237,4 +237,27 @@ public class ClueController {
         return objectMapper.writeValueAsString(activities);
     }
 
+    /**
+     * 转换线索
+     *
+     * @return
+     */
+    @RequestMapping("/workbench/clue/convertClue.do")
+    @ResponseBody
+    public Object convertClue(@RequestBody Map<String, Object> map, HttpSession session) {
+        PageBean pageBean = new PageBean();
+        User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
+        map.put(ConstantsEnum.SESSION_USER.getStr(), user);
+        System.out.println(map);
+        try {
+            clueService.saveConvert(map);
+            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+        } catch (Exception e) {
+            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setMessage("系统忙，正在维护中！");
+            e.printStackTrace();
+        }
+        return pageBean;
+    }
+
 }

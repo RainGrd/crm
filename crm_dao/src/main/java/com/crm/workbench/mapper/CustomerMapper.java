@@ -1,6 +1,7 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.Customer;
+import org.apache.ibatis.annotations.Param;
 
 public interface CustomerMapper {
     /**
@@ -52,7 +53,10 @@ public interface CustomerMapper {
     int updateByPrimaryKey(Customer record);
     /**
      * 将线索有关公司的信息转换到客户表中
+     *
      */
-    int insertCustomer(Customer  customer);
-    /*expect edi null*/
+    int insertCustomer(@Param("customer") Customer customer);
+    /**
+     *
+     */
 }

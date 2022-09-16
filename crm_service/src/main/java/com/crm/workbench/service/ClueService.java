@@ -34,4 +34,9 @@ public interface ClueService {
      * @return com.crm.workbench.entity.Clue
      */
     Clue queryClueForDetailById(String id);
+
+    /**
+     * 线索转换客户，需要将所有通过的方法写在一个事务中
+     */
+    void saveConvert(Map<String,Object> map);
 }

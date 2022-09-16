@@ -57,4 +57,14 @@ public interface ClueRemarkMapper {
      * 根据线索id查询多条线索备注
      */
     List<ClueRemark> selectClueRemarkForDetailByClueId(String clueId);
+
+    /**
+     * 根据线索id查询该线索下的备注
+     */
+    List<ClueRemark> selectClueRemarkByClueId(String clueId);
+
+    /**
+     * 根据id删除该线索下的所有备注
+     */
+    int deleteClueRemarkByClueId(String clueId);
 }

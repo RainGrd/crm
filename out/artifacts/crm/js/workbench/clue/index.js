@@ -52,6 +52,7 @@ $(function () {
             contactSummary: $('#create-contactSummary').val(),
             nextContactTime: $('#create-nextContactTime').val(),
             address: $('#create-address').val(),
+            clueStatus: 0,
         }
         /*表单验证*/
         //非空判断
@@ -73,7 +74,6 @@ $(function () {
             dataType: 'json',
             data: $clue,
             success: function (result) {
-                console.log(result);
                 if (result.code === '1') {
                     /*关闭模态窗口*/
                     $('#createClueModal').modal('hide');
@@ -90,7 +90,7 @@ $(function () {
             }
         })
     });
-    
+
     queryClueByConditionForPage(1, 5);
 
     /**

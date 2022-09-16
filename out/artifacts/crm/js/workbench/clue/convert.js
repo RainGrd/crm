@@ -36,23 +36,18 @@ $(function () {
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify({
-                activityName: name,
-                clueId: id
+                activityName: name, clueId: id
             }),
             success: function (result) {
                 console.log(result);
                 /*遍历数据*/
                 let str = '';
                 $.each(result, function (index, obj) {
-                    str += '<tr>\n' +
-                        '<td><input type="radio" name="activity" activityName="' + obj.name + '" value="' + obj.id + '"/></td>\n' +
-                        '<td>' + obj.name + '</td>\n' +
-                        '<td>' + obj.startDate + '</td>\n' +
-                        '<td>' + obj.endDate + '</td>\n' +
-                        '<td>' + obj.owner + '</td></tr>'
+                    str += '<tr>\n' + '<td><input type="radio" name="activity" activityName="' + obj.name + '" value="' + obj.id + '"/></td>\n' + '<td>' + obj.name + '</td>\n' + '<td>' + obj.startDate + '</td>\n' + '<td>' + obj.endDate + '</td>\n' + '<td>' + obj.owner + '</td></tr>'
                 });
                 $('#tableData').html(str);
-            }, error: function (error) {
+            },
+            error: function (error) {
                 console.log("出错了！")
             }
         });
@@ -71,5 +66,54 @@ $(function () {
         $('#activityName').val(activityName);
         //关闭搜索市场活动的模态窗口
         $("#searchActivityModal").modal("hide");
+    })
+    /**
+     * 给交易按钮添加单击事件
+     */
+    $('#saveConvertBtn').on("click", function () {
+        /*收集参数*/
+        let clueId = $('#title').attr('clueId');
+        let amountOfMoney = $("#amountOfMoney").val().trim();
+        let tradeName = $("#tradeName").val().trim();
+        let expectedClosingDate = $("#expectedClosingDate").val();
+        let stage = $("#stage").val();
+        let activityId = $('#activityId').val();
+        console.log(activityId)
+        let isCreateTran = $('#isCreateTransaction').prop("checked");
+        let activityName = $("#activityName").val();
+        /*表单验证*/
+        var moneyReg = /^(([1-9]\d*)|0)$/;
+        if (!moneyReg.test(amountOfMoney)) {
+            alert("金钱只能为非负整数");
+            return false;
+        }
+        /*发送请求*/
+        $.ajax({
+            url: 'workbench/clue/convertClue.do',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                clueId: clueId,
+                amountOfMoney: amountOfMoney,
+                tradeName: tradeName,
+                expectedClosingDate: expectedClosingDate,
+                stage: stage,
+                activityId: activityId,
+                isCreateTran: isCreateTran,
+            }),
+            success: function (result) {
+                console.log(result);
+                if (result.code === '1') {
+                    /*跳转到线索主页面*/
+                    window.location.href = 'workbench/clue/index.do';
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function (error) {
+                console.log('出错了');
+            }
+        })
     })
 });
