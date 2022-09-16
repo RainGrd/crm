@@ -79,7 +79,6 @@ public class ActivityServiceImpl implements ActivityService {
         for (String[] str : list) {
             activity = new Activity();
             for (int i = 0; i < str.length; i++) {
-                System.out.println(str[i]);
                 if (i == 0 && !str[i].equals("")) {
                     activity.setId(UUIDUtils.getUUID());
                 } else if (i == 1 && !str[i].equals("")) {
@@ -104,12 +103,9 @@ public class ActivityServiceImpl implements ActivityService {
                     activity.setEditBy(str[i]);
                 } else if (i == 11 && !str[i].equals("")) {
                     activity.setActivityStatus(Integer.parseInt(str[i]));
-
                 }
             }
-            System.out.println(activity);
             activityList.add(activity);
-            System.out.println(activityList);
         }
         return activityMapper.insertActivityByList(activityList);
     }
@@ -132,5 +128,10 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public List<Activity> queryActivityForDetailByIds(String[] activityIds) {
         return activityMapper.selectActivityForDetailByIds(activityIds);
+    }
+
+    @Override
+    public List<Activity> queryAssociatedActivityByActivityNameAndClueId(Map<String, String> map) {
+        return activityMapper.selectAssociatedActivityByActivityNameAndClueId(map);
     }
 }

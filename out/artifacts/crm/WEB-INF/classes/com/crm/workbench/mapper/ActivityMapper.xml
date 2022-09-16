@@ -356,4 +356,14 @@
             #{id}
         </foreach>
     </select>
+    <select id="selectAssociatedActivityByActivityNameAndClueId" resultMap="ActivityResultMap" parameterType="map">
+        select act.id, act.name, act.start_date, act.end_date, user.name as owner
+        from tbl_activity act
+                 join tbl_user user on user.id = act.owner
+        where act.name like concat('%', #{activityName}, '%')
+          and act.id in (
+            select activity_id
+            from tbl_clue_activity_relation
+            where clue_id = #{clueId})
+    </select>
 </mapper>

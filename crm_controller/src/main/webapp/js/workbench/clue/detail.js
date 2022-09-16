@@ -101,10 +101,50 @@ $(function () {
                         '<td>' + obj.owner + '</td>\n' +
                         '<td><a href="javascript:void(0);"  style="text-decoration: none;"><span class="glyphicon glyphicon-remove"></span>解除关联</a></td></tr>';
                 });
-                $('#activityList').html(htmlStr);
+                $('#activityList').append(htmlStr);
             }, error: function (error) {
                 console.log('出错了')
             }
         })
+    });
+    /**
+     * 解除关联市场活动按钮
+     */
+    $('#activityList').on('click', 'a', function () {
+        /*收集参数*/
+        let activityId = $(this).attr("activityId");
+        let clueId = $('#clueId').text();
+        /*弹出删除提示*/
+        if (confirm("确定要删除吗?")) {
+            /*发送Ajax请求*/
+            $.ajax({
+                url: 'workbench/clue/deleteClueActivityByClueIdActivityId.do',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    activityId: activityId,
+                    clueId: clueId
+                }),
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                    if (result.code === '1') {
+                        /*刷新列表*/
+                        $("#tr_" + clueId).remove();
+                    } else {
+                        alert(result.message);
+                    }
+
+                }, error: function (error) {
+                    console.log('出错了！')
+                }
+            })
+        }
+    });
+    /**
+     * 线索转换按钮点击事件
+     */
+    $('#convertClueBtn').on('click', function () {
+        window.location.href = 'workbench/clue/toConvert.do?clueId=' + $('#clueId').text();
     })
 })

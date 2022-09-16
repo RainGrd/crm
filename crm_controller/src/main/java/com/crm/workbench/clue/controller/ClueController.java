@@ -183,4 +183,58 @@ public class ClueController {
         }
         return pageBean;
     }
+
+    /**
+     * 删除关联的市场活动
+     *
+     * @param clueActivityRelation 线索关联的市场活动对象
+     */
+    @RequestMapping("/workbench/clue/deleteClueActivityByClueIdActivityId.do")
+    @ResponseBody
+    public Object deleteClueActivityByClueIdActivityId(@RequestBody ClueActivityRelation clueActivityRelation) {
+        PageBean pageBean = new PageBean();
+        try {
+            int clueActivityRelationByClueIdActivityId = clueActivityRelationService.deleteClueActivityRelationByClueIdActivityId(clueActivityRelation);
+            if (clueActivityRelationByClueIdActivityId > 0) {
+                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+            } else {
+                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setMessage("系统忙，正在维护中！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setMessage("系统忙，正在维护中！");
+        }
+        return pageBean;
+    }
+
+    /**
+     * 跳转线索转换页面
+     */
+    @RequestMapping("/workbench/clue/toConvert.do")
+    public ModelAndView toConvert(String clueId) {
+        ModelAndView modelAndView = new ModelAndView();
+        /*查询线索*/
+        Clue clue = clueService.queryClueForDetailById(clueId);
+        /*查询所有阶段*/
+        List<DicValue> stageList = dicValueService.queryDicValueByTypeCode("stage");
+        modelAndView.addObject("clue", clue);
+        modelAndView.addObject("stageList", stageList);
+        /*跳转至页面*/
+        modelAndView.setViewName("workbench/clue/convert");
+        return modelAndView;
+    }
+
+    /**
+     * 查询不关联的市场活动
+     */
+    @RequestMapping("/workbench/clue/queryAssociatedActivityByActivityNameAndClueId.do")
+    @ResponseBody
+    public String queryAssociatedActivityByActivityNameAndClueId(@RequestBody Map<String, String> map) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Activity> activities = activityService.queryAssociatedActivityByActivityNameAndClueId(map);
+        return objectMapper.writeValueAsString(activities);
+    }
+
 }

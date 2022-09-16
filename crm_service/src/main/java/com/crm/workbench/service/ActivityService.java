@@ -85,7 +85,12 @@ public interface ActivityService {
     List<Activity> queryActivityByActivityNameAndClueId(Map<String, String> map);
 
     /**
-     *
+     * 根据没关联的市场活动id数组来查询数据
      */
     List<Activity> queryActivityForDetailByIds(String[] activityIds);
+
+    /**
+     * 查询不想关联的市场活动
+     */
+    List<Activity> queryAssociatedActivityByActivityNameAndClueId(Map<String,String> map);
 }

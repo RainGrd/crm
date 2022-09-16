@@ -60,4 +60,10 @@ public interface ClueActivityRelationMapper {
      * @return
      */
     int insertClueActivityRelationByList(@Param("list") List<ClueActivityRelation> activityRelationList);
+
+    /**
+     * 解除关联的市场活动
+     */
+    int deleteClueRelationByClueIdActivityId(@Param("clueActivityRelation") ClueActivityRelation clueActivityRelation);
+
 }

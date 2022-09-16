@@ -39,6 +39,7 @@
         delete from tbl_clue_activity_relation
         where id = #{id,jdbcType=CHAR}
     </delete>
+
     <insert id="insert" parameterType="com.crm.workbench.entity.ClueActivityRelation">
         <!--
           WARNING - @mbggenerated
@@ -116,4 +117,10 @@
             (#{obj.id},#{obj.clueId},#{obj.activityId})
         </foreach>
     </insert>
+    <delete id="deleteClueRelationByClueIdActivityId" parameterType="clueActivityRelation">
+        delete
+        from tbl_clue_activity_relation
+        where clue_id = #{clueActivityRelation.clueId,jdbcType=VARCHAR}
+          and activity_id = #{clueActivityRelation.activityId,jdbcType=VARCHAR};
+    </delete>
 </mapper>

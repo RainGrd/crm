@@ -108,4 +108,8 @@ public interface ActivityMapper {
      * 根据没关联过的市场活动id数组来查询
      */
     List<Activity> selectActivityForDetailByIds(String[] activityIds);
+    /**
+     * 查询关联过的市场活动
+     */
+    List<Activity> selectAssociatedActivityByActivityNameAndClueId(Map<String,String> map);
 }
