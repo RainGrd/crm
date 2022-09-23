@@ -139,7 +139,7 @@
 <div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
     <input class="btn btn-primary" id="saveConvertBtn" type="button" value="转换">
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <input class="btn btn-default" type="button" value="取消">
+    <input class="btn btn-default" id="cancelBtn" type="button" value="取消">
 </div>
 
 <script type="text/javascript" src="js/workbench/clue/convert.js"></script>

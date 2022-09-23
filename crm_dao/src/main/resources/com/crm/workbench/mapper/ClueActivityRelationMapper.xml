@@ -124,8 +124,11 @@
         where clue_id = #{clueActivityRelation.clueId,jdbcType=VARCHAR}
           and activity_id = #{clueActivityRelation.activityId,jdbcType=VARCHAR};
     </delete>
-    <update id="deleteClueActivityRelationByClueId" parameterType="string">
-    </update>
+    <delete id="deleteClueActivityRelationByClueId" parameterType="string">
+        delete
+        from tbl_clue_activity_relation
+        where clue_id = #{clueId,jdbcType=VARCHAR};
+    </delete>
     <select id="clueActivityRelationList" resultMap="ClueActivityRelationResultMap" parameterType="string">
         select
         <include refid="ClueActivityRelation_Column_List">

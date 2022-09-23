@@ -149,6 +149,7 @@ public class ClueServiceImpl implements ClueService {
                 customerRemark.setId(UUIDUtils.getUUID());
                 customerRemarkList.add(customerRemark);
                 /*封装联系人备注对象*/
+                contactsRemark=new ContactsRemark();
                 contactsRemark.setId(UUIDUtils.getUUID());
                 contactsRemark.setCreateBy(clueRemark.getCreateBy());
                 contactsRemark.setCreateTime(clueRemark.getCreateTime());
@@ -205,11 +206,12 @@ public class ClueServiceImpl implements ClueService {
                     transactionRemark.setCreateBy(clueRemark.getCreateBy());
                     transactionRemark.setCreateTime(clueRemark.getCreateTime());
                     transactionRemark.setEditBy(clueRemark.getEditBy());
+                    transactionRemark.setEditFlag(clueRemark.getEditFlag());
                     transactionRemark.setEditTime(clueRemark.getEditTime());
                     transactionRemark.setId(UUIDUtils.getUUID());
                     transactionRemark.setNoteContent(clueRemark.getNoteContent());
                     transactionRemark.setTranId(transaction.getId());
-                    System.out.println(transaction);
+                    System.out.println(transactionRemark);
                     transactionRemarks.add(transactionRemark);
                 }
                 transactionRemarkMapper.insertTransactionRemark(transactionRemarks);
@@ -218,7 +220,7 @@ public class ClueServiceImpl implements ClueService {
         /*删除显示该线索下的所有备注*/
         clueRemarkMapper.deleteClueRemarkByClueId(clueId);
         /*删除该线索和市场活动的关联关系*/
-
+        clueActivityRelationMapper.deleteClueActivityRelationByClueId(clueId);
         /*删除该线索*/
         clueMapper.deleteClueByClueId(clueId);
     }

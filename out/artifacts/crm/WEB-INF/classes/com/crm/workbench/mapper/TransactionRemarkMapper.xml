@@ -14,7 +14,7 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_time" property="editTime" jdbcType="CHAR"/>
         <result column="edit_flag" property="editFlag" jdbcType="CHAR"/>
-        <result column="tran_id" property="tranId" jdbcType="CHAR"/>
+        <result column="tran_id" property="tranId" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="TransactionRemark_Column_List">
         <!--
@@ -166,13 +166,13 @@
         tran_id = #{tranId,jdbcType=CHAR}
         where id = #{id,jdbcType=CHAR}
     </update>
-    <insert id="insertTransactionRemark" parameterType="transaction">
+    <insert id="insertTransactionRemark" parameterType="transactionRemark">
         insert into tbl_transaction_remark(id, note_content, create_by, create_time, edit_by, edit_time, edit_flag,
         tran_id)
         values
         <foreach collection="list" item="obj" separator=",">
-            (#{obj.id},#{obj.noteContent},#{obj.createBy},#{obj.createTime},#{obj.editBy},#{obj.editTime},#{obj.editFlag},#{obj.
-                                           tranId})
+            (#{obj.id},#{obj.noteContent},#{obj.createBy},#{obj.createTime},#{obj.editBy}
+            ,#{obj.editTime},#{obj.editFlag},#{obj.tranId})
         </foreach>
     </insert>
 </mapper>

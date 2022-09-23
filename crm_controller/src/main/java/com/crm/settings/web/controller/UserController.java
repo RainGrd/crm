@@ -66,29 +66,29 @@ public class UserController {
         PageBean pageBean = new PageBean();
         if (user == null) {
             /*查询为空,登录失败*/
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("用户名或密码错误！");
         } else {
             /*判断账号是否过期*/
             if (DateTimeUtil.ConvertDateStringYMD(new Date()).compareTo(user.getCreateTime()) > 0) {
                 /*账号过期，登录失败*/
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("账号过期！");
             } else
                 /*判断账号是否被锁定*/
                 if ("0".equals(user.getLockState())) {
                     /*账号锁定，登录失败*/
-                    pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                    pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                     pageBean.setMessage("账号锁定！");
                 } else
                     /*判断IP是否受限*/
                     if (!user.getAllowIps().contains(request.getRemoteAddr())) {
                         /*ip受限，登录失败*/
-                        pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                        pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                         pageBean.setMessage("ip受限！");
                     } else {
                         /*登录成功！*/
-                        pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                        pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
                         /*把User对象保存到session对象中*/
                         session.setAttribute(ConstantsEnum.SESSION_USER.getStr(), user);
                         /*判断用户是否需要记住密码*/

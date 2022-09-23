@@ -298,7 +298,6 @@
                 /*发送请求*/
                 $.ajax({
                     url: 'workbench/activity/importExcelActivity.do',
-
                     type: 'post',
                     data: formData,
                     processData: false,

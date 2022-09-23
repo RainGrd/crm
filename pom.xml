@@ -23,7 +23,7 @@
         <log4j.version>2.9.0</log4j.version>
         <poi.version>3.17</poi.version>
     </properties>
-    <!--mysql-->
+
     <dependencyManagement>
         <dependencies>
             <!--son modely依赖-->
@@ -147,6 +147,7 @@
                 <version>2.2</version>
                 <scope>provided</scope>
             </dependency>
+            <!--jstl-->
             <dependency>
                 <groupId>javax.servlet.jsp.jstl</groupId>
                 <artifactId>jstl-api</artifactId>

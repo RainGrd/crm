@@ -168,8 +168,11 @@
     </update>
     <insert id="insertCustomerRemarkByList" parameterType="customerRemark">
         insert into tbl_customer_remark (id, note_content, create_by, create_time, edit_by, edit_time, edit_flag,
-                                         customer_id)
-        VALUES (#{id}, #{noteContent}, #{createBy}, #{createTime}, #{editBy}, #{editTime}, #{editFlag}, #{
-                                         customerId})
+        customer_id)
+        VALUES
+        <foreach collection="list" separator="," item="obj">
+           (#{obj.id}, #{obj.noteContent}, #{obj.createBy}, #{obj.createTime}, #{obj.editBy}, #{obj.editTime},
+            #{obj.editFlag}, #{obj.customerId})
+        </foreach>
     </insert>
 </mapper>

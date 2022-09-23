@@ -18,6 +18,6 @@ public class IndexController {
     @RequestMapping("/")
     public String index(){
         System.out.println("index");
-        return "index";
+        return "redirect:index";
     }
 }

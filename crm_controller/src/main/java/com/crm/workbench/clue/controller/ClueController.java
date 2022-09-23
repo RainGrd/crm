@@ -18,7 +18,6 @@ import com.crm.workbench.service.ClueRemarkService;
 import com.crm.workbench.service.ClueService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +62,7 @@ public class ClueController {
     @RequestMapping("/workbench/clue/index.do")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
+        /*查询数据*/
         List<User> users = userService.queryAllUsers();
         List<DicValue> appellationList = dicValueService.queryDicValueByTypeCode("appellation");
         List<DicValue> clueStateList = dicValueService.queryDicValueByTypeCode("clueState");
@@ -71,6 +71,7 @@ public class ClueController {
         modelAndView.addObject("appellationList", appellationList);
         modelAndView.addObject("clueStateList", clueStateList);
         modelAndView.addObject("sourceList", sourceList);
+
         /*请求转发*/
         modelAndView.setViewName("workbench/clue/index");
         return modelAndView;
@@ -92,14 +93,14 @@ public class ClueController {
         try {
             int saveClue = clueService.saveClue(clue);
             if (saveClue > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在维护中...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在维护中...");
         }
         return pageBean;
@@ -116,6 +117,12 @@ public class ClueController {
         return objectMapper.writeValueAsString(cluePageInfo);
     }
 
+    /**
+     * 展示线索明细页面
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/workbench/clue/detailClue.do")
     public ModelAndView detailClue(String id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -169,16 +176,16 @@ public class ClueController {
         try {
             int i = clueActivityRelationService.saveClueActivityRelationByList(list);
             if (i > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
                 List<Activity> activities = activityService.queryActivityForDetailByIds(activityIds);
                 pageBean.setData(activities);
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在维护中！");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在维护中！");
         }
         return pageBean;
@@ -196,14 +203,14 @@ public class ClueController {
         try {
             int clueActivityRelationByClueIdActivityId = clueActivityRelationService.deleteClueActivityRelationByClueIdActivityId(clueActivityRelation);
             if (clueActivityRelationByClueIdActivityId > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在维护中！");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在维护中！");
         }
         return pageBean;
@@ -251,9 +258,9 @@ public class ClueController {
         System.out.println(map);
         try {
             clueService.saveConvert(map);
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
         } catch (Exception e) {
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在维护中！");
             e.printStackTrace();
         }

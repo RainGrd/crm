@@ -29,6 +29,7 @@ $(function () {
         /*收集参数*/
         let name = $('#searchActivityName').val();
         let id = $('#title').attr('clueId');
+        console.log(id)
         /*发送请求*/
         $.ajax({
             url: 'workbench/clue/queryAssociatedActivityByActivityNameAndClueId.do',
@@ -115,5 +116,13 @@ $(function () {
                 console.log('出错了');
             }
         })
+    })
+    /**
+     * 取消转换按钮点击事件
+     */
+    $('#cancelBtn').on('click', function () {
+        console.log(1);
+        /*退回线索明细页面*/
+        window.location.href = 'workbench/clue/detailClue.do?id=' + $('#title').attr('clueId');
     })
 });

@@ -11,11 +11,11 @@ public enum ConstantsEnum {
     /**
      * 传送成功的代码
      */
-    Page_BEAN_CODE_SUCCESS("1"),
+    PAGE_BEAN_CODE_SUCCESS("1"),
     /**
      * 传送失败的代码
      */
-    Page_BEAN_CODE_FAIL("0"),
+    PAGE_BEAN_CODE_FAIL("0"),
     /**
      * 定义年月日的常量
      */

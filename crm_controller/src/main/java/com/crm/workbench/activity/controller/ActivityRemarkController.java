@@ -45,15 +45,15 @@ public class ActivityRemarkController {
         try {
             int remark = activityRemarkService.saveActivityRemark(activityRemark);
             if (remark > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
                 pageBean.setData(activityRemark);
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，请稍后重试...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，请稍后重试...");
         }
         return pageBean;
@@ -69,14 +69,14 @@ public class ActivityRemarkController {
         try {
             int remarkById = activityRemarkService.deleteActivityRemarkById(id);
             if (remarkById > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在修复中...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在修复中...");
         }
         return pageBean;
@@ -98,15 +98,15 @@ public class ActivityRemarkController {
         try {
             int remark = activityRemarkService.updateActivityRemarkByActivityRemark(activityRemark);
             if (remark > 0) {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
                 pageBean.setData(activityRemark);
             } else {
-                pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+                pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
                 pageBean.setMessage("系统忙，正在维护中...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(ConstantsEnum.Page_BEAN_CODE_FAIL.getStr());
+            pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
             pageBean.setMessage("系统忙，正在维护中...");
         }
         return pageBean;

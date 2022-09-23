@@ -259,4 +259,18 @@ public class TransactionRemark {
     public void setTranId(String tranId) {
         this.tranId = tranId == null ? null : tranId.trim();
     }
+
+    @Override
+    public String toString() {
+        return "TransactionRemark{" +
+                "id='" + id + '\'' +
+                ", noteContent='" + noteContent + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", editBy='" + editBy + '\'' +
+                ", editTime='" + editTime + '\'' +
+                ", editFlag='" + editFlag + '\'' +
+                ", tranId='" + tranId + '\'' +
+                '}';
+    }
 }

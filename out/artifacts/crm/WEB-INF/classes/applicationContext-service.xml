@@ -24,14 +24,15 @@
     <!--配置事务-->
     <aop:config>
         <!--切点表达式-->
-        <aop:pointcut id="allMethodPointcut" expression="execution(* com.crm.service.*.*(..))"/>
+        <aop:pointcut id="allMethodPointcut"
+                      expression="execution(* com.crm.settings.service.*.*(..)) || execution(* com.crm.workbench.service.*.*(..))"/>
         <!--引用切点表达式-->
         <aop:advisor advice-ref="transactionInterceptor" pointcut-ref="allMethodPointcut"/>
     </aop:config>
     <tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
         <tx:attributes>
             <!--配置需要事务增强的方法-->
-            <tx:method name="add" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>
             <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
             <tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception"/>
             <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
@@ -45,10 +46,10 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--开启proxy-target-class="true" 会使用 cglib 继承的方式去创建代理-->
-    <!--<aop:config proxy-target-class="true"></aop:config>-->
+    <aop:config proxy-target-class="true"/>
 
     <!--开启Aspect生成代理对象-->
-    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <aop:aspectj-autoproxy/>
 
 </beans>
 

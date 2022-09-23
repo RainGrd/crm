@@ -1,6 +1,10 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.Transaction;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface TransactionMapper {
     /**
@@ -55,4 +59,9 @@ public interface TransactionMapper {
      * 保存创建的交易
      */
     int insertTransaction(Transaction transaction);
+
+    /**
+     * 根据分页条件查询数据
+     */
+    List<Transaction> selectTransactionByConditionForPage(@Param("map") Map<String, String> map);
 }

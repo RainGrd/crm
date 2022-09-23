@@ -72,7 +72,7 @@ public class ParseExcelTest {
     }
     @Test
     public void enumTest(){
-        System.out.println(ConstantsEnum.Page_BEAN_CODE_SUCCESS.getStr());
+        System.out.println(ConstantsEnum.PAGE_BEAN_CODE_SUCCESS.getStr());
     }
 
 }
