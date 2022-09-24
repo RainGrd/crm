@@ -63,5 +63,9 @@ public interface TransactionMapper {
     /**
      * 根据分页条件查询数据
      */
-    List<Transaction> selectTransactionByConditionForPage(@Param("map") Map<String, String> map);
+    List<Transaction> selectTransactionListByConditionForPage(@Param("map") Map<String, String> map);
+    /**
+     * 根据分页条件查询相同数目
+     */
+    int selectCountByCondition(@Param("map") Map<String, String> map);
 }

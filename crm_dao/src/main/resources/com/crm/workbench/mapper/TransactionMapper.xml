@@ -297,8 +297,66 @@
                                     contactSummary,jdbcType=VARCHAR}, #{nextContactTime,jdbcType=VARCHAR})
     </insert>
 
-    <select id="selectTransactionByConditionForPage" resultMap="TransactionResultMap" parameterType="map">
-        select *
-        from tbl_transaction
+    <select id="selectTransactionListByConditionForPage" resultMap="TransactionResultMap" parameterType="map">
+        select tr.name,
+        cust.name,
+        dv.value as stage,
+        tr.type,
+        user.name as owner,
+        tr.source,
+        contacts.fullname as coontacts
+        from tbl_transaction tr
+        join tbl_customer cust on cust.id = tr.customer_id
+        join tbl_dic_value dv on dv.id = tr.stage
+        join tbl_user user on user.id = tr.owner
+        join tbl_contacts contacts on contacts.id = tr.contacts_id
+        <where>
+            <if test="map.name!=null and map.name!=''">
+                tr.name like #{map.name}
+            </if>
+            <if test="map.customerName!=null and map.customerName!=''">
+                cust.name like #{map.customerName}
+            </if>
+            <if test="map.stage!=null and map.stage!=''">
+                tr.stage = #{map.stage}
+            </if>
+            <if test="map.transactionType!=null and map.transactionType!=''">
+                tr.type = #{map.transactionType}
+            </if>
+            <if test="map.source!=null and map.source!=''">
+                tr.source = #{map.source}
+            </if>
+            <if test="map.contactName!=null and map.contactName!=''">
+                contacts.fullname = #{map.contactName}
+            </if>
+        </where>
+    </select>
+    <select id="selectCountByCondition" resultType="int" parameterType="map">
+        select count(*)
+        from tbl_transaction tr
+        join tbl_customer cust on cust.id = tr.customer_id
+        join tbl_dic_value dv on dv.id = tr.stage
+        join tbl_user user on user.id = tr.owner
+        join tbl_contacts contacts on contacts.id = tr.contacts_id
+        <where>
+            <if test="map.name!=null and map.name!=''">
+                tr.name like #{map.name}
+            </if>
+            <if test="map.customerName!=null and map.customerName!=''">
+                cust.name like #{map.customerName}
+            </if>
+            <if test="map.stage!=null and map.stage!=''">
+                tr.stage = #{map.stage}
+            </if>
+            <if test="map.transactionType!=null and map.transactionType!=''">
+                tr.type = #{map.transactionType}
+            </if>
+            <if test="map.source!=null and map.source!=''">
+                tr.source = #{map.source}
+            </if>
+            <if test="map.contactName!=null and map.contactName!=''">
+                contacts.fullname = #{map.contactName}
+            </if>
+        </where>
     </select>
 </mapper>

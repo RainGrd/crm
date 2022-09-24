@@ -108,7 +108,7 @@ public class ClueServiceImpl implements ClueService {
         customer.setPhone(clue.getPhone());
         customer.setWebsite(clue.getWebsite());
         System.out.println(customer);
-        int insertCustomer = customerMapper.insertCustomer(customer);
+        customerMapper.insertCustomer(customer);
         /*把该线索中有关个人的信息转换到联系人表中*/
         //封装联系人对象
         Contacts contacts = new Contacts();
