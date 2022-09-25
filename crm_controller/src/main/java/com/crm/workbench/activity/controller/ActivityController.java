@@ -2,8 +2,8 @@ package com.crm.workbench.activity.controller;
 
 import com.crm.common.Vo.PageBean;
 import com.crm.common.constants.Constants;
-import com.crm.common.utils.ExportExcelUtil;
 import com.crm.common.utils.DateTimeUtil;
+import com.crm.common.utils.ExportExcelUtil;
 import com.crm.common.utils.ImportExcelUtil;
 import com.crm.common.utils.UUIDUtils;
 import com.crm.settings.entity.User;
@@ -343,7 +343,7 @@ public class ActivityController {
     }
 
     /**
-     *
+     * 跳转活动详细页面
      */
     @RequestMapping("/workbench/activity/detailActivity.do")
     public ModelAndView detailActivity(String id) {

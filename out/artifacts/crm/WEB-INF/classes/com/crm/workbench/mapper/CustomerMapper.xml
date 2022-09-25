@@ -41,6 +41,7 @@
         from tbl_customer
         where id = #{id,jdbcType=CHAR}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--
           WARNING - @mbggenerated
@@ -229,10 +230,31 @@
     <insert id="insertCustomer" parameterType="customer">
         insert into tbl_customer(id, owner, name, website, phone, create_by, create_time, edit_by, edit_time,
                                  contact_summary, next_contact_time, description, address)
-        values (#{customer.id,jdbcType=VARCHAR}, #{customer.owner,jdbcType=VARCHAR}, #{customer.name,jdbcType=VARCHAR}, #{customer.website,jdbcType=VARCHAR},
-                #{customer.phone,jdbcType=VARCHAR}, #{customer.createBy,jdbcType=VARCHAR}, #{customer.createTime,jdbcType=VARCHAR}, #{customer.editBy,jdbcType=VARCHAR},
-                #{customer.editTime,jdbcType=VARCHAR}, #{customer.contactSummary,jdbcType=VARCHAR}, #{customer.nextContactTime,jdbcType=VARCHAR},
+        values (#{customer.id,jdbcType=VARCHAR}, #{customer.owner,jdbcType=VARCHAR}, #{customer.name,jdbcType=VARCHAR},
+                #{customer.website,jdbcType=VARCHAR},
+                #{customer.phone,jdbcType=VARCHAR}, #{customer.createBy,jdbcType=VARCHAR},
+                #{customer.createTime,jdbcType=VARCHAR}, #{customer.editBy,jdbcType=VARCHAR},
+                #{customer.editTime,jdbcType=VARCHAR}, #{customer.contactSummary,jdbcType=VARCHAR},
+                #{customer.nextContactTime,jdbcType=VARCHAR},
                 #{customer.description,jdbcType=VARCHAR},
                 #{customer.address,jdbcType=VARCHAR})
     </insert>
+    <select id="selectCustomerByCustomerId" resultMap="CustomerResultMap">
+        select
+        <include refid="Customer_Column_List">
+        </include>
+        from tbl_customer where id=#{customerId,jdbcType=VARCHAR};
+    </select>
+    <select id="selectAllCustomerNameByName" resultType="string" parameterType="string">
+        select name
+        from tbl_customer cust
+        where cust.name like concat('%', #{name,jdbcType=VARCHAR}, '%');
+    </select>
+
+    <select id="selectCustomerByCustomerName" resultMap="CustomerResultMap" parameterType="string">
+        select
+        <include refid="Customer_Column_List">
+        </include>
+        from tbl_customer where name=#{customerName,jdbcType=VARCHAR};
+    </select>
 </mapper>

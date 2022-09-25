@@ -20,7 +20,6 @@
     <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
 
-    <script type="text/javascript" src="js/workbench/transaction/index.js"></script>
     <title></title>
 </head>
 <body>
@@ -58,7 +57,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">客户名称</div>
-                        <input class="form-control" id="customerName"  type="text">
+                        <input class="form-control" id="customerName" type="text">
                     </div>
                 </div>
 
@@ -139,7 +138,7 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 10px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" onclick="window.location.href='save.html';"><span
+                <button type="button" id="saveTransactionBtn" class="btn btn-primary" ><span
                         class="glyphicon glyphicon-plus"></span> 创建
                 </button>
                 <button type="button" class="btn btn-default" onclick="window.location.href='edit.html';"><span
@@ -164,70 +163,71 @@
                     <td>联系人名称</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
-                    <td>动力节点</td>
-                    <td>谈判/复审</td>
-                    <td>新业务</td>
-                    <td>zhangsan</td>
-                    <td>广告</td>
-                    <td>李四</td>
-                </tr>
-                <tr class="active">
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
-                    <td>动力节点</td>
-                    <td>谈判/复审</td>
-                    <td>新业务</td>
-                    <td>zhangsan</td>
-                    <td>广告</td>
-                    <td>李四</td>
-                </tr>
+                <tbody id="tableData">
+                <%-- <tr>
+                     <td><input type="checkbox"/></td>
+                     <td><a style="text-decoration: none; cursor: pointer;"
+                            onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
+                     <td>动力节点</td>
+                     <td>谈判/复审</td>
+                     <td>新业务</td>
+                     <td>zhangsan</td>
+                     <td>广告</td>
+                     <td>李四</td>
+                 </tr>
+                 <tr class="active">
+                     <td><input type="checkbox"/></td>
+                     <td><a style="text-decoration: none; cursor: pointer;"
+                            onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
+                     <td>动力节点</td>
+                     <td>谈判/复审</td>
+                     <td>新业务</td>
+                     <td>zhangsan</td>
+                     <td>广告</td>
+                     <td>李四</td>
+                 </tr>--%>
                 </tbody>
             </table>
+            <%--分页--%>
+            <div id="page"></div>
         </div>
 
-        <div style="height: 50px; position: relative;top: 20px;">
-            <div>
-                <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-            </div>
-            <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-                <button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        10
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">20</a></li>
-                        <li><a href="#">30</a></li>
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-            </div>
-            <div style="position: relative;top: -88px; left: 285px;">
-                <nav>
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#">首页</a></li>
-                        <li class="disabled"><a href="#">上一页</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">下一页</a></li>
-                        <li class="disabled"><a href="#">末页</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
+        <%--        <div style="height: 50px; position: relative;top: 20px;">
+                     <div>
+                         <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
+                     </div>
+                     <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
+                         <button type="button" class="btn btn-default" style="cursor: default;">显示</button>
+                         <div class="btn-group">
+                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                 10
+                                 <span class="caret"></span>
+                             </button>
+                             <ul class="dropdown-menu" role="menu">
+                                 <li><a href="#">20</a></li>
+                                 <li><a href="#">30</a></li>
+                             </ul>
+                         </div>
+                         <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
+                     </div>
+                     <div style="position: relative;top: -88px; left: 285px;">
+                         <nav>
+                             <ul class="pagination">
+                                 <li class="disabled"><a href="#">首页</a></li>
+                                 <li class="disabled"><a href="#">上一页</a></li>
+                                 <li class="active"><a href="#">1</a></li>
+                                 <li><a href="#">2</a></li>
+                                 <li><a href="#">3</a></li>
+                                 <li><a href="#">4</a></li>
+                                 <li><a href="#">5</a></li>
+                                 <li><a href="#">下一页</a></li>
+                                 <li class="disabled"><a href="#">末页</a></li>
+                             </ul>
+                         </nav>
+                     </div>
+                </div>--%>
     </div>
-
 </div>
 </body>
+<script type="text/javascript" src="js/workbench/transaction/index.js"></script>
 </html>

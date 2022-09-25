@@ -21,6 +21,14 @@ public enum ConstantsEnum {
      */
     YMD("yyyy-MM-dd"),
     /**
+     * 字符编码集
+     */
+    CHAT_ENCODING_ISO88591("ISO-8859-1"),
+    /**
+     * utf-8编码
+     */
+    CHAT_ENCODING_UTF8("UTF-8"),
+    /**
      * 定义年月日时分秒的常量
      */
     YMD_HMS("yyyy-MM-dd HH:mm:ss"),

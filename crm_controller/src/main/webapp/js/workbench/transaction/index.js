@@ -1,7 +1,14 @@
 $(function () {
-
-
+    queryClueByConditionForPage(1, 5)
+    /**
+     * 创建按钮点击事件
+     */
+    $('#saveTransactionBtn').on('click', function () {
+        console.log(1)
+        window.location.href = 'workbench/transaction/toSaveTransaction.do';
+    })
 });
+
 /**
  * 分页查询线索函数
  * @param beginNo 起始页
@@ -10,13 +17,15 @@ $(function () {
 function queryClueByConditionForPage(beginNo, pageSize) {
     /*分页条件*/
     let map = {
-        owner:$('#owner').val(),
-        name:$('#name').val(),
-        customerName:$('#customerName').val(),
-        stage:$('#stage').val(),
-        transactionType:$('#transactionType').val(),
-        source:$('#source').val(),
-        contactName:$('#contactName').val(),
+        owner: $('#owner').val(),
+        name: $('#name').val(),
+        customerName: $('#customerName').val(),
+        stage: $('#stage').val(),
+        transactionType: $('#transactionType').val(),
+        source: $('#source').val(),
+        contactName: $('#contactName').val(),
+        pageNum: beginNo,
+        pageSize: pageSize
     }
     /*非空判断*/
     if (notEmpty(pageSize)) {
@@ -24,9 +33,9 @@ function queryClueByConditionForPage(beginNo, pageSize) {
         return false;
     }
     $.ajax({
-        contentType: 'application/json;charset=UTF-8',
-        url: 'workbench/clue/queryClueByConditionForPage.do',
+        url: 'workbench/transaction/queryTransactionListByConditionForPage.do',
         dataType: "json",
+        contentType: 'application/json;charset=UTF-8',
         type: 'post',
         data: JSON.stringify(map),
         success: function (result) {
@@ -37,13 +46,13 @@ function queryClueByConditionForPage(beginNo, pageSize) {
             $.each(data, function (index, obj) {
                 tableData += ' <tr>\n' +
                     '<td><input type="checkbox" value="' + obj.id + '"/></td>\n' +
-                    '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=' + '\'workbench/clue/detailClue.do?id=' + obj.id + '\'"> ' + obj.fullName + '</a></td>\n' +
-                    '<td>' + obj.company + '</td>\n' +
-                    '<td>' + obj.mPhone + '</td>\n' +
-                    '<td>' + obj.phone + '</td>\n' +
-                    '<td>' + obj.source + '</td>\n' +
+                    '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=' + '\'workbench/clue/detailClue.do?id=' + obj.id + '\'"> ' + obj.name + '</a></td>\n' +
+                    '<td>' + obj.customer.website + '</td>\n' +
+                    '<td>' + obj.stage + '</td>\n' +
+                    '<td>' + obj.type + '</td>\n' +
                     '<td>' + obj.owner + '</td>\n' +
-                    '<td>' + obj.state + '</td>\n' +
+                    '<td>' + obj.source + '</td>\n' +
+                    '<td>' + obj.contacts.fullName + '</td>\n' +
                     '</tr>'
             });
             $('#tableData').html(tableData);
@@ -90,6 +99,7 @@ function queryClueByConditionForPage(beginNo, pageSize) {
         }
     })
 }
+
 /**
  * 非空函数
  */

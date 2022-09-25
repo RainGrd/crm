@@ -14,8 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -83,5 +84,15 @@ public class ActivityServiceTest {
         ids[0] = "48391170784c46c9b0b2f86943586709";
         ids[1] = "4a83f3b17d954bbd9be5bc4d85937c48";
         System.out.println(activityService.queryActivityForDetailByIds(ids));
+    }
+
+    @Test
+    public void queryAssociatedActivityByActivityIdTest() {
+        Map<String, String> map = new HashMap<>();
+        map.put("activityName","测试");
+        List<Activity> activities = activityService.queryAssociatedActivityByActivityName(map);
+        for (Activity activity : activities) {
+            System.out.println("activity = " + activity);
+        }
     }
 }

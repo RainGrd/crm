@@ -90,7 +90,11 @@ public interface ActivityService {
     List<Activity> queryActivityForDetailByIds(String[] activityIds);
 
     /**
-     * 查询不想关联的市场活动
+     * 查询不想关联线索的市场活动
      */
     List<Activity> queryAssociatedActivityByActivityNameAndClueId(Map<String,String> map);
+    /**
+     * 查询不想关联交易的市场活动
+     */
+    List<Activity> queryAssociatedActivityByActivityName(Map<String,String> map);
 }

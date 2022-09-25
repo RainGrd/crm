@@ -46,6 +46,7 @@
         from tbl_contacts
         where id = #{id,jdbcType=CHAR}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--
           WARNING - @mbggenerated
@@ -286,4 +287,17 @@
                 #{contacts.contactSummary,jdbcType=VARCHAR}, #{contacts.nextContactTime,jdbcType=CHAR},
                 #{contacts.address,jdbcType=VARCHAR})
     </insert>
+    <select id="selectContactsByContactsId" resultMap="ContactsResultMap">
+        select
+        <include refid="Contacts_Column_List">
+        </include>
+        from tbl_contacts where id=#{contactsId,jdbcType=VARCHAR};
+    </select>
+
+    <select id="selectContactsListByContactsName" resultMap="ContactsResultMap" parameterType="string">
+        select
+        <include refid="Contacts_Column_List">
+        </include>
+        from tbl_contacts where fullname like concat('%',#{contactsName,jdbcType=VARCHAR},'%');
+    </select>
 </mapper>

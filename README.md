@@ -1,3 +1,3 @@
 # crm
-客户管理系统
-使用ssm+mysql+jsp写成的
+使用ssm+mysql+jsp写成的客户管理系统
+主要模块有

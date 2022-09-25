@@ -20,6 +20,7 @@
     <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
     <script type="text/javascript" src="js/workbench/clue/index.js"></script>
+    <title></title>
 </head>
 <body>
 

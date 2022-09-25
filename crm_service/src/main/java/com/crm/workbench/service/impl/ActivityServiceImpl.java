@@ -134,4 +134,9 @@ public class ActivityServiceImpl implements ActivityService {
     public List<Activity> queryAssociatedActivityByActivityNameAndClueId(Map<String, String> map) {
         return activityMapper.selectAssociatedActivityByActivityNameAndClueId(map);
     }
+
+    @Override
+    public List<Activity> queryAssociatedActivityByActivityName(Map<String,String> map) {
+        return activityMapper.selectAssociatedActivityByActivityName(map);
+    }
 }

@@ -17,4 +17,8 @@ public interface TransactionService {
      * 分页查询方法
      */
     PageInfo<Transaction> queryTransactionListByConditionForPage(Map<String,String> map);
+    /**
+     * 保存的创建交易
+     */
+    void saveTransaction(Map<String,Object> map);
 }

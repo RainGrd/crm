@@ -149,7 +149,7 @@ public class ClueServiceImpl implements ClueService {
                 customerRemark.setId(UUIDUtils.getUUID());
                 customerRemarkList.add(customerRemark);
                 /*封装联系人备注对象*/
-                contactsRemark=new ContactsRemark();
+                contactsRemark = new ContactsRemark();
                 contactsRemark.setId(UUIDUtils.getUUID());
                 contactsRemark.setCreateBy(clueRemark.getCreateBy());
                 contactsRemark.setCreateTime(clueRemark.getCreateTime());
@@ -186,14 +186,16 @@ public class ClueServiceImpl implements ClueService {
             /*如果需要创建交易，则需要往交易表中添加一条记录*/
             Transaction transaction = new Transaction();
             transaction.setActivityId(activityId);
-            transaction.setContactsId(contacts.getId());
+            transaction.setContacts(contacts);
             transaction.setCreateBy(user.getId());
             transaction.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
-            transaction.setCustomerId(customer.getId());
+            transaction.setCustomer(customer);
             transaction.setExpectedDate(expectedClosingDate);
             transaction.setId(UUIDUtils.getUUID());
             transaction.setName(tradeName);
             transaction.setStage(stage);
+            //transaction.setType();
+            transaction.setSource(contacts.getSource());
             transaction.setOwner(user.getId());
             transaction.setMoney(amountOfMoney);
             transactionMapper.insertTransaction(transaction);

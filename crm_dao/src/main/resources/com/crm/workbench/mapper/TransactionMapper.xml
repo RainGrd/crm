@@ -12,12 +12,13 @@
         <result column="money" property="money" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="expected_date" property="expectedDate" jdbcType="CHAR"/>
-        <result column="customer_id" property="customerId" jdbcType="CHAR"/>
+        <!--        <result column="customer_id" property="customerId" jdbcType="CHAR"/>-->
+
         <result column="stage" property="stage" jdbcType="VARCHAR"/>
         <result column="type" property="type" jdbcType="VARCHAR"/>
         <result column="source" property="source" jdbcType="VARCHAR"/>
         <result column="activity_id" property="activityId" jdbcType="CHAR"/>
-        <result column="contacts_id" property="contactsId" jdbcType="CHAR"/>
+        <!--        <result column="contacts_id" property="contactsId" jdbcType="CHAR"/>-->
         <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="CHAR"/>
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
@@ -25,6 +26,10 @@
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="contact_summary" property="contactSummary" jdbcType="VARCHAR"/>
         <result column="next_contact_time" property="nextContactTime" jdbcType="CHAR"/>
+        <association property="customer" column="customer_id" javaType="customer"
+                     select="com.crm.workbench.mapper.CustomerMapper.selectCustomerByCustomerId"/>
+        <association property="contacts" column="contacts_id" javaType="contacts"
+                     select="com.crm.workbench.mapper.ContactsMapper.selectContactsByContactsId"/>
     </resultMap>
     <sql id="Transaction_Column_List">
         <!--
@@ -286,30 +291,32 @@
     </update>
     <insert id="insertTransaction" parameterType="transaction">
         insert into tbl_transaction(id, owner, money, name, expected_date, customer_id, stage, type, source,
-                                    activity_id, contacts_id, create_by, create_time, edit_by, edit_time, description,
+                                    activity_id, contacts_id, create_by, create_time, description,
                                     contact_summary, next_contact_time)
         VALUES (#{id,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
-                #{expectedDate,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR},
+                #{expectedDate,jdbcType=VARCHAR}, #{customer.id,jdbcType=VARCHAR}, #{stage,jdbcType=VARCHAR},
                 #{type,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{
-                                    activityId,jdbcType=VARCHAR}, #{contactsId,jdbcType=VARCHAR},
-                #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{editBy,jdbcType=VARCHAR},
-                #{editTime,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{
+                                    activityId,jdbcType=VARCHAR}, #{contacts.id,jdbcType=VARCHAR},
+                #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{
                                     contactSummary,jdbcType=VARCHAR}, #{nextContactTime,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectTransactionListByConditionForPage" resultMap="TransactionResultMap" parameterType="map">
-        select tr.name,
-        cust.name,
-        dv.value as stage,
-        tr.type,
+        select tr.id,tr.name,
+        tr.customer_id,
+        dv1.value as stage,
         user.name as owner,
-        tr.source,
-        contacts.fullname as coontacts
+        dv2.value as source,
+        dv3.value as type,
+        tr.contacts_id
         from tbl_transaction tr
         join tbl_customer cust on cust.id = tr.customer_id
-        join tbl_dic_value dv on dv.id = tr.stage
-        join tbl_user user on user.id = tr.owner
         join tbl_contacts contacts on contacts.id = tr.contacts_id
+        join tbl_dic_value dv1 on dv1.id = tr.stage
+        join tbl_dic_value dv2 on dv2.id = contacts.source
+        join tbl_dic_value dv3 on dv3.id = tr.type
+        join tbl_user user on user.id = tr.owner
+
         <where>
             <if test="map.name!=null and map.name!=''">
                 tr.name like #{map.name}

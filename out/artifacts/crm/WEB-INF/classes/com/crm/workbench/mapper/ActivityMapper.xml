@@ -366,4 +366,12 @@
             from tbl_clue_activity_relation
             where clue_id = #{clueId})
     </select>
+
+    <select id="selectAssociatedActivityByActivityName" resultMap="ActivityResultMap" parameterType="map">
+        select act.name, act.start_date, act.end_date, user.name as owner
+        from tbl_activity act
+                 join tbl_user user on user.id = act.owner
+        where act.name like concat('%', #{map.activityName}, '%')
+          and act.id not in (select activity_id from tbl_transaction);
+    </select>
 </mapper>
