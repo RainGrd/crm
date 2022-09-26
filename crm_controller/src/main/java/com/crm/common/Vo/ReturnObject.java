@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Description: 传输类
  */
 @Data
-public class PageBean implements Serializable {
+public class ReturnObject implements Serializable {
     /**
      * 响应码 0---失败，1---成功
      */

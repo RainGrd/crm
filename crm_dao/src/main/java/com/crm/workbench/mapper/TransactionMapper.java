@@ -1,5 +1,6 @@
 package com.crm.workbench.mapper;
 
+import com.crm.common.Vo.FunnelVO;
 import com.crm.workbench.entity.Transaction;
 import org.apache.ibatis.annotations.Param;
 
@@ -72,5 +73,8 @@ public interface TransactionMapper {
      * 根据交易id查询交易对象
      */
     Transaction selectTransactionByTransactionId(@Param("transactionId") String transactionId);
-
+    /**
+     * 查询交易表中各个阶段的数据量
+     */
+    List<FunnelVO> selectCountOfTransactionGroupByStage();
 }

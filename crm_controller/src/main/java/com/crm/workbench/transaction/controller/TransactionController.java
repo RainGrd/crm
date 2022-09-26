@@ -1,6 +1,6 @@
 package com.crm.workbench.transaction.controller;
 
-import com.crm.common.Vo.PageBean;
+import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.settings.entity.DicValue;
 import com.crm.settings.entity.User;
@@ -11,7 +11,6 @@ import com.crm.workbench.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -140,7 +138,7 @@ public class TransactionController {
     @RequestMapping("/workbench/transaction/saveCreateCustomer.do")
     @ResponseBody
     public Object saveCreateCustomer(@RequestBody Map<String, Object> map, HttpSession session) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             /*封装数据*/
             map.put(ConstantsEnum.SESSION_USER.getStr(), session.getAttribute(ConstantsEnum.SESSION_USER.getStr()));

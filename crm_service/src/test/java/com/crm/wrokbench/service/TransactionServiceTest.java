@@ -1,5 +1,6 @@
 package com.crm.wrokbench.service;
 
+import com.crm.common.Vo.FunnelVO;
 import com.crm.workbench.entity.Transaction;
 import com.crm.workbench.service.TransactionService;
 import com.github.pagehelper.PageInfo;
@@ -43,5 +44,14 @@ public class TransactionServiceTest {
     public void queryTransactionByTransactionIdTest() {
         Transaction transaction = transactionService.queryTransactionByTransactionId("1e11d83442714c71847878e19d897454");
         System.out.println("transaction = " + transaction);
+    }
+
+    @Test
+    public void queryCountOfTransactionGroupByStageTest() {
+        List<FunnelVO> funnelVOS = transactionService.queryCountOfTransactionGroupByStage();
+        System.out.println(funnelVOS);
+        for (FunnelVO funnelVO : funnelVOS) {
+            System.out.println("funnelVO = " + funnelVO);
+        }
     }
 }

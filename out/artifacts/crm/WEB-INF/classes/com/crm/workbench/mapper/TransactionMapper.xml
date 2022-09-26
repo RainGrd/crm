@@ -26,6 +26,8 @@
         <result column="description" property="description" jdbcType="VARCHAR"/>
         <result column="contact_summary" property="contactSummary" jdbcType="VARCHAR"/>
         <result column="next_contact_time" property="nextContactTime" jdbcType="CHAR"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="possibility" column="possibility" jdbcType="CHAR"/>
         <association property="customer" column="customer_id" javaType="customer"
                      select="com.crm.workbench.mapper.CustomerMapper.selectCustomerByCustomerId"/>
         <association property="contacts" column="contacts_id" javaType="contacts"
@@ -376,11 +378,12 @@
                tr.expected_date,
                tr.customer_id,
                dicv1.value as stage,
+               dicv1.order_no,
                dicv2.value as type,
                dicv3.value as source,
                tr.activity_id,
                tr.contacts_id,
-               user2.name as create_by,
+               user2.name  as create_by,
                tr.create_time,
                user3.name  as edit_by,
                tr.edit_time,
@@ -398,5 +401,11 @@
                  join tbl_contacts cont on cont.id = tr.contacts_id
                  left join tbl_user user3 on tr.edit_by = user3.id
         where tr.id = #{transactionId,jdbcType=VARCHAR};
+    </select>
+    <select id="selectCountOfTransactionGroupByStage" resultType="com.crm.common.Vo.FunnelVO">
+        select count(*) as value,dicv.value as name
+        from tbl_transaction tr
+                 join tbl_dic_value dicv on dicv.id = tr.stage
+        group by tr.stage
     </select>
 </mapper>

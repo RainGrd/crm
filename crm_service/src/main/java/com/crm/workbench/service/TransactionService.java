@@ -1,8 +1,10 @@
 package com.crm.workbench.service;
 
+import com.crm.common.Vo.FunnelVO;
 import com.crm.workbench.entity.Transaction;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +27,8 @@ public interface TransactionService {
      * 根据交易id查询交易对象
      */
     Transaction queryTransactionByTransactionId(String transactionId);
+    /**
+     * 查询分组交易统计图表
+     */
+    List<FunnelVO> queryCountOfTransactionGroupByStage();
 }

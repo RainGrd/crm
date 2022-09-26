@@ -1,6 +1,6 @@
 package com.crm.workbench.activity.controller;
 
-import com.crm.common.Vo.PageBean;
+import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.Constants;
 import com.crm.common.utils.DateTimeUtil;
 import com.crm.common.utils.ExportExcelUtil;
@@ -69,7 +69,7 @@ public class ActivityController {
         activity.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
         /*将当前登录用户的ID值封装，这样可以防止重复*/
         activity.setCreateBy(user.getId());
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             /*判断业务是否报异常*/
             int createActivity = activityService.saveCreateActivity(activity);
@@ -108,7 +108,7 @@ public class ActivityController {
         System.out.println(ids);
         /*调用市场活动*/
         int byIds = 0;
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             byIds = activityService.deleteActivityByIds(ids);
             System.out.println(byIds);
@@ -142,7 +142,7 @@ public class ActivityController {
     @RequestMapping("workbench/activity/updateActivityById.do")
     @ResponseBody
     public Object updateActivityById(@RequestBody Activity activity) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             int updateActivityById = activityService.updateActivityById(activity);
             if (updateActivityById > 0) {
@@ -301,7 +301,7 @@ public class ActivityController {
             }
             myFile.transferTo(file);
         }
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
         pageBean.setMessage("成功！");
         /*返回响应信息*/
@@ -314,7 +314,7 @@ public class ActivityController {
     @RequestMapping("/workbench/activity/importExcelActivity.do")
     @ResponseBody
     public Object importExcelActivity(MultipartFile multipartFile, HttpServletRequest request) throws Exception {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
 
         /*File file=new File(request.getServletContext().getRealPath("/file/"),multipartFile.getOriginalFilename());

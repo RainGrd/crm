@@ -1,5 +1,6 @@
 package com.crm.workbench.service.impl;
 
+import com.crm.common.Vo.FunnelVO;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.DateTimeUtil;
 import com.crm.common.utils.UUIDUtils;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -111,5 +113,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Transaction queryTransactionByTransactionId(String transactionId) {
         return transactionMapper.selectTransactionByTransactionId(transactionId);
+    }
+
+    @Override
+    public List<FunnelVO> queryCountOfTransactionGroupByStage() {
+        return transactionMapper.selectCountOfTransactionGroupByStage();
     }
 }

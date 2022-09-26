@@ -20,10 +20,8 @@
     <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
     <script type="text/javascript" src="jquery/bs_typeahead/bootstrap3-typeahead.min.js"></script>
-    <script type="text/javascript" src="js/workbench/transaction/detail.js">
-
-
-    </script>
+    <script type="text/javascript" src="js/workbench/transaction/detail.js"></script>
+    <script type="text/javascript" src="jquery/echars/echarts.min.js"></script>
     <title>交易明细页面</title>
 </head>
 <style type="text/css">
@@ -62,34 +60,54 @@
 <!-- 阶段状态 -->
 <div style="position: relative; left: 40px; top: -50px;">
     阶段&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
-          data-content="资质审查" style="color: #90F790;"></span>
-    -----------
-    <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
-          data-content="需求分析" style="color: #90F790;"></span>
-    -----------
-    <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
-          data-content="价值建议" style="color: #90F790;"></span>
-    -----------
-    <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
-          data-content="确定决策者" style="color: #90F790;"></span>
-    -----------
+    <c:forEach items="${stageList}" var="stage">
+        <!--如果stage就是交易所处阶段，则图标显示为map-marker 颜色显示为绿色-->
+        <c:if test="${transaction.stage==stage.value}">
     <span class="glyphicon glyphicon-map-marker mystage" data-toggle="popover" data-placement="bottom"
-          data-content="提案/报价" style="color: #90F790;"></span>
-    -----------
-    <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
-          data-content="谈判/复审"></span>
-    -----------
-    <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
-          data-content="成交"></span>
-    -----------
-    <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
-          data-content="丢失的线索"></span>
-    -----------
-    <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
-          data-content="因竞争丢失关闭"></span>
-    -----------
-    <span class="closingDate">2010-10-10</span>
+          data-content="${stage.value}" style="color: #90F790;"></span>
+            -----------
+        </c:if>
+        <!--如果stage就是交易阶段前边，则图标显示为ok-circle 颜色显示为绿色-->
+        <c:if test="${transaction.orderNo>stage.orderNo}">
+            <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
+                  data-content="${stage.value}" style="color: #90F790;"></span>
+            -----------
+        </c:if>
+        <!--如果stage就是交易阶段后边，则图标显示为record 颜色显示为黑色-->
+        <c:if test="${transaction.orderNo<stage.orderNo}">
+            <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
+                  data-content="${stage.value}"></span>
+            -----------
+        </c:if>
+    </c:forEach>
+    <%-- <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
+           data-content="资质审查" style="color: #90F790;"></span>
+     -----------
+     <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
+           data-content="需求分析" style="color: #90F790;"></span>
+     -----------
+     <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
+           data-content="价值建议" style="color: #90F790;"></span>
+     -----------
+     <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom"
+           data-content="确定决策者" style="color: #90F790;"></span>
+     -----------
+     <span class="glyphicon glyphicon-map-marker mystage" data-toggle="popover" data-placement="bottom"
+           data-content="提案/报价" style="color: #90F790;"></span>
+     -----------
+     <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
+           data-content="谈判/复审"></span>
+     -----------
+     <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
+           data-content="成交"></span>
+     -----------
+     <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
+           data-content="丢失的线索"></span>
+     -----------
+     <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom"
+           data-content="因竞争丢失关闭"></span>
+     -------------%>
+    <span class="closingDate">${transaction.expectedDate}</span>
 </div>
 
 <!-- 详细信息 -->
@@ -122,7 +140,7 @@
         <div style="width: 300px; color: gray;">类型</div>
         <div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>${transaction.type}</b></div>
         <div style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">可能性</div>
-        <div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>${transaction.possibility}</b></div>
+        <div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>${transaction.possibility}%</b></div>
         <div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px;"></div>
         <div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px; left: 450px;"></div>
     </div>

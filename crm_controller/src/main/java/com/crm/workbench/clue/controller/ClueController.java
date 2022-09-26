@@ -1,6 +1,6 @@
 package com.crm.workbench.clue.controller;
 
-import com.crm.common.Vo.PageBean;
+import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.DateTimeUtil;
 import com.crm.common.utils.UUIDUtils;
@@ -84,7 +84,7 @@ public class ClueController {
     @ResponseBody
     public Object saveCreateClue(Clue clue, HttpSession session) {
         User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         /*封装参数*/
         clue.setId(UUIDUtils.getUUID());
         clue.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
@@ -160,7 +160,7 @@ public class ClueController {
     @RequestMapping("/workbench/clue/saveBund.do")
     @ResponseBody
     public Object saveBund(@RequestParam("activityIds[]") String[] activityIds, @RequestParam("clueId") String clueId) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         System.out.println(activityIds);
         ClueActivityRelation clueActivityRelation = null;
         System.out.println(clueId);
@@ -199,7 +199,7 @@ public class ClueController {
     @RequestMapping("/workbench/clue/deleteClueActivityByClueIdActivityId.do")
     @ResponseBody
     public Object deleteClueActivityByClueIdActivityId(@RequestBody ClueActivityRelation clueActivityRelation) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             int clueActivityRelationByClueIdActivityId = clueActivityRelationService.deleteClueActivityRelationByClueIdActivityId(clueActivityRelation);
             if (clueActivityRelationByClueIdActivityId > 0) {
@@ -252,7 +252,7 @@ public class ClueController {
     @RequestMapping("/workbench/clue/convertClue.do")
     @ResponseBody
     public Object convertClue(@RequestBody Map<String, Object> map, HttpSession session) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
         map.put(ConstantsEnum.SESSION_USER.getStr(), user);
         System.out.println(map);

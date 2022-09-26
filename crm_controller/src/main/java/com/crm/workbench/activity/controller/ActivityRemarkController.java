@@ -1,6 +1,6 @@
 package com.crm.workbench.activity.controller;
 
-import com.crm.common.Vo.PageBean;
+import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.DateTimeUtil;
 import com.crm.common.utils.UUIDUtils;
@@ -33,7 +33,7 @@ public class ActivityRemarkController {
     @RequestMapping("/workbench/activity/saveCreateActivityRemark.do")
     @ResponseBody
     public Object saveCreateActivityRemark(ActivityRemark activityRemark, HttpSession session) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
         //封装参数
         activityRemark.setId(UUIDUtils.getUUID());
@@ -65,7 +65,7 @@ public class ActivityRemarkController {
     @RequestMapping("/workbench/activity/deleteActivityRemarkById.do")
     @ResponseBody
     public Object deleteActivityRemarkById(String id) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         try {
             int remarkById = activityRemarkService.deleteActivityRemarkById(id);
             if (remarkById > 0) {
@@ -88,7 +88,7 @@ public class ActivityRemarkController {
     @RequestMapping("/workbench/activity/updateActivityRemarkByActivityRemark.do")
     @ResponseBody
     public Object updateActivityRemarkByActivityRemark(ActivityRemark activityRemark, HttpSession session) {
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         /*封装参数*/
         User user = (User) session.getAttribute(ConstantsEnum.SESSION_USER.getStr());
         activityRemark.setEditTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));

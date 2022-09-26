@@ -1,6 +1,6 @@
 package com.crm.settings.web.controller;
 
-import com.crm.common.Vo.PageBean;
+import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.Constants;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.DateTimeUtil;
@@ -63,7 +63,7 @@ public class UserController {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = userService.queryUserLoginActAndPwd(map);
         /*根据查询结果，生成响应信息*/
-        PageBean pageBean = new PageBean();
+        ReturnObject pageBean = new ReturnObject();
         if (user == null) {
             /*查询为空,登录失败*/
             pageBean.setCode(ConstantsEnum.PAGE_BEAN_CODE_FAIL.getStr());
