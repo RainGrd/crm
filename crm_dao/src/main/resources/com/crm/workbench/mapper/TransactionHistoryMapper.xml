@@ -160,9 +160,11 @@
 
     <select id="selectTransactionHistoryListByTransactionId" resultMap="TransactionHistoryResultMap"
             parameterType="string">
-        select *
-        from tbl_transaction_history
-                 join tbl_transaction_history th on th.tran_id = #{transactionId,jdbcType=VARCHAR};
+        select th.id, dicv1.value as stage, th.money, th.expected_date, user1.name as create_by, th.create_time
+        from tbl_transaction_history th
+                 join tbl_dic_value dicv1 on dicv1.id = th.stage
+                 join tbl_user user1 on user1.id = th.create_by
+        where th.tran_id = #{transactionId,jdbcType=VARCHAR}
     </select>
 
     <insert id="insertTransactionHistory" parameterType="transactionHistory">

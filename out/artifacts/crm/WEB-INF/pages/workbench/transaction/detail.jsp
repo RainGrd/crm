@@ -196,11 +196,13 @@
                     ${transactionRemark.editFlag=='0'?transactionRemark.createTime:transactionRemark.editTime}
                 由${transactionRemark.editFlag=='0'?transactionRemark.createBy:transactionRemark.editBy}${transactionRemark.editFlag=='0'? '创建':'修改'}</small>
                 <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" transactionRemarkId="${transactionRemark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" transactionRemarkId="${transactionRemark.id}" href="javascript:void(0);"><span
+                            class="glyphicon glyphicon-edit"
+                            style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" transactionRemarkId="${transactionRemark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" transactionRemarkId="${transactionRemark.id}" href="javascript:void(0);"><span
+                            class="glyphicon glyphicon-remove"
+                            style="font-size: 20px; color: #E6E6E6;"></span></a>
                 </div>
             </div>
         </div>
@@ -265,34 +267,43 @@
                     <td>阶段</td>
                     <td>金额</td>
                     <td>预计成交日期</td>
-                    <td>创建时间</td>
                     <td>创建人</td>
+                    <td>创建时间</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>资质审查</td>
-                    <td>5,000</td>
-                    <td>2017-02-07</td>
-                    <td>2016-10-10 10:10:10</td>
-                    <td>zhangsan</td>
-                </tr>
-                <tr>
-                    <td>需求分析</td>
-                    <td>5,000</td>
-                    <td>20</td>
-                    <td>2017-02-07</td>
-                    <td>2016-10-20 10:10:10</td>
-                    <td>zhangsan</td>
-                </tr>
-                <tr>
-                    <td>谈判/复审</td>
-                    <td>5,000</td>
-                    <td>90</td>
-                    <td>2017-02-07</td>
-                    <td>2017-02-09 10:10:10</td>
-                    <td>zhangsan</td>
-                </tr>
+                <c:forEach items="${transactionHistories}" var="transactionHistorie">
+                    <tr>
+                        <td>${transactionHistorie.stage}</td>
+                        <td>${transactionHistorie.money}</td>
+                        <td>${transactionHistorie.expectedDate}</td>
+                        <td>${transactionHistorie.createBy}</td>
+                        <td>${transactionHistorie.createTime}</td>
+                    </tr>
+                </c:forEach>
+                <%-- <tr>
+                     <td>资质审查</td>
+                     <td>5,000</td>
+                     <td>2017-02-07</td>
+                     <td>2016-10-10 10:10:10</td>
+                     <td>zhangsan</td>
+                 </tr>
+                 <tr>
+                     <td>需求分析</td>
+                     <td>5,000</td>
+                     <td>20</td>
+                     <td>2017-02-07</td>
+                     <td>2016-10-20 10:10:10</td>
+                     <td>zhangsan</td>
+                 </tr>
+                 <tr>
+                     <td>谈判/复审</td>
+                     <td>5,000</td>
+                     <td>90</td>
+                     <td>2017-02-07</td>
+                     <td>2017-02-09 10:10:10</td>
+                     <td>zhangsan</td>
+                 </tr>--%>
                 </tbody>
             </table>
         </div>
