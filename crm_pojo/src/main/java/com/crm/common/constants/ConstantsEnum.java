@@ -53,6 +53,11 @@ public enum ConstantsEnum {
      */
     ACTIVITY_REMARK_EDIT_FLAG_YES_EDITED("1"),
     /**
+     * 市场历史记录删除状态
+     */
+    TRANSACTION_HISTORY_STATUS_YES("0"),
+    TRANSACTION_HISTORY_STATUS_NO("1"),
+    /**
      * 定义市场备注状态
      */
     ACTIVITY_REMARK_STATUS_YES_EDITED("0"),    //未除

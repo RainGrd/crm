@@ -1,6 +1,7 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.TransactionRemark;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -57,4 +58,8 @@ public interface TransactionRemarkMapper {
      * 保存线索下所有的备注转换到交易备注表中
      */
     int insertTransactionRemark(List<TransactionRemark> transactionRemarks);
+    /**
+     * 根据交易Id查询交易备注
+     */
+    List<TransactionRemark> selectTransactionRemarkByTransactionId(@Param("transactionId") String transactionId);
 }

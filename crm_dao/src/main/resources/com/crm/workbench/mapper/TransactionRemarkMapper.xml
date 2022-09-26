@@ -14,7 +14,10 @@
         <result column="edit_by" property="editBy" jdbcType="VARCHAR"/>
         <result column="edit_time" property="editTime" jdbcType="CHAR"/>
         <result column="edit_flag" property="editFlag" jdbcType="CHAR"/>
-        <result column="tran_id" property="tranId" jdbcType="VARCHAR"/>
+        <result column="tran_remark_status" jdbcType="CHAR" property="tranRemarkStatus"/>
+        <!--        <result column="tran_id" property="transaction" jdbcType="VARCHAR"/>-->
+        <association property="transaction" javaType="transaction" column="tran_id"
+                     select="com.crm.workbench.mapper.TransactionMapper.selectTransactionByTransactionId"/>
     </resultMap>
     <sql id="TransactionRemark_Column_List">
         <!--
@@ -175,4 +178,20 @@
             ,#{obj.editTime},#{obj.editFlag},#{obj.tranId})
         </foreach>
     </insert>
+
+    <select id="selectTransactionRemarkByTransactionId" resultMap="TransactionRemarkResultMap" parameterType="string">
+        select trr.id,
+               trr.note_content,
+               user1.name as create_by,
+               trr.create_time,
+               user2.name as edit_by,
+               trr.edit_time,
+               trr.edit_flag,
+               trr.tran_id,
+               trr.tran_remark_status
+        from tbl_transaction_remark trr
+                 join tbl_user user1 on user1.id = trr.create_by
+                 left join tbl_user user2 on user2.id = trr.edit_by
+        where trr.tran_id = #{transactionId,jdbcType=VARCHAR} and trr.tran_remark_status = 0;
+    </select>
 </mapper>

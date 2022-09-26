@@ -4,7 +4,6 @@ $(function () {
      * 创建按钮点击事件
      */
     $('#saveTransactionBtn').on('click', function () {
-        console.log(1)
         window.location.href = 'workbench/transaction/toSaveTransaction.do';
     })
 });
@@ -39,14 +38,13 @@ function queryClueByConditionForPage(beginNo, pageSize) {
         type: 'post',
         data: JSON.stringify(map),
         success: function (result) {
-            console.log(result);
             let data = result.list;
             /*遍历数据*/
             let tableData = '';
             $.each(data, function (index, obj) {
                 tableData += ' <tr>\n' +
                     '<td><input type="checkbox" value="' + obj.id + '"/></td>\n' +
-                    '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=' + '\'workbench/clue/detailClue.do?id=' + obj.id + '\'"> ' + obj.name + '</a></td>\n' +
+                    '<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=' + '\'workbench/transaction/toTransactionDetail.do?transactionId=' + obj.id + '\'"> ' + obj.name + '</a></td>\n' +
                     '<td>' + obj.customer.website + '</td>\n' +
                     '<td>' + obj.stage + '</td>\n' +
                     '<td>' + obj.type + '</td>\n' +
@@ -95,7 +93,6 @@ function queryClueByConditionForPage(beginNo, pageSize) {
             });
         }, error: function (error) {
             console.log('出错了！')
-            // console.log(error);
         }
     })
 }

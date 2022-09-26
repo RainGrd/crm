@@ -39,4 +39,9 @@ public class TransactionServiceTest {
         }
     }
 
+    @Test
+    public void queryTransactionByTransactionIdTest() {
+        Transaction transaction = transactionService.queryTransactionByTransactionId("620498628c4744de92b83dab1a44d996");
+        System.out.println("transaction = " + transaction);
+    }
 }

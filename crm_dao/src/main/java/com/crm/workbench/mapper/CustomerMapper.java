@@ -1,6 +1,7 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.Customer;
+import com.crm.workbench.entity.Transaction;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

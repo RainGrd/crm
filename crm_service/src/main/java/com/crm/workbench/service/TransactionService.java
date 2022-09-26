@@ -21,4 +21,8 @@ public interface TransactionService {
      * 保存的创建交易
      */
     void saveTransaction(Map<String,Object> map);
+    /**
+     * 根据交易id查询交易对象
+     */
+    Transaction queryTransactionByTransactionId(String transactionId);
 }

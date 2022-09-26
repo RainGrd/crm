@@ -1,6 +1,9 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.TransactionHistory;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface TransactionHistoryMapper {
     /**
@@ -50,4 +53,12 @@ public interface TransactionHistoryMapper {
      * @mbggenerated Fri Sep 16 17:09:20 CST 2022
      */
     int updateByPrimaryKey(TransactionHistory record);
+    /**
+     * 根据交易id查询交易历史记录
+     */
+    List<TransactionHistory> selectTransactionHistoryListByTransactionId(@Param("transactionId") String transactionId);
+    /**
+     * 插入交易历史对象
+     */
+    int insertTransactionHistory(TransactionHistory transactionHistory);
 }

@@ -45,7 +45,7 @@
                         </div>
                     </form>
                 </div>
-                <table id="activityTable3" class="table table-hover"
+                <table id="activityTable" class="table table-hover"
                        style="width: 900px; position: relative;top: 10px;">
                     <thead>
                     <tr style="color: #B3B3B3;">
@@ -56,8 +56,8 @@
                         <td>所有者</td>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
+                    <tbody id="activityList">
+                  <%--  <tr>
                         <td><input type="radio" name="activity"/></td>
                         <td>发传单</td>
                         <td>2020-10-10</td>
@@ -70,7 +70,7 @@
                         <td>2020-10-10</td>
                         <td>2020-10-20</td>
                         <td>zhangsan</td>
-                    </tr>
+                    </tr>--%>
                     </tbody>
                 </table>
             </div>
@@ -132,7 +132,7 @@
     <h3>创建交易</h3>
     <div style="position: relative; top: -40px; left: 70%;">
         <button type="button" id="createCustomerBtn" class="btn btn-primary">保存</button>
-        <button type="button" class="btn btn-default">取消</button>
+        <button type="button" id="cancel" class="btn btn-default">取消</button>
     </div>
     <hr style="position: relative; top: -40px;">
 </div>
@@ -164,7 +164,7 @@
         <label for="create-expectedDate" class="col-sm-2 control-label">预计成交日期<span
                 style="font-size: 15px; color: red;">*</span></label>
         <div class="col-sm-10" style="width: 300px;">
-            <input type="text" class="form-control" id="create-expectedDate">
+            <input type="text" class="form-control transactionDate" id="create-expectedDate">
         </div>
     </div>
 
@@ -237,12 +237,12 @@
                  <option>聊天</option>--%>
             </select>
         </div>
-        <label for="create-activityId" class="col-sm-2 control-label">市场活动源&nbsp;&nbsp;<a id="activityModal" href="#"
-                                                                                          data-toggle="modal"><span
+        <label for="create-activityName" class="col-sm-2 control-label">市场活动源&nbsp;&nbsp;<a id="activityModal" href="#"
+                                                                                            data-toggle="modal"><span
                 class="glyphicon glyphicon-search"></span></a></label>
         <div class="col-sm-10" style="width: 300px;">
             <input type="hidden" id="activityId">
-            <input type="text" id="create-activityId" class="form-control">
+            <input type="text" id="create-activityName" class="form-control">
         </div>
     </div>
 
@@ -274,7 +274,7 @@
     <div class="form-group">
         <label for="create-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
         <div class="col-sm-10" style="width: 300px;">
-            <input type="text" class="form-control" id="create-nextContactTime">
+            <input type="text" class="form-control transactionDate" id="create-nextContactTime">
         </div>
     </div>
 

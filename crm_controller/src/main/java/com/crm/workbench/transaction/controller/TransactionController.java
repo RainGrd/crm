@@ -6,13 +6,8 @@ import com.crm.settings.entity.DicValue;
 import com.crm.settings.entity.User;
 import com.crm.settings.service.DicValueService;
 import com.crm.settings.service.UserService;
-import com.crm.workbench.entity.Activity;
-import com.crm.workbench.entity.Contacts;
-import com.crm.workbench.entity.Transaction;
-import com.crm.workbench.service.ActivityService;
-import com.crm.workbench.service.ContactsService;
-import com.crm.workbench.service.CustomerService;
-import com.crm.workbench.service.TransactionService;
+import com.crm.workbench.entity.*;
+import com.crm.workbench.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
@@ -23,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -51,6 +47,10 @@ public class TransactionController {
     private ContactsService contactsService;
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private TransactionRemarkService transactionRemarkService;
+    @Autowired
+    private TransactionHistoryService transactionHistoryService;
 
     /**
      * 跳转交易页面
@@ -181,6 +181,33 @@ public class TransactionController {
             System.out.println("activity = " + activity);
         }
         return objectMapper.writeValueAsString(activities);
+    }
+
+    /**
+     * 跳转交易详细页面
+     */
+    @RequestMapping("/workbench/transaction/toTransactionDetail.do")
+    public ModelAndView toTransactionDetail(@RequestParam("transactionId") String transactionId, HttpServletRequest request) {
+        System.out.println("transactionId = " + transactionId);
+        ModelAndView modelAndView = new ModelAndView();
+        Transaction transaction = transactionService.queryTransactionByTransactionId(transactionId);
+        System.out.println("transaction = " + transaction);
+        List<TransactionRemark> transactionRemarks = transactionRemarkService.queryTransactionRemarkByTransactionId(transactionId);
+        List<TransactionHistory> transactionHistories = transactionHistoryService.queryTransactionHistoryListByTransactionHistoryId(transactionId);
+        /*从配置文件中获取可能性*/
+        ResourceBundle possibility = ResourceBundle.getBundle("possibility");
+        String possibilityString = possibility.getString(transaction.getStage());
+        transaction.setPossibility(possibilityString);
+        /*存放数据*/
+        modelAndView.addObject("transaction", transaction);
+        modelAndView.addObject("transactionRemarks", transactionRemarks);
+        modelAndView.addObject("transactionHistories", transactionHistories);
+        /*查询所有阶段*/
+        List<DicValue> stageList = dicValueService.queryDicValueByTypeCode("stage");
+        modelAndView.addObject("stageList", stageList);
+        /*设置跳转视图*/
+        modelAndView.setViewName("workbench/transaction/detail");
+        return modelAndView;
     }
 
 }

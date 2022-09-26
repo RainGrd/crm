@@ -257,4 +257,5 @@
         </include>
         from tbl_customer where name=#{customerName,jdbcType=VARCHAR};
     </select>
+
 </mapper>

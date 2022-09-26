@@ -178,7 +178,7 @@
                cr.edit_flag
         from tbl_clue_remark cr
                  join tbl_user u1 on u1.id = cr.create_by
-                 left join tbl_user u2 on cr.create_time = u2.id
+                 left join tbl_user u2 on cr.edit_by = u2.id
         where cr.clue_id = #{clueId,jdbcType=VARCHAR}
           and cr.clue_remark_status = 0;
     </select>

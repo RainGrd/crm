@@ -45,6 +45,8 @@ public class ClueServiceImpl implements ClueService {
     @Autowired
     private TransactionMapper transactionMapper;
     @Autowired
+    private ActivityMapper activityMapper;
+    @Autowired
     private TransactionRemarkMapper transactionRemarkMapper;
 
     @Override
@@ -185,7 +187,9 @@ public class ClueServiceImpl implements ClueService {
         if (isCreateTran) {
             /*如果需要创建交易，则需要往交易表中添加一条记录*/
             Transaction transaction = new Transaction();
-            transaction.setActivityId(activityId);
+            Activity activity = activityMapper.selectActivityById(activityId);
+            System.out.println("activity = " + activity);
+            transaction.setActivity(activity);
             transaction.setContacts(contacts);
             transaction.setCreateBy(user.getId());
             transaction.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
@@ -212,7 +216,7 @@ public class ClueServiceImpl implements ClueService {
                     transactionRemark.setEditTime(clueRemark.getEditTime());
                     transactionRemark.setId(UUIDUtils.getUUID());
                     transactionRemark.setNoteContent(clueRemark.getNoteContent());
-                    transactionRemark.setTranId(transaction.getId());
+                    transactionRemark.setTransaction(transaction);
                     System.out.println(transactionRemark);
                     transactionRemarks.add(transactionRemark);
                 }

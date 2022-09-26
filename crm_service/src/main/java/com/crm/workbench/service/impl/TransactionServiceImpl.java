@@ -1,16 +1,15 @@
 package com.crm.workbench.service.impl;
 
-import com.crm.common.constants.Constants;
 import com.crm.common.constants.ConstantsEnum;
 import com.crm.common.utils.DateTimeUtil;
 import com.crm.common.utils.UUIDUtils;
 import com.crm.settings.entity.User;
-import com.crm.workbench.entity.Contacts;
-import com.crm.workbench.entity.Customer;
-import com.crm.workbench.entity.Transaction;
+import com.crm.workbench.entity.*;
 import com.crm.workbench.mapper.ContactsMapper;
 import com.crm.workbench.mapper.CustomerMapper;
+import com.crm.workbench.mapper.TransactionHistoryMapper;
 import com.crm.workbench.mapper.TransactionMapper;
+import com.crm.workbench.service.ActivityService;
 import com.crm.workbench.service.TransactionService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -36,6 +35,10 @@ public class TransactionServiceImpl implements TransactionService {
     private CustomerMapper customerMapper;
     @Autowired
     private ContactsMapper contactsMapper;
+    @Autowired
+    private ActivityService activityService;
+    @Autowired
+    private TransactionHistoryMapper transactionHistoryMapper;
 
 
     @Override
@@ -70,6 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
             customerMapper.insertCustomer(customer);
         }
         Contacts contacts = contactsMapper.selectContactsByContactsId((String) map.get("contactsId"));
+        System.out.println(contacts);
         /*保存创建的交易*/
         Transaction transaction = new Transaction();
         transaction.setStage((String) map.get("stage"));
@@ -84,10 +88,28 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
         transaction.setContactSummary((String) map.get("contactSummary"));
         transaction.setContacts(contacts);
-        transaction.setActivityId((String) map.get("activityId"));
+        Activity activity = activityService.queryActivityById((String) map.get("activityId"));
+        System.out.println("activity = " + activity);
+        transaction.setActivity(activity);
         transaction.setDescription((String) map.get("description"));
         transaction.setSource((String) map.get("source"));
         transaction.setType((String) map.get("type"));
         transactionMapper.insertTransaction(transaction);
+        /*添加交易历史对象*/
+        TransactionHistory transactionHistory = new TransactionHistory();
+        transactionHistory.setCreateBy(user.getId());
+        transactionHistory.setCreateTime(DateTimeUtil.convertDateCustomStringFormat(new Date()));
+        transactionHistory.setExpectedDate(transaction.getExpectedDate());
+        transactionHistory.setId(UUIDUtils.getUUID());
+        transactionHistory.setMoney(transaction.getMoney());
+        transactionHistory.setStage(transaction.getStage());
+        transactionHistory.setTransaction(transaction);
+        transactionHistory.setTranHistoryStatus(ConstantsEnum.TRANSACTION_HISTORY_STATUS_YES.getStr());
+        transactionHistoryMapper.insertTransactionHistory(transactionHistory);
+    }
+
+    @Override
+    public Transaction queryTransactionByTransactionId(String transactionId) {
+        return transactionMapper.selectTransactionByTransactionId(transactionId);
     }
 }
