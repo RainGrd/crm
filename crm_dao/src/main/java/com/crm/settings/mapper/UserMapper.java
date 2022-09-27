@@ -20,7 +20,7 @@ public interface UserMapper {
      * @param map 参数
      * @return com.crm.entity.User
      */
-    User selectUserByLoginActAndPwd(Map<String,Object> map);
+    User selectUserByLoginActAndPwd(Map<String,String> map);
     /**
      * 查询全部
      */

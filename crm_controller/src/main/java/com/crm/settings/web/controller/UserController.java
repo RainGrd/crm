@@ -10,8 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -53,13 +52,16 @@ public class UserController {
     /**
      * 用户登录方法
      */
-    @RequestMapping("/settings/qx/user/login.do")
+    @RequestMapping(value = "/settings/qx/user/login.do", method = RequestMethod.POST)
     @ResponseBody
-    public String login(String loginAct, String loginPwd, boolean idRemPwd, HttpSession session) throws JsonProcessingException {
-        Map<String, Object> map = new HashMap<>();
+    public String login(@RequestBody Map<String, String> map, HttpSession session) throws JsonProcessingException {
+       /* Map<String, Object> map = new HashMap<>();
         map.put("loginAct", loginAct);
         map.put("loginPwd", loginPwd);
-        map.put("idRemPwd", idRemPwd);
+        map.put("idRemPwd", idRemPwd);*/
+        String loginAct = map.get("loginAct");
+        String loginPwd = map.get("loginAct");
+        boolean idRemPwd = Boolean.parseBoolean(map.get("loginAct"));
         ObjectMapper objectMapper = new ObjectMapper();
         User user = userService.queryUserLoginActAndPwd(map);
         /*根据查询结果，生成响应信息*/
@@ -114,11 +116,12 @@ public class UserController {
         }
         return objectMapper.writeValueAsString(pageBean);
     }
+
     /**
      * 用于安全退出
      */
     @RequestMapping("/settings/qx/user/loginOut.do")
-    public String loginOut(HttpSession session){
+    public String loginOut(HttpSession session) {
         /*清空cookie*/
         Cookie c1 = new Cookie("loginAct", "0");
         Cookie c2 = new Cookie("loginPwd", "0");
@@ -132,13 +135,14 @@ public class UserController {
         /*跳转至首页*/
         return "redirect:/";
     }
+
     /**
      * 获取session的用户对象
      */
     @RequestMapping("/settings/qx/user/getSessionUser.do")
     @ResponseBody
     public String getSessionUser(HttpSession session) throws JsonProcessingException {
-        User user= (User) session.getAttribute(Constants.SESSION_USER);
+        User user = (User) session.getAttribute(Constants.SESSION_USER);
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(user);
     }

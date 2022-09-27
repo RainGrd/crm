@@ -129,9 +129,10 @@ public class ActivityController {
     /**
      * 根据Id查询活动
      */
-    @RequestMapping("/workbench/activity/queryActivityById.do")
+    @RequestMapping(value = "/workbench/activity/queryActivityById.do/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String queryActivityById(@RequestParam String id) throws JsonProcessingException {
+    public String queryActivityById(@PathVariable("id") String id) throws JsonProcessingException {
+        System.out.println(id);
         System.out.println(activityService.queryActivityById(id));
         return objectMapper.writeValueAsString(activityService.queryActivityById(id));
     }

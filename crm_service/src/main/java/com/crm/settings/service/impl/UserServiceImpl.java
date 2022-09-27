@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public User queryUserLoginActAndPwd(Map<String,Object> map) {
+    public User queryUserLoginActAndPwd(Map<String,String> map) {
         return userMapper.selectUserByLoginActAndPwd(map);
     }
 

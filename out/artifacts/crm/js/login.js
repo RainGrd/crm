@@ -26,16 +26,22 @@ $(function () {
             $("#loginPwd").css("border-color", "red");
             return false;
         }
+        console.log(JSON.stringify({
+            loginAct: loginAct,
+            loginPwd: loginPwd,
+            idRemPwd: idRemPwd
+        }))
         /*发送Ajax请求*/
         $.ajax({
             url: 'settings/qx/user/login.do',
-            data: {
+            type: 'post',
+            dataType: "json",
+            contentType: 'application/json;charset=UTF-8',
+            data: JSON.stringify({
                 loginAct: loginAct,
                 loginPwd: loginPwd,
                 idRemPwd: idRemPwd
-            },
-            type: 'post',
-            dataType: "json",
+            }),
             success: function (result) {
                 console.log(result);
                 console.log(result.code);

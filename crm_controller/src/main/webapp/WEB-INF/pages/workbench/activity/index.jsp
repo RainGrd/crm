@@ -177,9 +177,10 @@
                 let id = $tableData[0].value;
                 /*发送参数*/
                 $.ajax({
-                    url: 'workbench/activity/queryActivityById.do',
-                    type: 'get',
-                    data: {id: id},
+                    url: 'workbench/activity/queryActivityById.do'+id,
+                    type: 'GET',
+                    // data: {id: id},
+                    async:false,
                     dataType: 'json',
                     success: function (result) {
                         /*拼接数据*/

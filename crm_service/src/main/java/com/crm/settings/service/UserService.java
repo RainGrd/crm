@@ -14,7 +14,7 @@ public interface UserService {
     /**
      * 查询用户
      */
-    User queryUserLoginActAndPwd(Map<String,Object> map);
+    User queryUserLoginActAndPwd(Map<String,String> map);
     /**
      * 查询全部用户
      */

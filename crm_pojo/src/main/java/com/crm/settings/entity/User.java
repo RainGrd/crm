@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 /**
  * @Description User类
  * @TableName tbl_user
  */
-@TableName(value ="tbl_user")
 @Data
+@Alias("user")
 public class User implements Serializable {
     /**
      * uuid
