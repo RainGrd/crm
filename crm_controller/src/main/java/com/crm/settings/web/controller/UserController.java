@@ -60,8 +60,8 @@ public class UserController {
         map.put("loginPwd", loginPwd);
         map.put("idRemPwd", idRemPwd);*/
         String loginAct = map.get("loginAct");
-        String loginPwd = map.get("loginAct");
-        boolean idRemPwd = Boolean.parseBoolean(map.get("loginAct"));
+        String loginPwd = map.get("loginPwd");
+        boolean idRemPwd = Boolean.parseBoolean(map.get("idRemPwd"));
         ObjectMapper objectMapper = new ObjectMapper();
         User user = userService.queryUserLoginActAndPwd(map);
         /*根据查询结果，生成响应信息*/

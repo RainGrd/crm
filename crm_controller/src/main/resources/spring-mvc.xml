@@ -67,5 +67,7 @@
         <!--显示文件上传的大小-->
         <property name="maxUploadSize" value="#{1024*1024*5}"/>
     </bean>
+    <!--配置全局异常处理器-->
+<!--    <bean id="" class=""></bean>-->
 </beans>
 
