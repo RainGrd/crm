@@ -1,10 +1,10 @@
 package com.crm.workbench.mapper;
 
 import com.crm.workbench.entity.Customer;
-import com.crm.workbench.entity.Transaction;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerMapper {
     /**
@@ -64,12 +64,19 @@ public interface CustomerMapper {
      * 根据id查询客户
      */
     Customer selectCustomerByCustomerId(@Param("customerId") String customerId);
+
     /**
      * 根据客户名称模糊查询所有客户名称
      */
     List<String> selectAllCustomerNameByName(String name);
+
     /**
      * 根据客户名称查询客户对象
      */
     Customer selectCustomerByCustomerName(String customerName);
+
+    List<Customer> selectCustomerListByCondition(@Param("map") Map<String, String> map);
+
+    long selectCountByCondition(@Param("map") Map<String, String> map);
+
 }

@@ -25,6 +25,7 @@
         $(function () {
             /*首次打开页面时，默认时第一页且查询的条数为10条*/
             queryActivityByConditionForPage(1, 10);
+
             /*给创建按钮添加单击事件*/
             $('#createActivity').on("click", function () {
                 /*清空表单里存留的数据（重置表单）*/
@@ -34,30 +35,30 @@
             });
             /*给保存按钮添加单击事件*/
             $('#saveCreateActivityBtn').on("click", function () {
-
                 /*收集参数*/
-                let owner = $('#create-marketActivityOwner').val();
+                const formData = {
+                    owner: $('#create-marketActivityOwner').val(),
+                    name: $('#create-marketActivityName').val().trim(),
+                    startDate: $('#create-startDate').val(),
+                    endDate: $('#create-endDate').val(),
+                    cost: $('#create-cost').val().trim(),
+                    description: $('#create-description').val().trim()
+                }
+                /*let owner = $('#create-marketActivityOwner').val();
                 let name = $('#create-marketActivityName').val().trim();
                 let startDate = $('#create-startDate').val();
                 let endDate = $('#create-endDate').val();
                 let cost = $('#create-cost').val().trim();
-                let description = $('#create-description').val().trim();
+                let description = $('#create-description').val().trim();*/
                 /*参数校验*/
-                if (checkParameter(name, owner, startDate, endDate, cost) != null) {
-                    alert(checkParameter(name, owner, startDate, endDate, cost))
+                if (checkParameter(formData) != null) {
+                    alert(checkParameter(formData))
                     return false
                 }
                 /*发送请求*/
                 $.ajax({
                     url: 'workbench/activity/saveCreateActivity.do',
-                    data: {
-                        owner: owner,
-                        name: name,
-                        startDate: startDate,
-                        endDate: endDate,
-                        cost: cost,
-                        description: description
-                    },
+                    data: formData,
                     // contentType:"application/json",
                     type: 'post',
                     dataType: 'json',
@@ -119,6 +120,7 @@
             $('#deleteActivity').on('click', function () {
                 /*获取CheckBox*/
                 let $tableData = $('#tableData input[type=checkbox]:checked');
+                debugger;
                 /*判断是否选择了*/
                 if ($tableData.size() === 0) {
                     alert("请选择要删除的市场活动！")
@@ -201,27 +203,21 @@
              * 模态修改窗口保存按钮点击事件
              */
             $('#updateActivityBtn').on('click', function () {
-                let name = $('#edit-marketActivityName').val().trim();
-                let owner = $('#edit-marketActivityOwner').val().trim();
-                let startDate = $('#edit-startDate').val();
-                let endDate = $('#edit-endDate').val();
-                let cost = $('#edit-cost').val().trim();
-                let description = $('#edit-description').val().trim();
+                const $activity = {
+                    id: $('#edit-id').val(),
+                    owner: $('#edit-marketActivityName').val().trim(),
+                    name: $('#edit-marketActivityOwner').val().trim(),
+                    startDate: $('#edit-startDate').val(),
+                    endDate: $('#edit-endDate').val(),
+                    cost: $('#edit-cost').val().trim(),
+                    description: $('#edit-description').val().trim()
+                }
                 /*参数校验*/
-                if (checkParameter(name, owner, startDate, endDate, cost) != null) {
-                    alert(checkParameter(name, owner, startDate, endDate, cost))
+                if (checkParameter($activity) != null) {
+                    alert(checkParameter($activity))
                     return false
                 }
                 /*收集参数！*/
-                let $activity = {
-                    id: $('#edit-id').val(),
-                    owner: owner,
-                    name: name,
-                    startDate: startDate,
-                    endDate: endDate,
-                    cost: cost,
-                    description: description,
-                }
                 /*发送请求*/
                 $.ajax({
                     url: 'workbench/activity/updateActivityById.do',
@@ -269,13 +265,6 @@
                 })
                 /*发送参数*/
                 window.location.href = 'workbench/activity/exportMarketingActivities.do?ids=' + ids;
-                /*                $.ajax({
-                                    url:"workbench/activity/exportMarketingActivities.do",
-                                    type:'get',
-                                    data:{
-                                        ids:ids
-                                    }
-                                })*/
             });
             /**
              * 导入市场活动添加单击事件
@@ -327,29 +316,27 @@
         /**
          * 保存参数和修改参数的校验方法
          */
-        function checkParameter(name, owner, startDate, endDate, cost) {
+        function checkParameter(data) {
             /*处理参数*/
-            if (notEmpty(name)) {
+            if (notEmpty(data.name)) {
                 return "名称不能为空！";
             }
-            if (notEmpty(owner)) {
+            if (notEmpty(data.owner)) {
                 return "所有者不能为空！";
             }
-            /*先判断开始事件和结束时间是否都为空*/
-            if (!(notEmpty(startDate) && notEmpty(endDate))) {
-                /*判断结束时间是否比开始时间小*/
-                if (endDate < startDate) {
-                    return "结束日期不能比开始日期小";
-                }
-
+            /*先判断开始时间和结束时间是否都为空*/
+            if (notEmpty(data.startDate) || notEmpty(data.endDate)) {
+                return "日期不能为空";
+            }
+            /*判断结束时间是否比开始时间小*/
+            if (data.endDate < data.startDate) {
+                return "结束日期不能比开始日期小";
             }
             /*判断成本的格式*/
-            var regExp = /^(([1-9]\d*)|0)$/;
-            if (!regExp.test(cost)) {
+            let regExp = /^(([1-9]\d*)|0)$/;
+            if (!regExp.test(data.cost)) {
                 return "成本只能为非负整数";
             }
-
-
         }
 
         /**

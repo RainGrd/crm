@@ -1,10 +1,10 @@
 package com.crm.settings.mapper;
 
 import com.crm.settings.entity.DicValue;
-import com.crm.workbench.entity.Clue;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DicValueMapper {
     /**
@@ -63,4 +63,15 @@ public interface DicValueMapper {
     List<DicValue> selectDicValueByTypeCode(String typeCode);
 
 
+    List<DicValue> selectDicValueAll();
+
+    long selectCountAll();
+
+    int insertDicValue(DicValue dicValue);
+
+    int updateById(DicValue dicValue);
+
+    DicValue selectDicValueById(String id);
+
+    int deleteDicValueByIds(@Param("ids") String[] ids);
 }

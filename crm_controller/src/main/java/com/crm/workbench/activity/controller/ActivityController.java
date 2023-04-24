@@ -74,14 +74,14 @@ public class ActivityController {
             /*判断业务是否报异常*/
             int createActivity = activityService.saveCreateActivity(activity);
             if (createActivity <= 0) {
-                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
                 pageBean.setMessage("系统忙，请稍后重试......");
             } else {
-                pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_SUCCESS);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
             pageBean.setMessage("系统忙，请稍后重试......");
         }
         return new ObjectMapper().writeValueAsString(pageBean);
@@ -95,7 +95,6 @@ public class ActivityController {
     public String queryActivityByConditionForPage(@RequestBody Activity activity, @RequestParam("beginNo") int beginNo, @RequestParam("pageSize") int pageSize) throws JsonProcessingException {
         PageInfo<Activity> pageInfo = activityService.queryActivityAndCountByConditionForPage(activity, beginNo, pageSize);
         /*根据查询结果,生成响应信息*/
-
         return objectMapper.writeValueAsString(pageInfo);
     }
 
@@ -113,14 +112,14 @@ public class ActivityController {
             byIds = activityService.deleteActivityByIds(ids);
             System.out.println(byIds);
             if (byIds > 0) {
-                pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_SUCCESS);
             } else {
-                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
                 pageBean.setMessage("系统忙，请稍后重试...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
             pageBean.setMessage("系统忙，请稍后重试...");
         }
         return pageBean;
@@ -147,14 +146,14 @@ public class ActivityController {
         try {
             int updateActivityById = activityService.updateActivityById(activity);
             if (updateActivityById > 0) {
-                pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_SUCCESS);
             } else {
-                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
                 pageBean.setMessage("系统忙，请稍后重试...");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
             pageBean.setMessage("系统忙，请稍后重试...");
         }
         return pageBean;
@@ -303,7 +302,7 @@ public class ActivityController {
             myFile.transferTo(file);
         }
         ReturnObject pageBean = new ReturnObject();
-        pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+        pageBean.setCode(Constants.PAGE_BEAN_CODE_SUCCESS);
         pageBean.setMessage("成功！");
         /*返回响应信息*/
         return pageBean;
@@ -329,15 +328,15 @@ public class ActivityController {
         try {
             int saveCreateActivityByList = activityService.saveCreateActivityByList(list, user);
             if (saveCreateActivityByList > 0) {
-                pageBean.setCode(Constants.Page_BEAN_CODE_SUCCESS);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_SUCCESS);
                 pageBean.setData(saveCreateActivityByList);
             } else {
-                pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+                pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
                 pageBean.setData(saveCreateActivityByList);
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            pageBean.setCode(Constants.Page_BEAN_CODE_FAIL);
+            pageBean.setCode(Constants.PAGE_BEAN_CODE_FAIL);
             pageBean.setMessage("系统忙，稍后重试...");
         }
         return pageBean;

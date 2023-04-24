@@ -1,8 +1,10 @@
 package com.crm.workbench.service;
 
 import com.crm.workbench.entity.Customer;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2017-2022, RainGrd
@@ -21,4 +23,8 @@ public interface CustomerService {
      * 根据客户名称查询客户对象
      */
     Customer queryCustomerByCustomerName(String customerName);
+
+    PageInfo<Customer> queryCustomerByConditionForPage(Map<String, String> map);
+
+    int saveCustomer(Customer customer);
 }

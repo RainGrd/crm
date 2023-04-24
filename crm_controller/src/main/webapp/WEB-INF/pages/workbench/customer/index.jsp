@@ -11,26 +11,18 @@
     <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css"
           rel="stylesheet"/>
 
+    <link href="jquery/bs_pagination-master/css/jquery.bs_pagination.min.css" type="text/css" rel="stylesheet"/>
+
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript"
             src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript"
             src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
-
-    <script type="text/javascript">
-
-        $(function () {
-
-            //定制字段
-            $("#definedColumns > li").click(function (e) {
-                //防止下拉菜单消失
-                e.stopPropagation();
-            });
-
-        });
-
-    </script>
+    <script type="text/javascript"
+            src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
+    <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
     <title></title>
 </head>
 <body>
@@ -53,9 +45,9 @@
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-customerOwner">
-                                <option>zhangsan</option>
-                                <option>lisi</option>
-                                <option>wangwu</option>
+                                <c:forEach items="${users}" var="user">
+                                    <option value="${user.id}">${user.name}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <label for="create-customerName" class="col-sm-2 control-label">名称<span
@@ -91,9 +83,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="create-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
+                            <label for="create-nextContactTime" class="col-sm-2  control-label">下次联系时间</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-nextContactTime">
+                                <input type="text" class="form-control myDate" id="create-nextContactTime">
                             </div>
                         </div>
                     </div>
@@ -112,8 +104,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                <button type="button"  class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="saveBtn" class="btn btn-primary" data-dismiss="modal">保存</button>
             </div>
         </div>
     </div>
@@ -225,32 +217,32 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">名称</div>
-                        <input class="form-control" type="text">
+                        <input id="name" class="form-control" type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">所有者</div>
-                        <input class="form-control" type="text">
+                        <input id="owner" class="form-control" type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">公司座机</div>
-                        <input class="form-control" type="text">
+                        <input id="phone" class="form-control" type="text">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">公司网站</div>
-                        <input class="form-control" type="text">
+                        <input id="website" class="form-control" type="text">
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-default">查询</button>
+                <button type="button" id="queryBtn" class="btn btn-default">查询</button>
 
             </form>
         </div>
@@ -271,15 +263,15 @@
             <table class="table table-hover">
                 <thead>
                 <tr style="color: #B3B3B3;">
-                    <td><input type="checkbox"/></td>
+                    <td><input type="checkbox" id="checkAll"/></td>
                     <td>名称</td>
                     <td>所有者</td>
                     <td>公司座机</td>
                     <td>公司网站</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
+                <tbody id="tableData">
+                <%--<tr>
                     <td><input type="checkbox"/></td>
                     <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">动力节点</a>
                     </td>
@@ -294,12 +286,12 @@
                     <td>zhangsan</td>
                     <td>010-84846003</td>
                     <td>http://www.bjpowernode.com</td>
-                </tr>
+                </tr>--%>
                 </tbody>
             </table>
         </div>
-
-        <div style="height: 50px; position: relative;top: 30px;">
+        <div id="page"></div>
+        <%--<div style="height: 50px; position: relative;top: 30px;">
             <div>
                 <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
             </div>
@@ -332,10 +324,11 @@
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div>--%>
 
     </div>
 
 </div>
 </body>
+<script type="text/javascript" src="js/workbench/customer/index.js"></script>
 </html>

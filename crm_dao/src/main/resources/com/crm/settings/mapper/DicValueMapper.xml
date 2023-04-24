@@ -42,6 +42,14 @@
         delete from tbl_dic_value
         where id = #{id,jdbcType=CHAR}
     </delete>
+    <delete id="deleteDicValueByIds" parameterType="arraylist">
+        delete
+        from tbl_dic_value
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," index="index" item="id">
+            #{id}
+        </foreach>
+    </delete>
     <insert id="insert" parameterType="com.crm.settings.entity.DicValue">
         <!--
           WARNING - @mbggenerated
@@ -96,6 +104,7 @@
         </trim>
     </insert>
 
+
     <update id="updateByPrimaryKeySelective" parameterType="com.crm.settings.entity.DicValue">
         <!--
           WARNING - @mbggenerated
@@ -132,6 +141,7 @@
         type_code = #{typeCode,jdbcType=VARCHAR}
         where id = #{id,jdbcType=CHAR}
     </update>
+
     <select id="selectDicValueByTypeCode" parameterType="string" resultMap="DicValueResultMap">
         select
         <include refid="DicValue_Column_List">
@@ -140,5 +150,35 @@
         where type_code=#{typeCode,jdbcType=VARCHAR}
         order by order_no ;
     </select>
+    <select id="selectDicValueAll" resultMap="DicValueResultMap" parameterType="map">
+        select
+        <include refid="DicValue_Column_List"/>
+        from tbl_dic_value
+        order by order_no
+    </select>
+    <select id="selectCountAll" resultType="java.lang.Long">
+        select count(*)
+        from tbl_dic_value
+    </select>
+    <select id="selectDicValueById" resultMap="DicValueResultMap">
+        select
+        <include refid="DicValue_Column_List"/>
+        from tbl_dic_value where id=#{id};
+    </select>
+
+    <insert id="insertDicValue">
+        insert into tbl_dic_value (id, value, text, order_no, type_code)
+        values (#{id}, #{value}, #{text}, #{orderNo}, #{typeCode});
+    </insert>
+
+    <update id="updateById">
+        update tbl_dic_value
+        set order_no =#{orderNo},
+            text=#{text},
+            value=#{value},
+            type_code=#{typeCode}
+        where id = #{id};
+    </update>
+
 
 </mapper>

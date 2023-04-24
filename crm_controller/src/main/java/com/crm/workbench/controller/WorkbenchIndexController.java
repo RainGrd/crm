@@ -1,5 +1,6 @@
 package com.crm.workbench.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,14 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Description: 跳转到首页的控制器
  */
 @Controller
+@Slf4j
 public class WorkbenchIndexController {
     /**
-     * 用于跳转至工作页首页u89o0lk8iuhgbvbhj,
+     * 用于跳转至工作页首页
      * @return
      */
     @RequestMapping("/workbench/index.do")
     public String index() {
-        System.out.println("index.do");
+        log.info("index.do");
         /*直接跳转到业务主页面*/
         return "workbench/index";
     }

@@ -1,4 +1,4 @@
-package com.crm.settings.web.controller;
+package com.crm.settings.qx.user.controller;
 
 import com.crm.common.Vo.ReturnObject;
 import com.crm.common.constants.Constants;
@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

@@ -1,8 +1,11 @@
 package com.crm.settings.service;
 
 import com.crm.settings.entity.DicValue;
+import com.github.pagehelper.PageInfo;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Copyright (C), 2017-2022, RainGrd
@@ -19,4 +22,13 @@ public interface DicValueService {
      */
     List<DicValue> queryDicValueByTypeCode(String TypeCode);
 
+    PageInfo<DicValue> queryDicValueForPage(String beginNo,String pageSize);
+
+    int saveDivValue(DicValue dicValue);
+
+    int editDicValue(DicValue dicValue);
+
+    DicValue queryDicValueById(String id);
+
+    int removeDicValueByIds(String[] ids);
 }

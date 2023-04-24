@@ -257,5 +257,51 @@
         </include>
         from tbl_customer where name=#{customerName,jdbcType=VARCHAR};
     </select>
+    <select id="selectCustomerListByCondition" resultMap="CustomerResultMap" parameterType="map">
+        select
+        customer.id, user1.name as owner, customer.name,
+        customer.website, customer.phone, customer.create_by,
+        customer.create_time, customer.edit_by,
+        customer.edit_time, customer.contact_summary,
+        customer.next_contact_time,
+        customer.description, customer.address
+        from tbl_customer customer
+        join tbl_user user1 on user1.id=customer.owner
+        <where>
+            <if test="map.owner!=null and map.owner!=''">
+                customer.name like concat('%',#{map.owner},'%')
+            </if>
+            <if test="map.name!=null and map.name!=''">
+                and customer.name like concat('%',#{map.name},'%')
+            </if>
+            <if test="map.website!=null and map.website!=''">
+                and customer.website like concat('%',#{map.website},'%')
+            </if>
+            <if test="map.phone!=null and map.phone!=''">
+                and customer.phone like concat('%',#{map.phone},'%')
+            </if>
+        </where>
+        order by customer.create_time desc
+    </select>
+    <select id="selectCountByCondition" resultType="java.lang.Long">
+        select
+        count(customer.id)
+        from tbl_customer customer
+        join tbl_user user1 on user1.id=customer.owner
+        <where>
+            <if test="map.owner!=null and map.owner!=''">
+                customer.name like concat('%',#{map.owner},'%')
+            </if>
+            <if test="map.name!=null and map.name!=''">
+                and customer.name like concat('%',#{map.name},'%')
+            </if>
+            <if test="map.website!=null and map.website!=''">
+                and customer.website like concat('%',#{map.website},'%')
+            </if>
+            <if test="map.phone!=null and map.phone!=''">
+                and customer.phone like concat('%',#{map.phone},'%')
+            </if>
+        </where>
+    </select>
 
 </mapper>

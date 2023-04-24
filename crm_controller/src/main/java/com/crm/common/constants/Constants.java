@@ -11,11 +11,11 @@ public class Constants {
     /**
      * 成功的代码
      */
-    public static final String Page_BEAN_CODE_SUCCESS = "1";
+    public static final String PAGE_BEAN_CODE_SUCCESS = "1";
     /**
      * 失败的代码
      */
-    public static final String Page_BEAN_CODE_FAIL = "0";
+    public static final String PAGE_BEAN_CODE_FAIL = "0";
     /**
      * 定义年月日的常量
      */

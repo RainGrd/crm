@@ -1,4 +1,4 @@
-package com.crm.settings.web.interceptor;
+package com.crm.settings.qx.interceptor;
 
 import com.crm.common.constants.Constants;
 import com.crm.settings.entity.User;

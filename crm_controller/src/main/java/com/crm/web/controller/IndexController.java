@@ -17,7 +17,7 @@ public class IndexController {
      */
     @RequestMapping("/")
     public String index(){
-        System.out.println("index");
         return "redirect:index";
     }
+
 }

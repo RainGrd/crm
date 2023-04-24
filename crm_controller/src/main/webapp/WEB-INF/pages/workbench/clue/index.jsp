@@ -104,7 +104,6 @@
                         <label for="create-state" class="col-sm-2 control-label">线索状态</label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-state">
-                                <option></option>
                                 <c:forEach items="${clueStateList}" var="cs">
                                     <option value="${cs.id}">${cs.value}</option>
                                 </c:forEach>
@@ -116,7 +115,6 @@
                         <label for="create-source" class="col-sm-2 control-label">线索来源</label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-source">
-                                <option></option>
                                 <c:forEach items="${sourceList}" var="source">
                                     <option value="${source.id}">${source.value}</option>
                                 </c:forEach>

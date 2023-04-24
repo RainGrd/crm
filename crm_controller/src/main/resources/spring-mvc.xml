@@ -12,7 +12,7 @@
 
     <!--开启组件扫描(分包扫描的方式)-->
     <context:component-scan base-package="com.crm.web.controller"/>
-    <context:component-scan base-package="com.crm.settings.web.controller"/>
+    <context:component-scan base-package="com.crm.settings"/>
     <context:component-scan base-package="com.crm.workbench"/>
     <!--开启静态资源访问权限-->
     <mvc:default-servlet-handler/>
@@ -57,7 +57,7 @@
             <mvc:exclude-mapping path="/settings/qx/user/toLogin.do"/>
             <mvc:exclude-mapping path="/settings/qx/user/login.do"/>
             <!--配置拦截器类-->
-            <bean class="com.crm.settings.web.interceptor.LoginInterceptor"/>
+            <bean class="com.crm.settings.qx.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
     <!--配置文件上传解析器-->
