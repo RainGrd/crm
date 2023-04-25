@@ -3,6 +3,8 @@ package com.crm.test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 /**
  * Copyright (C), 2017-2022, RainGrd
  * Author: lenovo
@@ -20,5 +22,14 @@ public class TestLog4j2 {
         logger.error("error message");
         logger.fatal("fatal message");
         System.out.println("Hello World!");
+        //手写Java输出文件夹名
+        String FileName="D:\\materials\\crm";
+
+        File file = new File(FileName);
+        System.out.println(file.getName());
+        for (File listFile : file.listFiles()) {
+            System.out.println(listFile.getName());
+        }
+
     }
 }
